@@ -1,0 +1,38 @@
+
+   
+.form_login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:0 auto;
+    width: 80%;
+    border: 1px solid #f1f1f1;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.Connection_log{
+    margin: 0 auto;
+    padding-bottom: 10px;
+    text-align: center;
+    font-family: "https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap";
+}
+   
+
+input[id=login_log], input[id=mdp_log] {
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+   
+.button_log, .button_retour{
+    background-color: #8158c8;
+    padding: 2px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 80%;
+}

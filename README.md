@@ -1,5 +1,9 @@
 "# ProjetM1-DevOps" 
 Pour utiliser React il faut installer le module react, je vous invite à regader sur ce site : https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
+
+Pour installer react-toastify
+npm install react-toastify
+
 Pour le côté serveur : 
 1- S'assurer d'avoir une version de python installer sur son ordinateur : python --version 
 

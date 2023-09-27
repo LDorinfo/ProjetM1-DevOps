@@ -1,13 +1,22 @@
-import {useEffect,useState} from 'react';
-
+import {useState} from 'react';
+import Login from './Login.js';
+import Signin from './Signin.js'
 
 function MainPage(props){
-    const estconnecte = useState("false"); 
-    const [page, setPage]= useState(["home_page", undefined]); 
+    const [page, setPage]= useState(["login_page", undefined]); 
     
     
     return (
-        (()=>{
+        <div>
+            <Login setPage={setPage}/>
+        </div>
+        
+    )
+}
+
+export default MainPage; 
+
+/*(()=>{
             if(page[0]==="login_page"){
                 return (<Login setPage={setPage}/>)
             }
@@ -19,6 +28,8 @@ function MainPage(props){
                     <ProfilePage setPage={setPage} user_id={page[1]}/>
                 )
             }
+            else if(page[0]==="signin_page"){
+                return <Signin setPage={setPage}/>
+            }
         })
-    )
-}
+*/
