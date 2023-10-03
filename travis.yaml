@@ -1,10 +1,44 @@
-language: node_js
+language: python
+
+python:
+  - "3.8" # Choisissez la version de Python appropriée pour votre projet
+
 node_js:
-  - 14
+  - "12" # Choisissez la version de Node.js appropriée pour votre projet
 
 install:
+  - pip install -r back-end/requirements.txt
+  - cd client
   - npm install
+  - cd ..
 
 script:
-  - npm test 
+  - pip install -r back-end/requirements.txt
+  - cd ..
+  - cd client
+  - npm test # Exécutez les tests du côté client
+  - cd ..
+  - python back-end/app.py & # Exécutez le serveur Flask en arrière-plan
+  - sleep 3 # Attendez que le serveur Flask démarre (ajustez si nécessaire)
+  - python3 back-end/test.py # Exécutez les tests du côté serveur
 
+before_install:
+  - cd client
+
+cache:
+  directories:
+    - client/node_modules # Cachez les dépendances npm pour accélérer les constructions ultérieures
+
+services:
+  - postgresql # Si vous utilisez une base de données PostgreSQL, par exemple
+
+addons:
+  postgresql: "10" # Spécifiez la version de PostgreSQL que vous utilisez, le cas échéant
+
+before_script:
+  - psql -c "CREATE DATABASE myapp_test;" -U postgres # Créez une base de données de test, le cas échéant
+
+after_success:
+  - coveralls # Si vous utilisez une couverture de code et que vous voulez envoyer des rapports à Coveralls
+
+# D'autres étapes de déploiement ou de notification peuvent être ajoutées ici
