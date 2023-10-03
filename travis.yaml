@@ -29,16 +29,3 @@ cache:
   directories:
     - client/node_modules # Cachez les dépendances npm pour accélérer les constructions ultérieures
 
-services:
-  - postgresql # Si vous utilisez une base de données PostgreSQL, par exemple
-
-addons:
-  postgresql: "10" # Spécifiez la version de PostgreSQL que vous utilisez, le cas échéant
-
-before_script:
-  - psql -c "CREATE DATABASE myapp_test;" -U postgres # Créez une base de données de test, le cas échéant
-
-after_success:
-  - coveralls # Si vous utilisez une couverture de code et que vous voulez envoyer des rapports à Coveralls
-
-# D'autres étapes de déploiement ou de notification peuvent être ajoutées ici
