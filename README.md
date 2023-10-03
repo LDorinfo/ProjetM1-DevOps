@@ -22,3 +22,13 @@ Pour le côté client :
 2 - Lancer le client avec la commande npm start depuis le dossier client. Le client est lancé sur le port 3000.
 
 3 - Ouvrir un navigateur et se rendre à l'adresse http://localhost:3000/
+
+#Pour la partie Backend
+
+1- Se mettre sur le dossier backend (cd back-end)
+
+2- Creer son envrironnement virtuel et l'activer 
+
+3- Installer les requirements (pip install requirements.txt)
+
+4- lancer le serveur python3 app.py 
