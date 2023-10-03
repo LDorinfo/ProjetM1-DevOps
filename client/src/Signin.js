@@ -1,11 +1,6 @@
-import { useState} from "react";
-import MainPage from "./MainPage";
-
-import { toast } from 'react-toastify';
-
 
 import { useState } from "react";
-import "./Signin.css"
+
 import { toast } from 'react-toastify';
 
 
@@ -46,6 +41,11 @@ function Signin (props) {
 			setErrorMessages(newerrorMessages);
 	}
 
+	const onClick = (evt)=>{
+		evt.preventDefault()
+		props.setPage(["login_page", undefined])
+	}
+	
 	return (
 		<div className="signin_div">
 			<h1 className="signin_h1">Inscription</h1>
@@ -56,12 +56,13 @@ function Signin (props) {
 				<label htmlFor="signin_mdp1">Mot de passe</label><input type="password" id="signin_mdp1" onChange={getPass1} className="signin_input"/>
 				<label htmlFor="signin_mdp2">Mot de passe (2)</label><input type="password" id="signin_mdp2" onChange={getPass2} className="signin_input"/>
 				<button onClick={submissionHandler}>S'inscrire</button><button type="reset">Réinitialiser</button>
+				<button onClick={onClick}>Login</button>
 			</form>
 			{errorMessages.map((message,i) => <p style={{color:"red"}} key={i}>{message}</p>)}
 		</div>
 	)
 }
-
+//<button onClick={onClick}>Login</button>
 
 
 export default Signin;
