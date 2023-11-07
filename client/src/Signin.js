@@ -28,12 +28,12 @@ function Signin (props) {
 		if (login.length === 0 || pass1.length === 0 || pass2.length === 0 || firstName.length === 0 || lastName.length === 0)
 		{
 			newerrorMessages.push("Veuillez remplir tous les champs");
-			signinOK = false
+			signinOK = false;
 		}
 		// Vérifie si les 2 mdp sont bien les mêmes
 		if (pass1 !== pass2){
 			newerrorMessages.push("Erreur: mots de passe différents");
-			signinOK = false
+			signinOK = false;
 		}
 
 		
