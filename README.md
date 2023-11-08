@@ -1,4 +1,6 @@
 "# ProjetM1-DevOps" 
+Notre projet consiste en un site de critique de cinéma. Il permet de partager son avis. 
+
 Pour utiliser React il faut installer le module react, je vous invite à regader sur ce site : https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
 Pour installer react-toastify
