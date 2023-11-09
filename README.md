@@ -1,21 +1,17 @@
 "# ProjetM1-DevOps" 
+
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+
 Pour utiliser React il faut installer le module react, je vous invite à regader sur ce site : https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
 Pour installer react-toastify
 npm install react-toastify
 
-Pour le côté serveur : 
-1- S'assurer d'avoir une version de python installer sur son ordinateur : python --version 
-
-2- Création d'un environnement virtuel pour éviter les conflits entre les dépendances : python -m venv mon_env
-
-3- Puis exécuter la commande suivante pour activer l'environnement virtuel : mon_env\Scripts\activate
-
-4- Installer les dépendances du server avec la commande pip install flash depuis le dossier flask-server
-
-5 - Lancer le serveur avec la commande python server.py depuis le dossier flask-server. Le serveur est lancé sur le port 5000.
-
 Pour le côté client : 
+
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 
 1- Installer les dépendances du client avec la commande npm install depuis le dossier client
 
@@ -25,10 +21,17 @@ Pour le côté client :
 
 #Pour la partie Backend
 
-1- Se mettre sur le dossier backend (cd back-end)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
-2- Creer son envrironnement virtuel et l'activer 
+1- S'assurer d'avoir une version de python installer sur son ordinateur : python3 --version 
 
-3- Installer les requirements (pip install requirements.txt)
+2- Se mettre sur le dossier backend (cd back-end)
 
-4- lancer le serveur python3 app.py 
+3- Creer son envrironnement virtuel avec python -m venv mon_env et l'activer avec source mon_env/bin/activate
+
+4- Installer les requirements (pip install -r requirements.txt)
+
+5- Inataller Redis brew install redis (sur mac) puis le lancer brew services start redis
+
+6- lancer le serveur python3 app.py. Le serveur est lancé sur le port 5000.
