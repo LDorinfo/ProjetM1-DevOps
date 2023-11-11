@@ -14,9 +14,6 @@ Pour le côté client :
 [![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 
-![npm](https://img.shields.io/npm/v/react-toastify.svg?style=for-the-badge)
-![React-toastify CI](https://github.com/fkhadra/react-toastify/workflows/React-toastify%20CI/badge.svg)
-
 1- Installer les dépendances du client avec la commande npm install depuis le dossier client
 
 2 - Lancer le client avec la commande npm start depuis le dossier client. Le client est lancé sur le port 3000.
