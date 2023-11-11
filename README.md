@@ -13,9 +13,9 @@ Pour le côté client :
 
 [![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
-![npm](https://img.shields.io/npm/dm/react-toastify.svg?label=%E2%8F%ACdownloads&style=for-the-badge)
+
 ![npm](https://img.shields.io/npm/v/react-toastify.svg?style=for-the-badge)
-![React toastify](https://user-images.githubusercontent.com/5574267/130804494-a9d2d69c-f170-4576-b2e1-0bb7f13dd92d.gif "React toastify")
+
 
 
 1- Installer les dépendances du client avec la commande npm install depuis le dossier client
