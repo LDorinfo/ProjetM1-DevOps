@@ -15,8 +15,7 @@ Pour le côté client :
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
 
 ![npm](https://img.shields.io/npm/v/react-toastify.svg?style=for-the-badge)
-
-
+![React-toastify CI](https://github.com/fkhadra/react-toastify/workflows/React-toastify%20CI/badge.svg)
 
 1- Installer les dépendances du client avec la commande npm install depuis le dossier client
 
