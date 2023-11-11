@@ -29,10 +29,14 @@ Pour le côté client :
 
 2- Se mettre sur le dossier backend (cd back-end)
 
-3- Creer son envrironnement virtuel avec python -m venv mon_env et l'activer avec source mon_env/bin/activate
+3- Creer son envrironnement virtuel avec python -m venv mon_env et l'activer avec source mon_env/bin/activate ou sur Windows avec la commande .\mon_env\Scripts\activate
 
 4- Installer les requirements (pip install -r requirements.txt)
 
 5- Inataller Redis brew install redis (sur mac) puis le lancer brew services start redis
 
 6- lancer le serveur python3 app.py. Le serveur est lancé sur le port 5000.
+
+Pour désactiver l'environnement virtuel il faut : 
+  Sous Windows taper : .\mon_env\Scripts\deactivate
+  Sous Linux/macOS : source mon_env/bin/deactivate
