@@ -29,9 +29,12 @@ Pour le côté client :
 
 2- Se mettre sur le dossier backend (cd back-end)
 
+( il faut installer requests si vous ne l'avez pas : pip install requests )
+
 3- Creer son envrironnement virtuel avec python -m venv mon_env et l'activer avec source mon_env/bin/activate ou sur Windows avec la commande .\mon_env\Scripts\activate
 
 4- Installer les requirements (pip install -r requirements.txt)
+
 
 5- Inataller Redis brew install redis (sur mac) puis le lancer brew services start redis
 
