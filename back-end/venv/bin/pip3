@@ -1,4 +1,4 @@
-#!/Users/mac/Desktop/ProjetM1-DevOps/back-end/venv/bin/python3.11
+#!/Users/mac/Desktop/ProjetM1-DevOps/venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys
