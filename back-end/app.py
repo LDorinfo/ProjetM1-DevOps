@@ -67,10 +67,10 @@ def register_user():
 
 @app.route("/login", methods=["POST"])
 def login_user():
-    email = request.json["email"]
+    username = request.json["username"]
     password = request.json["password"]
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(username=username).first()
 
     if user is None :
         return jsonify({"error": "Unauthorized"}), 401 
@@ -82,7 +82,7 @@ def login_user():
 
     return jsonify({
         "id": user.id,
-        "email": user.email
+        "username": user.username
     })
 
 
