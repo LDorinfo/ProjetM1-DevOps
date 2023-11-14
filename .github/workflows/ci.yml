@@ -16,16 +16,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.10.10
 
     - name: Install backend dependencies
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install -r ./back-end/requirements.txt
-
-    #- name: Run backend tests
-      #run: |
-        #python path/to/your/test_script.py
 
   frontend:
     runs-on: ubuntu-latest
@@ -37,14 +33,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 14
+        node-version: 16
 
     - name: Install client dependencies
       run: |
         cd ./client
         npm install
 
-    #- name: Run client tests
-      #run: |
-        #cd ./client
-        #npm test
