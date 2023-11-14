@@ -15,6 +15,8 @@ function Signin (props) {
 
 	const [pass1, setPass1] = useState("");
 	const [pass2, setPass2] = useState("");
+
+
 	const getLogin = (evt) => {setLogin(evt.target.value)};
 	const getFirstName = (evt) => {setFirstName(evt.target.value)};
 	const getLastName = (evt) => {setLastName(evt.target.value)};
@@ -102,6 +104,7 @@ function Signin (props) {
 			.then(data => {
 				// Handle the response data as needed
 				console.log('User registered successfully:', data);
+				props.setPage(["home_page", data.id])
 				// You can perform additional actions, such as redirecting the user or displaying a success message.
 			  })
 			.catch(error => {

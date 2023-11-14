@@ -52,7 +52,7 @@ def register_user():
         return jsonify({"error": "user already exists"}), 409
     
     hashed_password = bcrypt.generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password, username=username, first_name=first_name, last_name=last_name, phone_number=phone_number)
+    new_user = User(email=email, password=hashed_password, username=username, first_name=first_name, last_name=last_name, phone_number=phone_number, isconnected = True)
     db.session.add(new_user)
     db.session.commit()
 
@@ -62,7 +62,8 @@ def register_user():
         "username": new_user.username,
         "first_name": new_user.first_name,
         "last_name": new_user.last_name,
-        "phone_number": new_user.phone_number
+        "phone_number": new_user.phone_number,
+        "isconnected": new_user.isconnected
     })
 
 @app.route("/login", methods=["POST"])
@@ -79,10 +80,24 @@ def login_user():
         return jsonify({"error": "Unauthorized"}), 401
     
     session["user_id"] = user.id
-
+    user.isconnected = True
+    
     return jsonify({
         "id": user.id,
-        "username": user.username
+        "username": user.username,
+        "isconnected": user.isconnected
+    })
+
+@app.route('/api/users/connected',methods=['GET'])
+def isconnected(): 
+    id = request.json["user_id"]
+    user = User.query.filter_by(id=id).first()
+    if user is None : 
+        return jsonify({"error": "UnKnow"}), 401 
+    if user.isconnected == "False": 
+        return jsonify({"error": "disconnected"}), 401 
+    return jsonify({
+        "isconnected": "True"
     })
 
 
