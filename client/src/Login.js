@@ -17,13 +17,29 @@ function Login (props) {
 
 	const handleClick = (evt) => {
 		evt.preventDefault()
+		let newerrorMessages = []
         // cette fonction permettra de savoir si l'utilisateur est dans la base de données
         // Elle enverra une requête au serveur pour savoir. 
-        toast("Connexion!");
-        props.setPage(["home_page", setLogin])
-       
+		fetch('http://localhost:5000/login',{
+			method:'POST', 
+			headers: {"Content-Type": "application/json"},
+			credentials: 'include',
+			body: JSON.stringify({login, password})
 
-	};
+		})
+		.then(response => response.json()) // retourne une promesse
+		.then(data => {
+			// Handle the response data as needed
+			console.log('User connected successfully:', data);
+			toast("Connexion!");
+        	props.setPage(["home_page", setLogin])
+			// You can perform additional actions, such as redirecting the user or displaying a success message.
+		  })
+		.catch(error => {
+			console.error('Error during connexion:', error);
+			newerrorMessages.push("Une erreur s'est produite lors de la connection. Veuillez réessayer.");
+		  });
+};
 
 	return (
 		<form className="form_login">
