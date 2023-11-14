@@ -24,7 +24,7 @@ function Login (props) {
 			method:'POST', 
 			headers: {"Content-Type": "application/json"},
 			credentials: 'include',
-			body: JSON.stringify({login, password})
+			body: JSON.stringify({username : login, password})
 
 		})
 		.then(response => response.json()) // retourne une promesse
@@ -32,7 +32,7 @@ function Login (props) {
 			// Handle the response data as needed
 			console.log('User connected successfully:', data);
 			toast("Connexion!");
-        	props.setPage(["home_page", setLogin])
+        	props.setPage(["home_page", data.id])
 			// You can perform additional actions, such as redirecting the user or displaying a success message.
 		  })
 		.catch(error => {
