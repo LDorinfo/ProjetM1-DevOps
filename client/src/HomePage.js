@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import './HomePage.css'
-import BarreRecherche from "./BarreRecherche";
+import NavigationBar from "./NavigationBar";
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 function HomePage (props) {
 	const [connectedUsers, setConnectedUsers] = useState([]);
@@ -27,18 +29,21 @@ function HomePage (props) {
 	return (
 		<body>
 		<header>
-				<h1>CineVerse</h1>
-				//barre de navigation
-				<div class="NavBar_container">
-					//logo 
-					//créer un composant pour que toutes les pages aient le logo
-					<BarreRecherche></BarreRecherche>
-					//mettre un composant permettant soit d'afficher le profil soit de mettre un lien vers la page login et inscription
-					
-				</div>
+				<NavigationBar setPage={props.setPage}></NavigationBar>
 		</header>
 
 			<main>
+			<Card style={{ width: '18rem' }}>
+				<Card.Img variant="top" src="./public/Narnia.jpg/100px180" />
+				<Card.Body>
+					<Card.Title>Narnia</Card.Title>
+					<Card.Text>
+					Une armoire magique qui s'ouvre sur un autre monde. 
+					Cela va être automatisé dans un composant qui appelera la base de données pour chaque film. 
+					</Card.Text>
+					<Button variant="primary">En savoir plus</Button>
+				</Card.Body>
+    		</Card>
 			</main>
 		</body>
 	);

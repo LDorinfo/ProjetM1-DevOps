@@ -27,13 +27,3 @@ input[id=login_log], input[id=mdp_log] {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-   
-.button_log, .button_retour{
-    background-color: #8158c8;
-    padding: 2px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    width: 80%;
-}

@@ -1,25 +1,17 @@
 import { useState} from "react";
 import { FaSearch } from 'react-icons/fa';
+import Button from 'react-bootstrap/Button';
 
 function BarreRecherche (props) {
 	const [recherche,setRecherche] = useState("");
 	
 	const getRecheche= (evt) => {setRecherche(evt.target.value)};
 
-	const handleClickSearch = (evt) => {
-		evt.preventDefault()
-        if(props.isconnected){
-            props.setPage(["search_page", props.user_id]);
-        }
-        else{
-            props.setPage(["search_page", undefined])
-        }
-	}
 
 	const handleClick = (evt) => {
 		evt.preventDefault()
 		let newerrorMessages = []
-        // cette fonction permettra de savoir si l'utilisateur est dans la base de données
+        //cette fonction fera la recherche, est ce qu'il faudrait utiliser query directement dans la requête: peut-être plus pour les filtres
         // Elle enverra une requête au serveur pour savoir. 
 		fetch('http://localhost:5000/api/search-multi',{
 			method:'GET', 
@@ -44,8 +36,8 @@ function BarreRecherche (props) {
 	return (
 	<form>
         <label htmlFor="search_bar">Rechercher</label>
-        <input id="search_bar" type="text" onChange={handleClickSearch}/>
-        <button className="submit_search_bar" onClick={handleClick}><FaSearch/>Recherche</button>
+        <input id="search_bar" type="text" onChange={getRecheche}/>
+        <Button className="submit_search_bar" onClick={handleClick}><FaSearch/>Recherche</Button>
     </form>);
 };
 

@@ -1,7 +1,8 @@
 import { useState} from "react";
-import MainPage from "./MainPage";
 import { toast } from 'react-toastify';
 import "./Login.css"
+import Button from 'react-bootstrap/Button';
+
 
 function Login (props) {
 	const [login,setLogin] = useState("");
@@ -46,8 +47,8 @@ function Login (props) {
 			<h1 className="Connection_log">Connexion</h1>
 			<label htmlFor="login">Login</label><input id="login_log" onChange={getLogin}/>
 			<label htmlFor="mdp">Mot de passe</label><input type="password" id="mdp_log" onChange={getPassword}/>
-			<button type="submit" onClick={handleClick} className="button_log">Se connecter</button>
-			<button className="link-button" onClick={handleClickSignin}>Inscription</button>
+			<Button type="submit" onClick={handleClick} className="button_log" variant="primary">Se connecter</Button>{' '}
+			<Button className="link-button" onClick={handleClickSignin} variant="secondary">Inscription</Button>
 		</form>
 	);
 };
