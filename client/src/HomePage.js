@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import './HomePage.css'
+import BarreRecherche from "./BarreRecherche";
 
 function HomePage (props) {
 	const [connectedUsers, setConnectedUsers] = useState([]);
@@ -23,12 +25,22 @@ function HomePage (props) {
 	  },);
 
 	return (
-		<div>
-			<h1>CineVerse</h1>
-		<main>
-			
-		</main>
-		</div>
+		<body>
+		<header>
+				<h1>CineVerse</h1>
+				//barre de navigation
+				<div class="NavBar_container">
+					//logo 
+					//créer un composant pour que toutes les pages aient le logo
+					<BarreRecherche></BarreRecherche>
+					//mettre un composant permettant soit d'afficher le profil soit de mettre un lien vers la page login et inscription
+					
+				</div>
+		</header>
+
+			<main>
+			</main>
+		</body>
 	);
 }
 
