@@ -1,0 +1,40 @@
+
+*{
+    font-family: "https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap";
+    margin : 0; 
+    padding : 0; 
+    scroll-behavior: smooth;
+    box-sizing:  border-box; 
+    scroll-padding-top: 2 rem; 
+}
+:root{
+    --main-color : red; 
+    --hover-color: red; 
+    --body-color: black; 
+    --container-color: grey; 
+    --tex-color: white; 
+}
+/*pour les liens */
+a{
+    text-decoration: none;
+}
+/* pour les listes*/
+li{
+    list-style: none; 
+}
+/*Pour les images
+peut-être mettre le logo du site*/
+img{
+    width: 100%; 
+}
+
+body{
+    background-color: var(--body-color);
+    color: var(--tex-color); 
+
+}
+#NavBar_container{
+    max-width: 1060px; 
+    margin: auto; 
+    width: 100%; 
+}
