@@ -16,6 +16,7 @@ Pour le côté client :
 
 1- Installer les dépendances du client avec la commande npm install depuis le dossier client
 
+Si besoin installer react-icon/fa : npm react-icon/fa
 2 - Lancer le client avec la commande npm start depuis le dossier client. Le client est lancé sur le port 3000.
 
 3 - Ouvrir un navigateur et se rendre à l'adresse http://localhost:3000/

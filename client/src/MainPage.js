@@ -5,7 +5,7 @@ import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
 
 function MainPage(props){
-    const [page, setPage]= useState(["home_page", undefined]); 
+    const [page, setPage]= useState(["login_page", undefined]); 
     
     
     return (() => {
