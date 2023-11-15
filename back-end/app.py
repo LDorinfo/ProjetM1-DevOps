@@ -5,10 +5,11 @@ from flask_cors import CORS
 from models import db, User
 from config import ApplicationConfig
 import requests  # Importez le module requests
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
-
+migrate= Migrate(app,db)
 # Accédez à la clé d'API TMDb depuis la configuration
 tmdb_api_key = app.config["TMDB_API_KEY"]
 
