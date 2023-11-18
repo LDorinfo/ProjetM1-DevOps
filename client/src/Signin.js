@@ -1,7 +1,7 @@
-
+import NavigationBar from "./NavigationBar";
 import { useState } from "react";
-
 import { toast } from 'react-toastify';
+import "./Signin.css";
 
 
 function Signin (props) {
@@ -122,24 +122,29 @@ function Signin (props) {
 	}
 	
 	return (
-		<div className="signin_div">
-			<h1 className="signin_h1">Inscription</h1>
-			<form className="signin_form">
-				<label htmlFor="firstname">FirstName</label><input id="firstname" onChange={getFirstName} className="signin_input"/>
-				<label htmlFor="lastname">LastName</label><input id="lastname" onChange={getLastName} className="signin_input"/>
-				<label htmlFor="signin_login">Login</label><input id="signin_login" onChange={getLogin} className="signin_input"/>
-				<label htmlFor="signin_mdp1">Password</label><input type="password" id="signin_mdp1" onChange={getPass1} className="signin_input"/>
-				<label htmlFor="signin_mdp2">Password (2)</label><input type="password" id="signin_mdp2" onChange={getPass2} className="signin_input"/>
-				<label htmlFor="signin_email">Email </label><input id="signin_email" onChange={getemail} className="signin_input"/>
-				<label htmlFor="signin_phone_number">Phone Number</label><input type="tel" id="signin_phoneNumber" onChange={getPhone_number} className="signin_input"/>
-				<button onClick={submissionHandler}>S'inscrire</button><button type="reset">Réinitialiser</button>
-				<button onClick={onClick}>Login</button>
-			</form>
-			{errorMessages.map((message,i) => <p style={{color:"red"}} key={i}>{message}</p>)}
+		<div>
+		  <header>
+		    <NavigationBar setPage={props.setPage}></NavigationBar>
+		  </header>
+		  <main>
+			<div className="signin_div">
+				<h1 className="signin_h1">Inscription</h1>
+				<form className="signin_form">
+					<label htmlFor="firstname">Nom</label><input id="firstname" placeholder="Nom" onChange={getFirstName} className="signin_input"/>
+					<label htmlFor="lastname">Prénom</label><input id="lastname" placeholder="Prénom" onChange={getLastName} className="signin_input"/>
+					<label htmlFor="signin_email">E-mail </label><input id="signin_email" placeholder="E-mail"  onChange={getemail} className="signin_input"/>
+					<label htmlFor="signin_login">Nom d'utilisateur</label><input id="signin_login" placeholder="Nom d'utilisateur" onChange={getLogin} className="signin_input"/>
+					<label htmlFor="signin_phone_number">Numéro de téléphone</label><input type="tel" id="signin_phoneNumber" placeholder="Numéro de téléphone" onChange={getPhone_number} className="signin_input"/>
+					<label htmlFor="signin_mdp1">Mot de passe</label><input type="password" id="signin_mdp1" placeholder="Mot de passe" onChange={getPass1} className="signin_input"/>
+					<label htmlFor="signin_mdp2">Confirmation du mot de passe</label><input type="password" id="signin_mdp2" placeholder="Confirmation du mot de passe" onChange={getPass2} className="signin_input"/>
+					<button onClick={submissionHandler}>S'inscrire</button><button type="reset">Réinitialiser</button>
+				</form>
+				{errorMessages.map((message,i) => <p style={{color:"red"}} key={i}>{message}</p>)}
+			</div>
+			</main>
 		</div>
 	)
 }
-//<button onClick={onClick}>Login</button>
 
 
 export default Signin;

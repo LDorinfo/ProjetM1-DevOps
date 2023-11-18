@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Paytone+One&family=Poppins:ital,wght@0,500;1,800&family=Righteous&display=swap');
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+  }
+  
+.navbar-brand {
+    margin-left: 0px; 
+    color: white;
+    font-size: 25px;
+    font-weight: 500;
+    text-decoration: none;
+    font-family: 'Lilita One', sans-serif;
+  }
+  
+.nav-link,
+  .navbar-nav .nav-item.dropdown:hover .nav-link {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 40px; 
+    font-family: 'Poppins', sans-serif;
+  }
+.nav-link:hover,
+.navbar-nav .nav-item.dropdown:hover .nav-link {
+    color: #b2b2b2; 
+}
+  
+.dropdown-item {
+    color: black;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+.custom-dropdown .dropdown-menu {
+    background-color: white;
+  }
+  
+img.popcorn-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+.connection-links {
+    display: flex;
+    align-items: center;
+  }
+  
+.connection-link {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: -5px; 
+    font-family: 'Poppins', sans-serif;
+  }
+
+  
+  

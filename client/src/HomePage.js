@@ -4,49 +4,77 @@ import NavigationBar from "./NavigationBar";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-function HomePage (props) {
-	const [connectedUsers, setConnectedUsers] = useState([]);
+function HomePage(props) {
+  const [connectedUsers, setConnectedUsers] = useState([]);
+  const [popularMovies, setPopularMovies] = useState([]);
 
-	useEffect(() => {
-		const fetchConnectedUsers = () => {
-			fetch(`http://localhost:3001/api/users/connected`, {
-			method: 'GET',
-			credentials: 'include', // permet de stocker le cookie de session côté client
-            body: JSON.stringify({id : props.user_id})
-			})
-			.then(response => response.json()) //.json() convertit en JSON et retourne une promesse
-			.then(data => {
-				if (data.status === 200){
-					setConnectedUsers(data.isconnected);
-				}
-			})
-			.catch(error => console.log(error)); //si le fetch échoue (ex: serveur indisponible) on catch l'erreur
-		};
+  useEffect(() => {
+    const fetchConnectedUsers = () => {
+      fetch(`http://localhost:3001/api/users/connected`, {
+        method: 'GET',
+        credentials: 'include',
+        body: JSON.stringify({ id: props.user_id })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 200) {
+            setConnectedUsers(data.isconnected);
+          }
+        })
+        .catch(error => console.log(error));
+    };
 
-		fetchConnectedUsers();
-	  },);
+    fetchConnectedUsers();
 
-	return (
-		<body>
-		<header>
-				<NavigationBar setPage={props.setPage}></NavigationBar>
-		</header>
+    const fetchPopularMovies = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/trending-movies', {
+          method: 'GET',
+        }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setPopularMovies(data.results || []); // Initialize with an empty array if results are undefined
+        } else {
+          console.error('Erreur lors de la récupération des films populaires');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des films populaires', error);
+      }
+    };
 
-			<main>
-			<Card style={{ width: '18rem' }}>
-				<Card.Img variant="top" src="./public/Narnia.jpg/100px180" />
-				<Card.Body>
-					<Card.Title>Narnia</Card.Title>
-					<Card.Text>
-					Une armoire magique qui s'ouvre sur un autre monde. 
-					Cela va être automatisé dans un composant qui appelera la base de données pour chaque film. 
-					</Card.Text>
-					<Button variant="primary">En savoir plus</Button>
-				</Card.Body>
-    		</Card>
-			</main>
-		</body>
-	);
+    fetchPopularMovies();
+
+  }, []);
+
+  return (
+    <div>
+      <header>
+        <NavigationBar setPage={props.setPage}></NavigationBar>
+      </header>
+      <div class="HomePage">
+        <div className="text-container">  
+          <p>Dive into CineVerse: films, séries, animes. Votre univers de divertissement</p>
+          <img src="/wordpress-cs-format-image-20.webp" alt="Description de l'image" />]
+        </div>
+        <section className="trending-movies">
+          <h2>Films tendances <img src="https://img.icons8.com/fluency/48/star--v1.png" alt="star--v1"/></h2>
+          <div className="movies-list">
+            {popularMovies.map((movie) => (
+              <div key={movie.id}>
+              <h2>{movie.title}</h2>
+              <p>{movie.overview}</p>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // Utilisez poster_path ou backdrop_path selon votre préférence
+                alt={movie.title}
+              />
+            </div>
+          ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
 }
 
 export default HomePage;
