@@ -1,40 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Paytone+One&family=Poppins:ital,wght@0,500;1,800&family=Righteous&display=swap');
 
-*{
-    font-family: "https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap";
-    margin : 0; 
-    padding : 0; 
-    scroll-behavior: smooth;
-    box-sizing:  border-box; 
-    scroll-padding-top: 2 rem; 
-}
-:root{
-    --main-color : red; 
-    --hover-color: red; 
-    --body-color: black; 
-    --container-color: grey; 
-    --tex-color: white; 
-}
-/*pour les liens */
-a{
-    text-decoration: none;
-}
-/* pour les listes*/
-li{
-    list-style: none; 
-}
-/*Pour les images
-peut-être mettre le logo du site*/
-img{
-    width: 100%; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-body{
-    background-color: var(--body-color);
-    color: var(--tex-color); 
-
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; 
 }
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: linear-gradient(to bottom, #071031, #1f3997);
+}
+
+#root {
+    height: 100%;
+    overflow-y: auto; 
+}
+
 #NavBar_container{
     max-width: 1060px; 
     margin: auto; 
     width: 100%; 
+}
+
+.HomePage {
+    margin-top: 20px; 
+}
+
+.text-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+  
+.text-container p {
+    color: white;
+    font-size: 40px;
+    font-family: poppins;
+    margin-left: 100px;
+  }
+  
+ 
+.text-container img {
+    width: 470px;
+    height: auto;
+    margin-right: 100px;
+    border-radius: 5px; 
+  }  
+
+h2 {
+    color: white;
+    font-size: 20px;
+    font-family: poppins;
+    margin-left: 100px;
+}
+
+img {
+    width: 25px;
 }

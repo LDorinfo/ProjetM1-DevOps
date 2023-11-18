@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Paytone+One&family=Poppins:ital,wght@0,500;1,800&family=Righteous&display=swap');
+
+.signin_div {
+    width: 450px;
+    background-color: transparent;
+    border: 5px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 0px 40px;
+    margin-top: -50px;
+    padding-top: 5px;
+}
+
+.signin_h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.signin_input {
+    width: 100%;
+    height: 5px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 12px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+    margin-bottom: 10px;
+    margin-top: -10px;
+}
+
+.signin_input::placeholder {
+    color: rgb(66, 66, 150);
+}
+
+.signin_form label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.signin_form button {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.signin_form button[type="reset"] {
+    background-color: #172a6c;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.signin_form p {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+

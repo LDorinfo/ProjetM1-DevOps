@@ -1,6 +1,6 @@
 import { useState} from "react";
 import { FaSearch } from 'react-icons/fa';
-import Button from 'react-bootstrap/Button';
+import './BarreRecherche.css'
 
 function BarreRecherche (props) {
 	const [recherche,setRecherche] = useState("");
@@ -34,10 +34,9 @@ function BarreRecherche (props) {
 };
 
 	return (
-	<form>
-        <label htmlFor="search_bar">Rechercher</label>
-        <input id="search_bar" type="text" onChange={getRecheche}/>
-        <Button className="submit_search_bar" onClick={handleClick}><FaSearch/>Recherche</Button>
+	<form class="search-bar">
+        <input id="search_bar" type="text" placeholder="Chercher" onChange={getRecheche}/>
+        <button className="submit_search_bar" onClick={handleClick}><img src="https://img.icons8.com/ios-filled/50/FFFFFF/search--v1.png" alt="search--v1"/></button>
     </form>);
 };
 
