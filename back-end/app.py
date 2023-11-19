@@ -57,6 +57,8 @@ def register_user():
     db.session.add(new_user)
     db.session.commit()
 
+    login_user()
+
     return jsonify({
         "id": new_user.id,
         "email": new_user.email,
@@ -88,6 +90,44 @@ def login_user():
         "username": user.username,
         "isconnected": user.isconnected
     })
+
+@app.route("/modify", methods=["PATCH"])
+def modify_user():
+    if "user_id" not in session:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    if "email" in request.json:
+        user.email = request.json["email"]
+
+    if "password" in request.json:
+        user.password = bcrypt.generate_password_hash(request.json["password"])
+
+    if "username" in request.json:
+        user.username = request.json["username"]
+
+    if "first_name" in request.json:
+        user.first_name = request.json["first_name"]
+
+    if "last_name" in request.json:
+        user.last_name = request.json["last_name"]
+
+    if "phone_number" in request.json:
+        user.phone_number = request.json["phone_number"]
+
+    db.session.commit()
+
+    return jsonify({
+        "id": user.id,
+        "username": user.username,
+        "isconnected": user.isconnected
+    })
+
 
 @app.route('/api/users/connected',methods=['GET'])
 def isconnected(): 
