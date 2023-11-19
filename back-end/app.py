@@ -129,16 +129,16 @@ def modify_user():
     })
 
 
-@app.route('/api/users/connected',methods=['GET'])
+@app.route('/api/users/connected',methods=["GET"])
 def isconnected(): 
-    id = request.json["user_id"]
+    id = request.args.get("id")
     user = User.query.filter_by(id=id).first()
     if user is None : 
         return jsonify({"error": "UnKnow"}), 401 
-    if user.isconnected == "False": 
+    if user.isconnected == False: 
         return jsonify({"error": "disconnected"}), 401 
     return jsonify({
-        "isconnected": "True"
+        "isconnected": True
     })
 
 
