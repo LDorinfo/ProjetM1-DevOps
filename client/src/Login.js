@@ -26,8 +26,7 @@ function Login(props) {
 
     fetch('http://localhost:5000/login', {
       method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      credentials: 'include',
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ username: login, password })
     })
       .then(response => response.json())

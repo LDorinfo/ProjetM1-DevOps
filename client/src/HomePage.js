@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import './HomePage.css'
 import NavigationBar from "./NavigationBar";
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+
 
 function HomePage(props) {
   const [connectedUsers, setConnectedUsers] = useState([]);
@@ -10,11 +9,12 @@ function HomePage(props) {
 
   useEffect(() => {
     const fetchConnectedUsers = () => {
-      fetch(`http://localhost:3001/api/users/connected`, {
+      fetch(`http://localhost:5000/api/users/connected?id=${props.user_id}`, {
         method: 'GET',
-        credentials: 'include',
-        body: JSON.stringify({ id: props.user_id })
+        headers: {"Content-Type": "application/json"},
+
       })
+      //Get ne prend pas de body dans sa requête. 
         .then(response => response.json())
         .then(data => {
           if (data.status === 200) {
@@ -23,15 +23,14 @@ function HomePage(props) {
         })
         .catch(error => console.log(error));
     };
-
-    fetchConnectedUsers();
-
+    
     const fetchPopularMovies = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/trending-movies', {
           method: 'GET',
+          headers: {"Content-Type": "application/json"}
         }
-        );
+        )
         if (response.ok) {
           const data = await response.json();
           setPopularMovies(data.results || []); // Initialize with an empty array if results are undefined
@@ -42,7 +41,7 @@ function HomePage(props) {
         console.error('Erreur lors de la récupération des films populaires', error);
       }
     };
-
+    fetchConnectedUsers();
     fetchPopularMovies();
 
   }, []);

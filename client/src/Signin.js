@@ -48,7 +48,7 @@ function Signin (props) {
   	}
 
 	const isValidMdp =  (password) =>{
-		const passwordRes = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+		const passwordRes = /^(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.{8,})/;
 		// (?=.{8,}) permet de vérifier si le mot de passe à 8 caractères ou plus
 		// (?=.*[!@#$%^&*]) permet de vérifier si le mot de passe contient un caractère spéciale 
 		//(?=.*[A-Z]) permet de vérifier que le mot de passe contient au moins une majuscule. 
@@ -82,7 +82,7 @@ function Signin (props) {
 			signinOK = false;
 		}
 		if(!isValidMdp(pass1)){
-			newerrorMessages.push("Invalide mot");
+			newerrorMessages.push("Le mot de passe doit avoir au moins 8 caractères, une majuscule et un caractère spécial.");
 			signinOK= false; 
 		}
 		if( !isValidEmail(email)){
@@ -97,7 +97,6 @@ function Signin (props) {
 			fetch('http://localhost:5000/register',{
 				method:'POST', 
 				headers: {"Content-Type": "application/json"},
-				credentials: 'include',//afin d'être conforme avec la politique du CORS
 				body: JSON.stringify({username : login, password : pass1, last_name : lastName, first_name :firstName, phone_number, email })
 			})
 			.then(response => response.json()) // retourne une promesse
