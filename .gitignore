@@ -1,3 +1,5 @@
 # .gitignore
 
 back-end/mon_env/
+
+back-end/flask_session/

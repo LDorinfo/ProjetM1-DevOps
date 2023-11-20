@@ -4,26 +4,9 @@ import NavigationBar from "./NavigationBar";
 
 
 function HomePage(props) {
-  const [connectedUsers, setConnectedUsers] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
 
   useEffect(() => {
-    const fetchConnectedUsers = () => {
-      fetch(`http://localhost:5000/api/users/connected?id=${props.user_id}`, {
-        method: 'GET',
-        headers: {"Content-Type": "application/json"},
-
-      })
-      //Get ne prend pas de body dans sa requête. 
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 200) {
-            setConnectedUsers(data.isconnected);
-          }
-        })
-        .catch(error => console.log(error));
-    };
-    
     const fetchPopularMovies = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/trending-movies', {
@@ -41,7 +24,6 @@ function HomePage(props) {
         console.error('Erreur lors de la récupération des films populaires', error);
       }
     };
-    fetchConnectedUsers();
     fetchPopularMovies();
 
   }, []);
@@ -49,9 +31,9 @@ function HomePage(props) {
   return (
     <div>
       <header>
-        <NavigationBar setPage={props.setPage}></NavigationBar>
+        <NavigationBar setPage={props.setPage} user_id={props.user_id}></NavigationBar>
       </header>
-      <div class="HomePage">
+      <div className="HomePage">
         <div className="text-container">  
           <p>Dive into CineVerse: films, séries, animes. Votre univers de divertissement</p>
           <img src="/wordpress-cs-format-image-20.webp" alt="Description de l'image" />]

@@ -33,7 +33,7 @@ function BarreRecherche (props) {
 };
 
 	return (
-	<form class="search-bar">
+	<form className="search-bar">
         <input id="search_bar" type="text" placeholder="Chercher" onChange={getRecheche}/>
         <button className="submit_search_bar" onClick={handleClick}><img src="https://img.icons8.com/ios-filled/50/FFFFFF/search--v1.png" alt="search--v1"/></button>
     </form>);

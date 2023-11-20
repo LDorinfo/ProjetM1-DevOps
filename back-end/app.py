@@ -47,8 +47,9 @@ def register_user():
     phone_number = request.json["phone_number"]
     
     user_exists = User.query.filter_by(email=email).first() is not None
+    print(user_exists)
     user_exists = User.query.filter_by(username=username).first() is not None
-
+    print(user_exists)
     if user_exists:
         return jsonify({"error": "user already exists"}), 409
     
@@ -56,8 +57,6 @@ def register_user():
     new_user = User(email=email, password=hashed_password, username=username, first_name=first_name, last_name=last_name, phone_number=phone_number, isconnected = True)
     db.session.add(new_user)
     db.session.commit()
-
-    login_user()
 
     return jsonify({
         "id": new_user.id,
@@ -77,17 +76,34 @@ def login_user():
     user = User.query.filter_by(username=username).first()
 
     if user is None :
-        return jsonify({"error": "Unauthorized"}), 401 
+        return jsonify({"error": "Incorrect Login"}), 401 
     
     if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
+        return jsonify({"error": "Incorrect Password"}), 401
     
     session["user_id"] = user.id
     user.isconnected = True
-    
+    print(user.isconnected)
     return jsonify({
         "id": user.id,
         "username": user.username,
+        "isconnected": user.isconnected
+    })
+
+@app.route("/api/userinfo", methods=["GET"])
+def info_user():
+    id = request.args.get("user_id")
+    user = User.query.filter_by(id=id).first()
+    if user is None : 
+        return jsonify({"error":"Unknown user"}), 401 
+    
+    return jsonify({
+        "id": user.id,
+        "email": user.email,
+        "username": user.username,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "phone_number": user.phone_number,
         "isconnected": user.isconnected
     })
 
@@ -125,18 +141,18 @@ def modify_user():
     return jsonify({
         "id": user.id,
         "username": user.username,
-        "isconnected": user.isconnected
+        "isconnected": True
     })
 
 
 @app.route('/api/users/connected',methods=["GET"])
 def isconnected(): 
-    id = request.args.get("id")
+    id = request.args.get("user_id")
     user = User.query.filter_by(id=id).first()
     if user is None : 
-        return jsonify({"error": "UnKnow"}), 401 
-    if user.isconnected == False: 
-        return jsonify({"error": "disconnected"}), 401 
+        return jsonify({"error":"Unknown user"}), 401 
+    if not user.isconnected : 
+        return jsonify({"er!ror": "disconnected"}), 401 
     return jsonify({
         "isconnected": True
     })

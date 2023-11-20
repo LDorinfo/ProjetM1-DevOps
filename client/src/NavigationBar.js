@@ -5,7 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ConnectionPanel from './ConnectionPanel';
 import BarreRecherche from './BarreRecherche';
-import Logo from './Logo.js';
 import './NavigationBar.css';
 
 function NavigationBar(props) {
