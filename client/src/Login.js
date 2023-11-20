@@ -44,7 +44,7 @@ function Login(props) {
   return (
     <div>
       <header>
-        <NavigationBar setPage={props.setPage}></NavigationBar>
+        <NavigationBar setPage={props.setPage} ></NavigationBar>
       </header>
       <main>
         <div className="wrapper">

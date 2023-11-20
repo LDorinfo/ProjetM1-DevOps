@@ -3,20 +3,20 @@ import { NavDropdown, Nav } from 'react-bootstrap';
 import './NavigationBar.css';
 
 function ConnectionPanel(props) {
-    const [isconnected, setIsConnected] = useState(false);
+    const [isconnected, setIsConnected] = useState();
   
     useEffect(() => {
       const fetchConnectedUsers = () => {
-        fetch(`http://localhost:3001/api/users/connected`, {
+        fetch(`http://localhost:5000/api/users/connected?user_id=${props.isconnected}`, {
           method: 'GET',
           credentials: 'include',
-          body: JSON.stringify({ id: props.isconnected }),
         })
           .then((response) => response.json())
           .then((data) => {
-            if (data.status === 200) {
+            if (data.isconnected) {
               setIsConnected(data.isconnected);
             }
+            console.log(isconnected)
           })
           .catch((error) => console.log(error));
       };
