@@ -7,24 +7,21 @@ function HomePage(props) {
   const [popularMovies, setPopularMovies] = useState([]);
 
   useEffect(() => {
-    const fetchPopularMovies = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/trending-movies', {
+    const fetchPopularMovies = ()=>{
+      fetch('http://localhost:5000/api/trending-movies', {
           method: 'GET',
           headers: {"Content-Type": "application/json"}
         }
-        )
-        if (response.ok) {
-          const data = await response.json();
-          setPopularMovies(data.results || []); // Initialize with an empty array if results are undefined
-        } else {
-          console.error('Erreur lors de la récupération des films populaires');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération des films populaires', error);
-      }
-    };
-    fetchPopularMovies();
+      )
+      .then((response)=> response.json())
+      .then((data)=>{
+        // s'il y a des données dans la response.
+        console.log(data)
+        setPopularMovies(data || []); // Initialize with an empty array if results are undefined
+      })
+      .catch((error)=> console.log(error))
+  };
+  fetchPopularMovies();
 
   }, []);
 

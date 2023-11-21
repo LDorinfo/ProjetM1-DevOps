@@ -181,6 +181,7 @@ def trending_movies():
         search_results = response.json()
         return jsonify(search_results.get('results', []))
     else:
+        print("On retourne rien")
         return []
     
 @app.route('/api/trending-tv', methods=['GET'])
