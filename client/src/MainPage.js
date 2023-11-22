@@ -22,7 +22,7 @@ function MainPage(props){
         }else if(page[0]=== "search_page") {
           return <Search setPage={setPage} datasearch={page[1]} />; 
         }else if(page[0]=== "film_page") {
-          return <PageFilm setPage={setPage} datafilm={page[1]} />; 
+          return <PageFilm setPage={setPage} dataFilm={page[1]} />; 
         }
       })();
 }
