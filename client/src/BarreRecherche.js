@@ -1,6 +1,6 @@
 import { useState} from "react";
-import { FaSearch } from 'react-icons/fa';
 import './BarreRecherche.css'
+
 
 function BarreRecherche (props) {
 	const [recherche,setRecherche] = useState("");
@@ -13,10 +13,9 @@ function BarreRecherche (props) {
 		let newerrorMessages = []
         //cette fonction fera la recherche, est ce qu'il faudrait utiliser query directement dans la requête: peut-être plus pour les filtres
         // Elle enverra une requête au serveur pour savoir. 
-		fetch('http://localhost:5000/api/search-multi',{
+		fetch(`http://localhost:5000/api/users/search-multi?query=${recherche}`,{
 			method:'GET', 
 			headers: {"Content-Type": "application/json"},
-			body: JSON.stringify({query : recherche})
 
 		})
 		.then(response => response.json()) // retourne une promesse

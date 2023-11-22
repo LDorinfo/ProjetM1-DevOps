@@ -3,6 +3,7 @@ import Login from './Login.js';
 import Signin from './Signin.js';
 import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
+import Search from './Search.js';
 
 function MainPage(props){
     const [page, setPage]= useState(["home_page", undefined]); 
@@ -17,6 +18,8 @@ function MainPage(props){
           return <ProfilePage setPage={setPage} user_id={page[1]} />;
         } else if (page[0] === "signin_page") {
           return <Signin setPage={setPage} />;
+        }else if(page[0]=== "search_page") {
+          return <Search setPage={setPage} datasearch={page[1]} />; 
         }
       })();
 }

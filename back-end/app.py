@@ -152,7 +152,7 @@ def isconnected():
     if user is None : 
         return jsonify({"error":"Unknown user"}), 401 
     if not user.isconnected : 
-        return jsonify({"er!ror": "disconnected"}), 401 
+        return jsonify({"error": "disconnected"}), 401 
     return jsonify({
         "isconnected": True
     })
