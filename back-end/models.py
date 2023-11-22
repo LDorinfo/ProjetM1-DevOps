@@ -16,3 +16,13 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     phone_number = db.Column(db.String(15))
     isconnected = db.Column(db.Boolean, default=False)
+
+class Comments(db.Model): 
+    __tablename__="comments"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    comment_text = db.Column(db.String(345), nullable=False)
+    note = db.Column(db.Integer)  # note 
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    film_id = db.Column(db.String(32), nullable=False)
+    user = db.relationship('User', backref='comments')
+
