@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -10,6 +10,26 @@ import './NavigationBar.css';
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
+
+  const [user_id, setUserId] = useState(); 
+  useEffect(() => {
+    // permet de factoriser le code afin d'éviter de se balader un attribut. 
+    const fetchIsconnected = ()=>{
+      fetch(`http://localhost:5000/@me`, {
+          headers: {"Content-Type": "application/json"}
+        }
+      )
+      .then((response)=> response.json())
+      .then((data)=>{
+        // s'il y a des données dans la response.
+        console.log(data)
+        setUserId(data.id); // Initialize with an empty array if results are undefined
+      })
+      .catch((error)=> console.log(error))
+  };
+  fetchIsconnected();
+
+}, []);
 
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark">
@@ -47,7 +67,7 @@ function NavigationBar(props) {
             </NavDropdown>
           </Nav>
           <Nav>
-            <BarreRecherche setPage={props.setPage} user_id={props.user_id} />
+            <BarreRecherche setPage={props.setPage} user_id={user_id} />
             <ConnectionPanel isconnected={props.user_id} setPage={props.setPage} />
           </Nav>
         </Navbar.Collapse>

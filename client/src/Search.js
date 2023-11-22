@@ -4,9 +4,13 @@ import NavigationBar from "./NavigationBar";
 function Search(props){
     const [userId, setUserId] = useState(); 
 
+    const handleClickImageFilm = (i) =>{
+      console.log(i.id)
+      props.setPage(["film_page", [i]])
+    }
     useEffect(() => {
         const fetchIsconnected = ()=>{
-          fetch('http://localhost:5000/api/@me', {
+          fetch(`http://localhost:5000/@me`, {
               headers: {"Content-Type": "application/json"}
             }
           )
@@ -30,13 +34,14 @@ function Search(props){
         </header>
         <div className="SearchPage">
         <div className="movies-list">
-            {props.datasearch.map((movie) => (
+            {props.datasearch.results.map((movie) => (
               <div key={movie.id}>
               <h2>{movie.title}</h2>
               <p>{movie.overview}</p>
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // Utilisez poster_path ou backdrop_path selon votre préférence
                 alt={movie.title}
+                onClick= {() => handleClickImageFilm(movie)}
               />
             </div>
             ))}

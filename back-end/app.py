@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from models import db, User
+from models import Comments, db, User
 from config import ApplicationConfig
 import requests  # Importez le module requests
 from flask_migrate import Migrate
@@ -27,7 +27,7 @@ with app.app_context():
 @app.route("/@me")
 def get_current_user():
     user_id = session.get("user_id")
-
+    # session.get permet de récupère la clé user_id dans la session flask. 
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
     
@@ -157,6 +157,18 @@ def isconnected():
         "isconnected": True
     })
 
+@app.route('/api/comments', methods=['GET'])
+def get_commens():
+    idFilm = request.args.get('query')
+    if idFilm is None: 
+        return jsonify({"error":"Not found Id"}), 401 
+    comments = Comments.query.filter_by(film_id=idFilm).first()
+    if comments is None : 
+        return jsonify({"error":"Aucun commentaire"}), 401 
+    
+    return jsonify({"comments" : comments})
+    
+    
 
 @app.route('/api/search-multi', methods=['GET'])
 def search_multi():
@@ -167,9 +179,9 @@ def search_multi():
 
     if response.status_code == 200:
         search_results = response.json()
-        return jsonify(search_results.get('results', []))
+        return search_results
     else:
-        return []
+        return jsonify({"error": "Pas de résultats à la recherche"}), 401 
     
 @app.route('/api/trending-movies', methods=['GET'])
 def trending_movies():

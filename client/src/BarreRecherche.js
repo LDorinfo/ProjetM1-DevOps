@@ -13,7 +13,7 @@ function BarreRecherche (props) {
 		let newerrorMessages = []
         //cette fonction fera la recherche, est ce qu'il faudrait utiliser query directement dans la requête: peut-être plus pour les filtres
         // Elle enverra une requête au serveur pour savoir. 
-		fetch(`http://localhost:5000/api/users/search-multi?query=${recherche}`,{
+		fetch(`http://localhost:5000/api/search-multi?query=${recherche}`,{
 			method:'GET', 
 			headers: {"Content-Type": "application/json"},
 
@@ -26,8 +26,8 @@ function BarreRecherche (props) {
 			// ajouter l'id peut-être pour rester connecter ou trouver une solution avec les cookies
 		  })
 		.catch(error => {
-			console.error('Error during connexion:', error);
-			newerrorMessages.push("Une erreur s'est produite lors de la connection. Veuillez réessayer.");
+			console.error('Error during search:', error);
+			newerrorMessages.push("Une erreur c'est produite lors de la recherche.");
 		  });
 };
 
