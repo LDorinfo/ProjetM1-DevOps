@@ -22,7 +22,7 @@ body::before {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    background: linear-gradient(to bottom, #071031, #1f3997);
+    background: linear-gradient(to bottom, #071031, #2d53df);
 }
 
 #root {
@@ -44,23 +44,21 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
 
-  }
-  
 .text-container p {
     color: white;
     font-size: 40px;
     font-family: poppins;
     margin-left: 100px;
-  }
-  
- 
+}
+
 .text-container img {
     width: 470px;
     height: auto;
     margin-right: 100px;
     border-radius: 5px; 
-  }  
+}  
 
 h2 {
     color: white;
@@ -71,4 +69,50 @@ h2 {
 
 img {
     width: 25px;
+}
+
+.carousel-container {
+    margin-top: 15px;
+    margin-left: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.carousel-button {
+    color: white;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.carousel {
+    display: flex;
+    overflow: hidden;
+    transition: transform 0.5s ease-in-out;
+}
+
+.movie-poster {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.movieposter {
+    width: 150px;
+}
+
+.trending-tv-shows {
+    margin-top: 20px;
+}
+
+.tv-show-poster {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.tvshowposter {
+    width: 150px;
 }
