@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import "./Login.css";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 
 function Login(props) {
   const [login, setLogin] = useState("");

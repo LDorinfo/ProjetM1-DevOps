@@ -3,8 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import ConnectionPanel from './ConnectionPanel';
-import BarreRecherche from './BarreRecherche';
+import ConnectionPanel from './connexion/ConnectionPanel';
+import BarreRecherche from './search/BarreRecherche';
 import './NavigationBar.css';
 
 function NavigationBar(props) {

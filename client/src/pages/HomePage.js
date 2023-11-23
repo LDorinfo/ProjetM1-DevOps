@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
-import NavigationBar from './NavigationBar';
+import NavigationBar from '../NavigationBar';
 
 function HomePage(props) {
   const [popularMovies, setPopularMovies] = useState([]);

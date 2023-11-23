@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import Login from './Login.js';
-import Signin from './Signin.js';
+import Login from '../connexion/Login.js';
+import Signin from '../connexion/Signin.js';
 import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
-import Search from './Search.js';
+import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
 
 function MainPage(props){
