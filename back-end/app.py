@@ -158,17 +158,38 @@ def isconnected():
     })
 
 @app.route('/api/comments', methods=['GET'])
-def get_commens():
+def get_comments():
     idFilm = request.args.get('query')
     if idFilm is None: 
-        return jsonify({"error":"Not found Id"}), 401 
+        return jsonify({"status":"Not found Id in database Comment"}) 
     comments = Comments.query.filter_by(film_id=idFilm).first()
     if comments is None : 
         return jsonify({"error":"Aucun commentaire"}), 401 
     
-    return jsonify({"comments" : comments})
+    return jsonify({"status": "Found comments","comments" : comments})
     
+@app.route('/api/comments/create', methods=['POST'])
+def create_comments():
+    idFilm = request.get('idFilm')
+    username = request.get('username')
+    comments= request.get('comments')
+    note = request.get('note')
+    if idFilm is None : 
+        return jsonify({"error":"Comments without idFilm"}), 404
+    if username is None: 
+        return jsonify({"error" : "User unauthenticate, it's guest and he can not publish"}),403
     
+    newcomments = Comments(comment_text= comments, note = note, user_id= username,film_id=idFilm)
+    db.session.add(newcomments)
+    db.session.commit()
+
+    return jsonify({
+        "id": newcomments.id,
+        "comment_text": newcomments.comment_text,
+        "note": newcomments.note,
+        "user_id": newcomments.user_id,
+        "film_id": newcomments.film_id
+    })
 
 @app.route('/api/search-multi', methods=['GET'])
 def search_multi():

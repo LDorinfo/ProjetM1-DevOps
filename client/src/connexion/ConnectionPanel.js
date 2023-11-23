@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react"; 
 import { NavDropdown, Nav } from 'react-bootstrap';
-import './NavigationBar.css';
+import '../NavigationBar.css';
 
 function ConnectionPanel(props) {
     const [isconnected, setIsConnected] = useState();

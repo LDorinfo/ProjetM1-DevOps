@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 
 function Search(props){
     const [userId, setUserId] = useState(); 
 
     const handleClickImageFilm = (i) =>{
       console.log(i.id)
-      props.setPage(["film_page", [i]])
+      props.setPage(["film_page", [i, userId]])
     }
     useEffect(() => {
         const fetchIsconnected = ()=>{

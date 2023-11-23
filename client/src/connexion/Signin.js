@@ -1,4 +1,4 @@
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import "./Signin.css";
