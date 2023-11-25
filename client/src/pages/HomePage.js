@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import NavigationBar from '../NavigationBar';
+import ImageFilm from '../search/ImageFilm';
 
 function HomePage(props) {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -8,10 +9,6 @@ function HomePage(props) {
   const [currentSlideMovies, setCurrentSlideMovies] = useState(0);
   const [currentSlideTVShows, setCurrentSlideTVShows] = useState(0);
 
-  const handleClickImageFilm = (i) =>{
-    console.log(i)
-    props.setPage(["film_page", i]);
-  }
 
   useEffect(() => {
     const fetchPopularData = () => {
@@ -82,12 +79,7 @@ function HomePage(props) {
                 <div className="carousel">
                   {popularMovies.slice(currentSlideMovies * 7, (currentSlideMovies + 1) * 7).map((movie) => (
                     <div key={movie.id} className="movie-poster">
-                      <img
-                        className="movieposter"
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.title}
-                        onClick= {() => handleClickImageFilm(movie)}
-                      />
+                      <ImageFilm dataFilm={movie} setPage={props.setPage}/>
                     </div>
                   ))}
                 </div>
@@ -110,12 +102,7 @@ function HomePage(props) {
                 <div className="carousel">
                   {popularTVShows.slice(currentSlideTVShows * 7, (currentSlideTVShows + 1) * 7).map((tvShow) => (
                     <div key={tvShow.id} className="tv-show-poster">
-                      <img
-                        className="tvshowposter"
-                        src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
-                        alt={tvShow.name}
-                        onClick= {() => handleClickImageFilm(tvShow)}
-                      />
+                      <ImageFilm dataFilm={tvShow} setPage={props.setPage}/>
                     </div>
                   ))}
                 </div>

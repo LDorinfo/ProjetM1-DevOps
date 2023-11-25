@@ -3,6 +3,7 @@ import NavigationBar from "../NavigationBar";
 import MessageForm from "../commentaire/MessageForm.js"; 
 import Message from "../commentaire/Message.js";
 import { useAuth } from "../AuthenticateContext.js";
+import ImageFilm from "../search/ImageFilm.js";
 
 function PageFilm(props){
     // obtenir les informations sur les commentaires du films. 
@@ -37,11 +38,19 @@ function PageFilm(props){
         setComments((prevComments) => [...prevComments, newMessage]);
     };
 
+    const handleDeleteMessage = (deletedMessageId) => {
+        // Supprime le message avec l'ID spécifié de l'état local
+        setComments((prevComments) => prevComments.filter((msg) => msg.id !== deletedMessageId));
+    };
+
     return (<div>
         <header>
             <NavigationBar setPage={props.setPage} ></NavigationBar>
         </header>
         <main>
+            <div>
+                <ImageFilm dataFilm={props.dataFilm} setPage={props.setPage}/>
+            </div>
 			<aside>
 				<ul>
 					Statistics
@@ -54,7 +63,7 @@ function PageFilm(props){
 			<article>
 				<h1 className="titreMessage" >Messages</h1>
                 {comments.map(message=>(
-                    <Message dataMessage={message} user_id={user}/>
+                    <Message dataMessage={message} user_id={user} updateMessage={handleDeleteMessage}/>
                 ))}
 			</article>
 			</section>

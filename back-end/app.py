@@ -195,6 +195,7 @@ def get_comments():
             return jsonify({"error" : "User not found"}), 404
 
         comments_list.append({
+            "id": comment.id,
             "comment_text": comment.comment_text, 
             "note": comment.note, 
             "user_id": comment.user_id, 
@@ -230,7 +231,42 @@ def create_comments():
         "user_id": newcomments.user_id,
         "film_id": newcomments.film_id
     })
+@app.route('/api/comments/editing', methods=['POST'])
+def editing_comments():
+    newtextcomment = request.json.get('comment_text')
+    id_comment = request.json.get('id_comment')
+    #print(id_comment)
+    #print(newtextcomment)
+    if newtextcomment is None : 
+        return jsonify({"error":"Not found text"}), 404
+    if id_comment is None: 
+        return jsonify({"error":"Not found id"}), 404
+    comment = Comments.query.filter_by(id=id_comment).first()
+    if comment is None: 
+        return jsonify({"error":"Not found comment"}), 404
+    comment.comment_text = id_comment
 
+    db.session.commit()
+    return jsonify({
+        "status": "update comment"
+    })
+    
+@app.route('/api/comments/delete', methods=['DELETE'])
+def delete_comments():
+    id_comment = request.json.get('id_comment')
+    if id_comment is None: 
+        return jsonify({"error":"Not found id"}), 404
+    comment = Comments.query.filter_by(id=id_comment).first()
+    if comment is None: 
+        return jsonify({"error":"Not found comment"}), 404
+
+    db.session.delete(comment)  # Supprimer le commentaire de la session
+    db.session.commit()  # Confirmer la suppression en effectuant un commit
+    return jsonify({
+        "status": "delete comment",
+        "id": id_comment
+    })
+    
 @app.route('/api/search-multi', methods=['GET'])
 def search_multi():
     keyword = request.args.get('query')
