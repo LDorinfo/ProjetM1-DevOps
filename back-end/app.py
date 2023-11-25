@@ -159,6 +159,25 @@ def isconnected():
         "isconnected": True
     })
 
+@app.route("/logout", methods=["POST"])
+def logout_user():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    user.isconnected = False
+    session.pop("user_id", None)
+    db.session.commit()
+
+    return jsonify({"message": "Logout successful"})
+
+
 @app.route('/api/comments', methods=['GET'])
 def get_comments():
     idFilm = request.args.get('idFilm')
