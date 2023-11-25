@@ -161,32 +161,51 @@ def isconnected():
 
 @app.route('/api/comments', methods=['GET'])
 def get_comments():
-    idFilm = request.args.get('query')
+    idFilm = request.args.get('idFilm')
     if idFilm is None: 
         return jsonify({"status":"Not found Id in database Comment"}) 
-    comments = Comments.query.filter_by(film_id=idFilm).first()
+    comments = Comments.query.filter_by(film_id=idFilm).all()
     if comments is None : 
-        return jsonify({"error":"Aucun commentaire"}), 401 
+        return jsonify({"error":"Aucun commentaire"}), 404 
     
-    return jsonify({"status": "Found comments","comments" : comments})
+    comments_list = []
+    for comment in comments:
+        user = User.query.filter_by(id=comment.user_id).first()
+
+        if user is None: 
+            return jsonify({"error" : "User not found"}), 404
+
+        comments_list.append({
+            "comment_text": comment.comment_text, 
+            "note": comment.note, 
+            "user_id": comment.user_id, 
+            "username": user.username,
+            "film_id": comment.film_id
+        })
+
+    return jsonify({"status": "Found comments", "comments": comments_list})
     
-@app.route('/api/comments/create', methods=['POST'])
+@app.route('/api/comments/create', methods=['PUT'])
 def create_comments():
-    idFilm = request.get('idFilm')
-    username = request.get('username')
-    comments= request.get('comments')
-    note = request.get('note')
+    data = request.json; 
+    idFilm = data.get('idFilm')
+    username = data.get('username')
+    comments= data.get('comments')
+    note = data.get('note')
     if idFilm is None : 
         return jsonify({"error":"Comments without idFilm"}), 404
     if username is None: 
         return jsonify({"error" : "User unauthenticate, it's guest and he can not publish"}),403
-    
     newcomments = Comments(comment_text= comments, note = note, user_id= username,film_id=idFilm)
     db.session.add(newcomments)
     db.session.commit()
+    user = User.query.filter_by(id=newcomments.user_id).first()
 
+    if user is None: 
+        return jsonify({"error" : "User not found"}), 404
     return jsonify({
         "id": newcomments.id,
+        "username": user.username,
         "comment_text": newcomments.comment_text,
         "note": newcomments.note,
         "user_id": newcomments.user_id,
