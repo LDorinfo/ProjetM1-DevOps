@@ -18,6 +18,7 @@ BASE_URL = 'https://api.themoviedb.org/3'
 
 bcrypt = Bcrypt(app)
 cors = CORS(app, supports_credentials=True)
+#=> prise en charge des cookies dans les requêtes 
 server_session = Session(app)
 db.init_app(app)
 
@@ -27,6 +28,7 @@ with app.app_context():
 @app.route("/@me")
 def get_current_user():
     user_id = session.get("user_id")
+    #stocke la clé dans la session flask
     # session.get permet de récupère la clé user_id dans la session flask. 
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401

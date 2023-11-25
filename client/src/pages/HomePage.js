@@ -8,11 +8,17 @@ function HomePage(props) {
   const [currentSlideMovies, setCurrentSlideMovies] = useState(0);
   const [currentSlideTVShows, setCurrentSlideTVShows] = useState(0);
 
+  const handleClickImageFilm = (i) =>{
+    console.log(i)
+    props.setPage(["film_page", i]);
+  }
+
   useEffect(() => {
     const fetchPopularData = () => {
       // Fetch popular movies
       fetch('http://localhost:5000/api/trending-movies', {
         method: 'GET',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
       })
         .then((response) => response.json())
@@ -25,6 +31,7 @@ function HomePage(props) {
       // Fetch popular TV shows
       fetch('http://localhost:5000/api/trending-tv', {
         method: 'GET',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
       })
         .then((response) => response.json())
@@ -57,7 +64,7 @@ function HomePage(props) {
   return (
     <div>
       <header>
-        <NavigationBar setPage={props.setPage} user_id={props.user_id} />
+        <NavigationBar setPage={props.setPage}/>
       </header>
       <div className="HomePage">
         <div className="text-container">
@@ -79,6 +86,7 @@ function HomePage(props) {
                         className="movieposter"
                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                         alt={movie.title}
+                        onClick= {() => handleClickImageFilm(movie)}
                       />
                     </div>
                   ))}
@@ -106,6 +114,7 @@ function HomePage(props) {
                         className="tvshowposter"
                         src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
                         alt={tvShow.name}
+                        onClick= {() => handleClickImageFilm(tvShow)}
                       />
                     </div>
                   ))}
