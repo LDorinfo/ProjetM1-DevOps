@@ -13,6 +13,7 @@ function PageFilm(props){
     const [comments, setComments]= useState([]); 
     
     useEffect(() => {
+        console.log(props.dataFilm.id)
         const fetchComments = () => {
           // requête pour avoir les commentaires concernant ce films.
         fetch(`http://localhost:5000/api/comments?idFilm=${props.dataFilm.id}`, {
@@ -22,19 +23,19 @@ function PageFilm(props){
         })
         .then((response) => response.json())
         .then((data) => {
-            if(data.status == "Not found Id in database Comment"){
-                setComments([]);
-            }
-            else{
-                console.log(data);
-                setComments(data);
-            }
+            console.log(data.comments);
+            setComments(data.comments);
         })
         .catch((error) => console.log(error));
         }
     fetchComments();
 
-    }, [props.dataFilm])
+    }, [props.dataFilm, setComments])
+
+    const handleNewMessage = (newMessage) => {
+        // Met à jour l'état local avec le nouveau message
+        setComments((prevComments) => [...prevComments, newMessage]);
+    };
 
     return (<div>
         <header>
@@ -48,7 +49,7 @@ function PageFilm(props){
 			</aside>
 			<section>
 			<div id="new_message">
-				<MessageForm username={user} idFilm={props.dataFilm.id} />
+				<MessageForm username={user} idFilm={props.dataFilm} updateMessage={handleNewMessage}/>
 			</div>
 			<article>
 				<h1 className="titreMessage" >Messages</h1>

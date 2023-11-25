@@ -14,8 +14,8 @@ function Message(props){
     
     return (
         <li className="le_msg">
-            <h1>{props.dataMessage.user_id}</h1>
-            <p>{props.dataMessage.text_comments}</p>
+            <h2>{props.dataMessage.username}</h2>
+            <p>{props.dataMessage.comment_text}</p>
             <p>{props.dataMessage.note}</p>
 			{props.user_id === props.dataMessage.user_id ? 
 				<div>

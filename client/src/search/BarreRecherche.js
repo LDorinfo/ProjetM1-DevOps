@@ -15,6 +15,7 @@ function BarreRecherche (props) {
         // Elle enverra une requête au serveur pour savoir. 
 		fetch(`http://localhost:5000/api/search-multi?query=${recherche}`,{
 			method:'GET', 
+			credentials: 'include',
 			headers: {"Content-Type": "application/json"},
 
 		})

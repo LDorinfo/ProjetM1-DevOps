@@ -19,7 +19,7 @@ class User(db.Model):
 
 class Comments(db.Model): 
     __tablename__="comments"
-    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    id = db.Column(db.String(32), primary_key=True, unique=True,default=get_uuid)
     comment_text = db.Column(db.String(345), nullable=False)
     note = db.Column(db.Integer)  # note 
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
