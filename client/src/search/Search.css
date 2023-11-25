@@ -1,0 +1,28 @@
+/* Ajoutez ce style dans votre fichier CSS ou dans une balise <style> */
+
+.SearchPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .resultsearch {
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .search-results {
+    width: 200px; /* Ajustez la largeur des affiches en fonction de vos besoins */
+    cursor: pointer;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+    margin-top: 10px;
+  }  

@@ -35,6 +35,7 @@ function Login(props) {
         console.log('User connected successfully:', data);
         toast("Connexion!");
         props.setPage(["home_page", data.id]);
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error during connexion:', error);
