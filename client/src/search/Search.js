@@ -1,5 +1,6 @@
 //import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar";
+import ImageFilm from "./ImageFilm";
 import './Search.css'
 
 
@@ -7,11 +8,6 @@ function Search(props){
     //const [userId, setUserId] = useState(); 
     //const {user,loading}= useAuth();
 
-
-    const handleClickImageFilm = (i) =>{
-      console.log(i.id)
-      props.setPage(["film_page", i])
-    }
     /*useEffect(() => {
         const fetchIsconnected = ()=>{
           fetch(`http://localhost:5000/@me`, {
@@ -43,12 +39,7 @@ function Search(props){
             // Vérifiez si le film a un poster_path avant de l'afficher
             movie.poster_path && (
               <div key={movie.id} class="resultsearch">
-                <img
-                  class="search-results"
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  onClick={() => handleClickImageFilm(movie)}
-                />
+                <ImageFilm dataFilm={movie} setPage={props.setPage}/>
               </div>
             )
           ))}
