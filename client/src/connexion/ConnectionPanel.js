@@ -1,9 +1,11 @@
-import { useState,useEffect } from "react"; 
+//import { useState,useEffect } from "react"; 
 import { NavDropdown, Nav } from 'react-bootstrap';
 import '../NavigationBar.css';
+import { useAuth } from "../AuthenticateContext";
 
 function ConnectionPanel(props) {
-    const [isconnected, setIsConnected] = useState();
+    const {user}= useAuth();
+    /**const [isconnected, setIsConnected] = useState();
   
     useEffect(() => {
       const fetchConnectedUsers = () => {
@@ -23,7 +25,7 @@ function ConnectionPanel(props) {
   
       fetchConnectedUsers();
     }, []);
-  
+  */
     const handleClickInscription = (evt) => {
       evt.preventDefault();
       props.setPage(["signin_page", undefined]);
@@ -36,12 +38,12 @@ function ConnectionPanel(props) {
   
     const handleClickProfil = (evt) => {
       evt.preventDefault();
-      props.setPage(["profil_page", props.isconnected]);
+      props.setPage(["profil_page", user]);
     };
   
     return (
       <div>
-        {isconnected ? (
+        {user ? (
           <NavDropdown title="Profil" id="collasible-nav-dropdown">
             <NavDropdown.Item onClick={handleClickProfil}>Profil</NavDropdown.Item>
           </NavDropdown>

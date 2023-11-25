@@ -96,6 +96,7 @@ function Signin (props) {
 			// on doit envoyer les données au serveur
 			fetch('http://localhost:5000/register',{
 				method:'POST', 
+				credentials: 'include',
 				headers: {"Content-Type": "application/json"},
 				body: JSON.stringify({username : login, password : pass1, last_name : lastName, first_name :firstName, phone_number, email })
 			})

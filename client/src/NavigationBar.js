@@ -10,8 +10,7 @@ import './NavigationBar.css';
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
-
-  const [user_id, setUserId] = useState(); 
+/**  const [user_id, setUserId] = useState(); 
   useEffect(() => {
     // permet de factoriser le code afin d'éviter de se balader un attribut. 
     const fetchIsconnected = ()=>{
@@ -30,7 +29,7 @@ function NavigationBar(props) {
   fetchIsconnected();
 
 }, []);
-
+*/
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark">
       <Container>
@@ -67,8 +66,8 @@ function NavigationBar(props) {
             </NavDropdown>
           </Nav>
           <Nav>
-            <BarreRecherche setPage={props.setPage} user_id={user_id} />
-            <ConnectionPanel isconnected={props.user_id} setPage={props.setPage} />
+            <BarreRecherche setPage={props.setPage} />
+            <ConnectionPanel setPage={props.setPage} />
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client';
 //import './index.css';
 import MainPage from './pages/MainPage.js';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './AuthenticateContext.js';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <AuthProvider>
     <MainPage />
+    </AuthProvider>
   </React.StrictMode>
 );
 

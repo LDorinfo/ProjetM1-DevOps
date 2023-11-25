@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaPaperPlane } from 'react-icons/fa';
 //permet de créer un message
 function MessageForm(props){
-    const [dataMessage, setDataMessage]= useState(); 
+    //const [dataMessage, setDataMessage]= useState(); not need
     const [text_comments, setTextComments]= useState(); 
     const [noteUser, setNoteUser]= useState(); 
 
@@ -36,7 +36,7 @@ function MessageForm(props){
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setDataMessage(data); 
+                //setDataMessage(data); not need 
             })
             .catch((error) => console.log(error));
         }

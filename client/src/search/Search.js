@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
+//import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar";
 
+
 function Search(props){
-    const [userId, setUserId] = useState(); 
+    //const [userId, setUserId] = useState(); 
+    //const {user,loading}= useAuth();
+
 
     const handleClickImageFilm = (i) =>{
       console.log(i.id)
-      props.setPage(["film_page", [i, userId]])
+      props.setPage(["film_page", i])
     }
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchIsconnected = ()=>{
           fetch(`http://localhost:5000/@me`, {
               headers: {"Content-Type": "application/json"}
@@ -25,12 +28,12 @@ function Search(props){
       fetchIsconnected();
     
     }, []);
-    
+    */
     
     return (
     <div>
         <header>
-            <NavigationBar setPage={props.setPage} user_id={userId}></NavigationBar>
+            <NavigationBar setPage={props.setPage}></NavigationBar>
         </header>
         <div className="SearchPage">
         <div className="movies-list">
