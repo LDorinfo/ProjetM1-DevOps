@@ -40,12 +40,29 @@ function ConnectionPanel(props) {
       evt.preventDefault();
       props.setPage(["profil_page", user]);
     };
+
+    const handleClickLogout = (evt) => {
+      evt.preventDefault();
+    
+      fetch("http://localhost:5000/logout", {
+        method: 'POST',
+        credentials: 'include',
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle success, e.g., redirect to the login page
+        console.log(data.message);
+        window.location.reload();
+      })
+      .catch((error) => console.log(error));
+    };
   
     return (
       <div>
         {user ? (
           <NavDropdown title="Profil" id="collasible-nav-dropdown">
             <NavDropdown.Item onClick={handleClickProfil}>Profil</NavDropdown.Item>
+            <NavDropdown.Item onClick={handleClickLogout}>Se déconnecter</NavDropdown.Item>
           </NavDropdown>
         ) : (
           <div className="connection-links">

@@ -1,5 +1,6 @@
 //import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar";
+import './Search.css'
 
 
 function Search(props){
@@ -36,18 +37,21 @@ function Search(props){
             <NavigationBar setPage={props.setPage}></NavigationBar>
         </header>
         <div className="SearchPage">
-        <div className="movies-list">
-            {props.datasearch.results.map((movie) => (
-              <div key={movie.id}>
-              <h2>{movie.title}</h2>
-              <p>{movie.overview}</p>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // Utilisez poster_path ou backdrop_path selon votre préférence
-                alt={movie.title}
-                onClick= {() => handleClickImageFilm(movie)}
-              />
-            </div>
-            ))}
+        <h2>Résultats</h2>
+        <div className="results">
+          {props.datasearch.results.map((movie) => (
+            // Vérifiez si le film a un poster_path avant de l'afficher
+            movie.poster_path && (
+              <div key={movie.id} class="resultsearch">
+                <img
+                  class="search-results"
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  onClick={() => handleClickImageFilm(movie)}
+                />
+              </div>
+            )
+          ))}
         </div>
       </div>
     </div>
