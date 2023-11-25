@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
         if (response.ok) {
           const userData = await response.json();
-          setUser(userData);
+          setUser(userData.id);
           console.log(userData.id);
         }
       } catch (error) {
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchAuth();
-  }, []);
+  }, [setUser]);
 
   return (
     <AuthContext.Provider value={ {user}}>

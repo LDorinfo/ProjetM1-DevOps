@@ -16,6 +16,7 @@ function Friend(props){
 		try {
 		  const response = await fetch(`http://localhost:5000/api/userinfo?user_id=${userId}`, {
 			method: 'GET',
+			credentials: 'include',
 		  });
 		  const data = await response.json();
 		  if (data.status === 200) {

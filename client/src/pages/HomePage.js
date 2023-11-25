@@ -43,7 +43,7 @@ function HomePage(props) {
     };
 
     fetchPopularData();
-  }, []);
+  }, [setPopularMovies,setPopularTVShows]);
 
   const nextSlideMovies = () => {
     setCurrentSlideMovies((prevSlide) => (prevSlide + 1) % Math.ceil(popularMovies.length / 7));

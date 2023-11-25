@@ -10,33 +10,34 @@ function MessageForm(props){
     const getNoteUser = (evt)=> {setNoteUser(evt.target.value)}
 
     const isValidForm = ()=>{
-        let newerrorMessages = []
         if(text_comments.length === 0){
-            newerrorMessages.push("Vous n'avez pas écrit de commentaire.");
+            console.error("Vous n'avez pas écrit de commentaire.");
             return false; 
         }
         if(props.username === undefined){
-            newerrorMessages.push("Vous n'êtes pas connecté !");
+            console.error("Vous n'êtes pas connecté !");
             return false; 
         }
         if(props.idFilm === undefined){
-            newerrorMessages.push("Etrange, cela ne devrait pas être possible");
+            console.error("Etrange, cela ne devrait pas être possible");
             return false; 
         }
         return true; 
     }
-    const handleClickSend = (evt)=>{
-        let correctMessage = isValidForm(); 
-        if(correctMessage){
+    const handleClickSend = (evt)=>{ 
+        evt.preventDefault();
+        if(isValidForm()){
             fetch(`http://localhost:5000/api/comments/create`,{
-                method: 'POST',
+                method: 'PUT',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: props.username, idFilm: props.idFilm, note : noteUser, comments : text_comments  })
+                body: JSON.stringify({ username: props.username, idFilm: props.idFilm.id, note : noteUser, comments : text_comments  })
             })
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
                 //setDataMessage(data); not need 
+                props.updateMessage(data); 
             })
             .catch((error) => console.log(error));
         }
