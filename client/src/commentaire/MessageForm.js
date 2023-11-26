@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { FaPaperPlane } from 'react-icons/fa';
+import "./Message.css";
+
 //permet de créer un message
 function MessageForm(props){
     //const [dataMessage, setDataMessage]= useState(); not need
@@ -45,8 +47,10 @@ function MessageForm(props){
 
     return (
         <form className="formMessage">
-			<label htmlFor="new_message_text">Nouveau message</label>
-			<textarea id="new_message_text" value={text_comments} onChange={getTextComments}></textarea>
+            <div class="labelandarea">
+			<label htmlFor="new_message_text">Nouveau commentaire</label>
+			<textarea id="new_message_text" placeholder="Nouveau commentaire..." value={text_comments} onChange={getTextComments}></textarea>
+            </div>
 			<button className="buttonMSG" onClick={handleClickSend}><FaPaperPlane /> Envoyer</button>
 		</form>
     )
