@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Message.css";
 
 function Message(props){
     const [like, setLike]= useState();
@@ -52,6 +53,7 @@ function Message(props){
         <li className="le_msg">
             <h2>{props.dataMessage.username}</h2>
             <p>{props.dataMessage.note}</p>
+            <p>{props.dataMessage.comment_text}</p>
 			{props.user_id === props.dataMessage.user_id ? 
 				<div>
                     {isEditing ? (
@@ -62,7 +64,6 @@ function Message(props){
                         </div>
                      ) : (
                         <div>
-                        <p>{props.dataMessage.comment_text}</p>
                         <button onClick={() => setIsEditing(!isEditing)}>Editer</button>
                         </div>
                     )}
@@ -70,7 +71,6 @@ function Message(props){
                 </div>
 			:
             <div>
-                <p>{props.dataMessage.comment_text}</p>
                 <button className="like-button" onClick={ handleClick }>
                 <span className="likes-counter">{ `Like | ${like}` }</span>
                 </button>
