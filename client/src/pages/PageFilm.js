@@ -29,7 +29,10 @@ function PageFilm(props){
         })
         .catch((error) => console.log(error));
         }
+
+        
     fetchComments();
+
 
     }, [props.dataFilm, setComments])
 
