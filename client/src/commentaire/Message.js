@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Message.css";
 
 function Message(props){
-    const [like, setLike]= useState();
+    const [like, setLike]= useState(0);
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText]= useState("");
     // ajouter des outils pour modifier ou supprimer le message si l'utilisateur est connecté. 
@@ -12,7 +12,7 @@ function Message(props){
     // il va falloir que j'ajoute un nombre dans la base de donnée = note. 
     const  handleClick = (evt)=>{
         evt.preventDefault();
-        setLike(evt.target.value);
+        setLike(like+1);
     }
     // mettre un useEffect pour obtenir le nombre de like dès qu'on charge la page. 
     const handleClickSetMessage = (evt)=>{
@@ -72,7 +72,7 @@ function Message(props){
 			:
             <div>
                 <button className="like-button" onClick={ handleClick }>
-                <span className="likes-counter">{ `Like | ${like}` }</span>
+                    Like
                 </button>
             </div>
             }

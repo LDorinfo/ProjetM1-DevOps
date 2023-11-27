@@ -16,7 +16,8 @@ function MessageForm(props){
             console.error("Vous n'avez pas écrit de commentaire.");
             return false; 
         }
-        if(props.username === undefined){
+        if(props.username === null){
+            console.log(props.username);
             console.error("Vous n'êtes pas connecté !");
             return false; 
         }
@@ -40,6 +41,7 @@ function MessageForm(props){
                 console.log(data);
                 //setDataMessage(data); not need 
                 props.updateMessage(data); 
+                setTextComments(''); 
             })
             .catch((error) => console.log(error));
         }
