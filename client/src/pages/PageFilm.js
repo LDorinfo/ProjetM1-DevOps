@@ -4,6 +4,7 @@ import MessageForm from "../commentaire/MessageForm.js";
 import Message from "../commentaire/Message.js";
 import { useAuth } from "../AuthenticateContext.js";
 import ImageFilm from "../search/ImageFilm.js";
+import './PageFilm.css';
 
 function PageFilm(props){
     // obtenir les informations sur les commentaires du films. 
@@ -46,32 +47,36 @@ function PageFilm(props){
         setComments((prevComments) => prevComments.filter((msg) => msg.id !== deletedMessageId));
     };
 
-    return (<div>
-        <header>
-            <NavigationBar setPage={props.setPage} ></NavigationBar>
-        </header>
-        <main>
-            <div>
-                <ImageFilm dataFilm={props.dataFilm} setPage={props.setPage}/>
+    return (
+        <div className="page-film-container">
+          <header>
+            <NavigationBar setPage={props.setPage} />
+          </header>
+          <main>
+            <div className="film-details">
+              <div className="film-poster">
+                <ImageFilm dataFilm={props.dataFilm} setPage={props.setPage} />
+              </div>
+              <div className="film-info">
+                <h1 className="titreMessage">{props.dataFilm.title}</h1>
+                <p>Sortie le : {props.dataFilm.release_date}</p>
+                <p>{props.dataFilm.overview}</p>
+              </div>
             </div>
-			<aside>
-				<ul>
-					Statistics
-				</ul>
-			</aside>
-			<section>
-			<div id="new_message">
-				<MessageForm username={user} idFilm={props.dataFilm} updateMessage={handleNewMessage}/>
-			</div>
-			<article>
-				<h1 className="titreMessage" >Messages</h1>
-                {comments.map(message=>(
-                    <Message dataMessage={message} user_id={user} updateMessage={handleDeleteMessage}/>
+            <section>
+              <div id="new_message">
+                <MessageForm username={user} idFilm={props.dataFilm} updateMessage={handleNewMessage} />
+              </div>
+              <div>
+                <h1 className="titreMessage">Commentaires</h1>
+                {comments.map((message) => (
+                  <Message dataMessage={message} user_id={user} updateMessage={handleDeleteMessage} />
                 ))}
-			</article>
-			</section>
-		</main>
-    </div>)
+              </div>
+            </section>
+          </main>
+        </div>
+      );
 }
 
 export default PageFilm; 
