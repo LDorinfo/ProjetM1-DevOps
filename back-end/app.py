@@ -147,18 +147,6 @@ def modify_user():
     })
 
 
-@app.route('/api/users/connected',methods=["GET"])
-def isconnected(): 
-    id = request.args.get("user_id")
-    user = User.query.filter_by(id=id).first()
-    if user is None : 
-        return jsonify({"error":"Unknown user"}), 401 
-    if not user.isconnected : 
-        return jsonify({"error": "disconnected"}), 401 
-    return jsonify({
-        "isconnected": True
-    })
-
 @app.route("/logout", methods=["POST"])
 def logout_user():
     user_id = session.get("user_id")
