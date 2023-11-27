@@ -270,7 +270,7 @@ def search_multi():
     
 @app.route('/api/trending-movies', methods=['GET'])
 def trending_movies():
-    url = f'{BASE_URL}/trending/movie/day'
+    url = f'{BASE_URL}/trending/movie/day?language=fr-FR'
     params = {'api_key': tmdb_api_key}
     response = requests.get(url, params=params)
 
@@ -283,7 +283,7 @@ def trending_movies():
     
 @app.route('/api/trending-tv', methods=['GET'])
 def trending_tv():
-    url = f'{BASE_URL}/trending/tv/week'
+    url = f'{BASE_URL}/trending/tv/week?language=fr-FR'
     params = {'api_key': tmdb_api_key}
     response = requests.get(url, params=params)
 

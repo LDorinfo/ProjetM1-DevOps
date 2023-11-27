@@ -1,0 +1,33 @@
+  main {
+    flex-direction: column; /* Changement de direction vers column */
+    color: white;
+  }
+  
+  .film-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .film-poster {
+    flex: 1;
+  }
+  
+  .film-info {
+    margin-left: 20px;
+    color: white;
+    width: 900px;
+  }
+  
+  #new_message {
+    margin-bottom: 20px;
+  }
+
+  .film-poster img {
+    width: 250px; /* ou ajustez la largeur en pixels, pourcentage, etc. */
+    height: auto; /* pour maintenir les proportions */
+  }
+
+
+
+  
