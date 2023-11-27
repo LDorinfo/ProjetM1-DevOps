@@ -268,7 +268,7 @@ def search_multi():
     else:
         return jsonify({"error": "Pas de résultats à la recherche"}), 401 
     
-@app.route('/api/trending-movies', methods=['GET'])
+@app.route('/api/trending-movie', methods=['GET'])
 def trending_movies():
     url = f'{BASE_URL}/trending/movie/day?language=fr-FR'
     params = {'api_key': tmdb_api_key}
@@ -293,210 +293,48 @@ def trending_tv():
     else:
         return []
 
-@app.route('/api/discover-action-movies', methods=['GET'])
+@app.route('/api/filtre', methods=['GET'])
 def action_movies():
+    keyword = request.args.get('query')
     url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':28}
+    # 28 pour les films d'action
+    # 12 pour les films d'aventure
+    # 16 pour les films d'animation
+    # 35 pour les comédies 
+    # 80 pour les films criminels
+    # 99 pour les films documentaires
+    #18 pour les films dramatiques
+    # 10751 pour les films famille
+    # 14 pour les films fantastiques
+    # 36 pour les films historiques
+    # 27 pour les films d'horreur 
+    # 10402 pour les comédies musicales 
+    # 9648 pour les films mystérieux 
+    # 10749 pour les films romantiques 
+    # 878 pour les films de science fiction. 
+    # 53 pour les films à suspense. 
+    # 10752 pour les films de guerre
+    params = {'api_key': tmdb_api_key, 'with_genres':keyword}
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
         search_results = response.json()
-        return jsonify(search_results.get('results', []))
+        return search_results
     else:
         return []
+@app.route('/api/tv/filtre', methods=['GET'])
+def action_tv():
+    keyword = request.args.get('query')
+    url = f'{BASE_URL}/discover/tv'
 
-@app.route('/api/discover-adventure-movies', methods=['GET'])
-def adventure_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':12}
+    params = {'api_key': tmdb_api_key, 'with_genres':keyword}
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
         search_results = response.json()
-        return jsonify(search_results.get('results', []))
+        return search_results
     else:
-        return []
-
-@app.route('/api/discover-animation-movies', methods=['GET'])
-def animation_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':16}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-    
-@app.route('/api/discover-comedy-movies', methods=['GET'])
-def comedy_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':35}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-    
-@app.route('/api/discover-crime-movies', methods=['GET'])
-def crime_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':80}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-documentary-movies', methods=['GET'])
-def documentary_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':99}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-drama-movies', methods=['GET'])
-def drama_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':18}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-    
-@app.route('/api/discover-family-movies', methods=['GET'])
-def family_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':10751}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-fantasy-movies', methods=['GET'])
-def fantasy_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':14}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-history-movies', methods=['GET'])
-def history_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':36}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-horror-movies', methods=['GET'])
-def horror_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':27}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-music-movies', methods=['GET'])
-def music_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':10402}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-mystery-movies', methods=['GET'])
-def mystery_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':9648}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-romance-movies', methods=['GET'])
-def romance_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':10749}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-    
-@app.route('/api/discover-sciencefiction-movies', methods=['GET'])
-def sciencefiction_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':878}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
-@app.route('/api/discover-thriller-movies', methods=['GET'])
-def thriller_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':53}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-    
-@app.route('/api/discover-war-movies', methods=['GET'])
-def war_movies():
-    url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres':10752}
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        search_results = response.json()
-        return jsonify(search_results.get('results', []))
-    else:
-        return []
-
+        return [] 
 @app.route('/api/discover-western-movies', methods=['GET'])
 def western_movies():
     url = f'{BASE_URL}/discover/movie'

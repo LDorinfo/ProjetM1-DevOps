@@ -13,7 +13,7 @@ function HomePage(props) {
   useEffect(() => {
     const fetchPopularData = () => {
       // Fetch popular movies
-      fetch('http://localhost:5000/api/trending-movies', {
+      fetch('http://localhost:5000/api/trending-movie', {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

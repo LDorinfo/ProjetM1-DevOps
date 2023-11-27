@@ -10,26 +10,42 @@ import './NavigationBar.css';
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
-/**  const [user_id, setUserId] = useState(); 
-  useEffect(() => {
-    // permet de factoriser le code afin d'éviter de se balader un attribut. 
-    const fetchIsconnected = ()=>{
-      fetch(`http://localhost:5000/@me`, {
-          headers: {"Content-Type": "application/json"}
+  const [indiceCategorie, setIndiceCategorie]= useState(28); // par défaut ce sont les films d'actions
+  
+
+  const handleClickMovies = (indice) => {
+    // perme de faire la recherche pour les films dans les filtres sélectionnées. 
+      fetch(`http://localhost:5000/api/filtre?query=${indice}`, {
+          method: 'GET',
+          headers: {"Content-Type": "application/json"}, 
+          credentials: 'include'
         }
       )
       .then((response)=> response.json())
       .then((data)=>{
-        // s'il y a des données dans la response.
-        console.log(data)
-        setUserId(data.id); // Initialize with an empty array if results are undefined
+        console.log(data);
+        props.setPage(["search_page", data])
+        setIndiceCategorie(28); 
       })
       .catch((error)=> console.log(error))
-  };
-  fetchIsconnected();
+}
+const handleClickTV = (indice) => {
+  // perme de faire la recherche pour les films dans les filtres sélectionnées. 
+    fetch(`http://localhost:5000/api/tv/filtre?query=${indice}`, {
+        method: 'GET',
+        headers: {"Content-Type": "application/json"}, 
+        credentials: 'include'
+      }
+    )
+    .then((response)=> response.json())
+    .then((data)=>{
+      console.log(data);
+      props.setPage(["search_page", data])
+      setIndiceCategorie(28); 
+    })
+    .catch((error)=> console.log(error))
+  }
 
-}, []);
-*/
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark">
       <Container>
@@ -48,9 +64,12 @@ function NavigationBar(props) {
               className="custom-dropdown"
             >
               {/* Add film categories as NavDropdown items */}
-              <NavDropdown.Item href='#'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#'>Comédie</NavDropdown.Item>
-              <NavDropdown.Item href='#'>Drame</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(28)}>Action</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(35)}>Comédie</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(18)}>Drame</NavDropdown.Item>
+              <NavDropdown.Item href='#'onClick={()=>handleClickMovies(14)}>Fantastique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(878)}>Science-Fiction</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(27)}>Horror</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown 
               title="Série Tv" 
@@ -60,9 +79,9 @@ function NavigationBar(props) {
               onMouseLeave={() => setSerieDropdownOpen(false)}
             >
               {/* Add TV series categories as NavDropdown items */}
-              <NavDropdown.Item href='#'>Drame</NavDropdown.Item>
-              <NavDropdown.Item href='#'>Science-Fiction</NavDropdown.Item>
-              <NavDropdown.Item href='#'>Comédie</NavDropdown.Item>
+              <NavDropdown.Item href='#'onClick={()=>handleClickTV(14)}>Fantastique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(878)}>Science-Fiction</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(27)}>Horror</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>
