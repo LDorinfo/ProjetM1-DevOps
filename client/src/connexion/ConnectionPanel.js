@@ -41,6 +41,11 @@ function ConnectionPanel(props) {
       props.setPage(["profil_page", user]);
     };
 
+    const handleClickWatchlist = (evt) => {
+      evt.preventDefault();
+      props.setPage(["watchlist_page", user]);
+    };
+
     const handleClickLogout = (evt) => {
       evt.preventDefault();
     
@@ -62,6 +67,7 @@ function ConnectionPanel(props) {
         {user ? (
           <NavDropdown title="Profil" id="collasible-nav-dropdown">
             <NavDropdown.Item onClick={handleClickProfil}>Profil</NavDropdown.Item>
+            <NavDropdown.Item onClick={handleClickWatchlist}>Ma liste</NavDropdown.Item>
             <NavDropdown.Item onClick={handleClickLogout}>Se déconnecter</NavDropdown.Item>
           </NavDropdown>
         ) : (

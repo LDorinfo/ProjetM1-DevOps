@@ -26,3 +26,8 @@ class Comments(db.Model):
     film_id = db.Column(db.String(32), nullable=False)
     user = db.relationship('User', backref='comments')
 
+class Watchlist(db.Model):
+    __tablename__ = "watchlist"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    film_id = db.Column(db.String(32), nullable=False)
