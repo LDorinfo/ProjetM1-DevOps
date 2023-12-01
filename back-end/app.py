@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from models import Comments, db, User
+from models import Comments, db, User, Watchlist
 from config import ApplicationConfig
 import requests  # Importez le module requests
 from flask_migrate import Migrate
@@ -346,6 +346,47 @@ def western_movies():
         return jsonify(search_results.get('results', []))
     else:
         return []
+    
+@app.route("/watchlist/add", methods=["POST"])
+def add_to_watchlist():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    film_id = request.json.get("film_id")
+
+    # Vérifie si le film est déjà dans la Watchlist de l'utilisateur
+    existing_watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
+    if existing_watchlist_item:
+        return jsonify({"message": "Film already in Watchlist"})
+
+    # Ajoutez le film à la Watchlist dans la base de données
+    watchlist_item = Watchlist(user_id=user_id, film_id=film_id)
+    db.session.add(watchlist_item)
+    db.session.commit()
+
+    return jsonify({"message": "Film added to Watchlist"})
+
+from models import Watchlist
+
+@app.route("/watchlist/remove", methods=["POST"])
+def remove_from_watchlist():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    film_id = request.json.get("film_id")
+
+    # Recherche et suppression de l'entrée correspondante dans la Watchlist
+    watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
+    if not watchlist_item:
+        return jsonify({"error": "Film not found in Watchlist"})
+
+    db.session.delete(watchlist_item)
+    db.session.commit()
+
+    return jsonify({"message": "Film removed from Watchlist"})
+
 
 
 @app.route("/home")
