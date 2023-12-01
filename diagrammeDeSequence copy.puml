@@ -1,0 +1,10 @@
+@!include ../commons.style
+@startuml
+class Card {
+    - {static} this()
+    - {static} instance : Card
+    + {static} + instance(): Card
+}
+
+@enduml
+

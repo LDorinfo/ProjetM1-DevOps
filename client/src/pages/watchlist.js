@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../NavigationBar";
 import ImageFilm from "../search/ImageFilm";
-import './Watchlist.css'; // Assurez-vous de créer le fichier CSS pour le style.
-
-function Watchlist() {
+// j'ai enlevé le css car il n'y en a pas encore
+function Watchlist(props) {
   const [watchlist, setWatchlist] = useState([]);
 
   useEffect(() => {
