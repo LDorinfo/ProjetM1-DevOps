@@ -31,3 +31,5 @@ class Watchlist(db.Model):
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     film_id = db.Column(db.String(32), nullable=False)
+    title = db.Column(db.String(60))
+    poster_path = db.Column(db.String(100))
