@@ -38,17 +38,21 @@ function PageFilm(props) {
   };
 
   const addToWatchlist = () => {
-    fetch('http://localhost:5000/watchlist/add', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ film_id: props.dataFilm.id }),
+  fetch('http://localhost:5000/watchlist/add', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      film_id: props.dataFilm.id,
+      title: props.dataFilm.title, // ou name selon votre structure de données
+      poster_path: props.dataFilm.poster_path,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      setIsInWatchlist(!isInWatchlist);
     })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsInWatchlist(!isInWatchlist);
-      })
-      .catch((error) => console.log(error));
+    .catch((error) => console.log(error));
   };
 
   const removeFromWatchlist = () => {
@@ -81,9 +85,13 @@ function PageFilm(props) {
             </h1>
             <p>Sortie le : {props.dataFilm.release_date}</p>
             <p>{props.dataFilm.overview}</p>
-            <button class="watchlist" onClick={isInWatchlist ? removeFromWatchlist : addToWatchlist}>
-              {isInWatchlist ? "Retirer de ma WatchList" : "Ajouter à ma WatchList"}
-            </button>
+            {user ? (
+              <button className="watchlist" onClick={isInWatchlist ? removeFromWatchlist : addToWatchlist}>
+                {isInWatchlist ? "Retirer de ma WatchList" : "Ajouter à ma WatchList"}
+              </button>
+            ) : (
+              <p class="msg">Connectez-vous pour l'ajouter à votre Watchlist !</p>
+            )}
           </div>
         </div>
         <section>

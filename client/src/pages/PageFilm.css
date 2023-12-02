@@ -39,8 +39,11 @@
   }
 
   .film-poster img {
-    width: 250px; /* ou ajustez la largeur en pixels, pourcentage, etc. */
-    height: auto; /* pour maintenir les proportions */
+    width: 250px; 
+  }
+
+  .msg {
+    font-size: 10px;
   }
 
 

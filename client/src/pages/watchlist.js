@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../NavigationBar";
 import ImageFilm from "../search/ImageFilm";
-// j'ai enlevé le css car il n'y en a pas encore
-function Watchlist(props) {
+import './watchlist.css'
+
+function Watchlist() {
   const [watchlist, setWatchlist] = useState([]);
 
   useEffect(() => {
-    // Récupérer la Watchlist depuis le backend
-    fetch('http://localhost:5000/watchlist', {
+    // Requête GET pour récupérer la Watchlist côté serveur
+    fetch('http://localhost:5000/get-watchlist', {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.watchlist);
         setWatchlist(data.watchlist);
       })
       .catch((error) => console.log(error));
@@ -25,19 +25,17 @@ function Watchlist(props) {
       <header>
         <NavigationBar />
       </header>
-      <main>
-        <h1>Ma Watchlist</h1>
-        <div className="watchlist-movies">
-          {watchlist.map((movie) => (
-            <div key={movie.id} className="watchlist-movie">
-              <ImageFilm dataFilm={movie} />
-              <h3>{movie.title}</h3>
-              <p>Sortie le : {movie.release_date}</p>
-              <p>{movie.overview}</p>
-            </div>
-          ))}
-        </div>
-      </main>
+        <div class="watchlist-content">
+          <div class="posterwatchlist">
+          <h2>Ma Watchlist</h2>
+            {watchlist.map((item) => (
+                <img class='img'
+                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                alt={item.title}
+              />
+            ))}
+          </div>
+      </div>
     </div>
   );
 }

@@ -353,7 +353,10 @@ def add_to_watchlist():
     if not user_id:
         return jsonify({"error": "User not authenticated"}), 401
 
-    film_id = request.json.get("film_id")
+    data = request.json
+    film_id = data.get("film_id")
+    title = data.get("title")  # Ajoutez cette ligne
+    poster_path = data.get("poster_path")
 
     # Vérifie si le film est déjà dans la Watchlist de l'utilisateur
     existing_watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
@@ -361,13 +364,11 @@ def add_to_watchlist():
         return jsonify({"message": "Film already in Watchlist"})
 
     # Ajoutez le film à la Watchlist dans la base de données
-    watchlist_item = Watchlist(user_id=user_id, film_id=film_id)
+    watchlist_item = Watchlist(user_id=user_id, film_id=film_id, title=title, poster_path=poster_path)
     db.session.add(watchlist_item)
     db.session.commit()
 
     return jsonify({"message": "Film added to Watchlist"})
-
-from models import Watchlist
 
 @app.route("/watchlist/remove", methods=["POST"])
 def remove_from_watchlist():
@@ -387,7 +388,24 @@ def remove_from_watchlist():
 
     return jsonify({"message": "Film removed from Watchlist"})
 
+@app.route("/get-watchlist", methods=["GET"])
+def get_watchlist():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
 
+    watchlist = Watchlist.query.filter_by(user_id=user_id).all()
+
+    watchlist_data = []
+    for item in watchlist:
+        watchlist_data.append({
+            "film_id": item.film_id,
+            "title": item.title,
+            "poster_path": item.poster_path,
+            # Ajoutez d'autres champs au besoin
+        })
+
+    return jsonify({"watchlist": watchlist_data})
 
 @app.route("/home")
 def home():

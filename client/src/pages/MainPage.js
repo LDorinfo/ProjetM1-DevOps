@@ -28,8 +28,7 @@ function MainPage(props){
           return <Watchlist setPage={setPage} data={page[1]} />; 
         }
       })();
-}
-    
+}    
 
 export default MainPage; 
 

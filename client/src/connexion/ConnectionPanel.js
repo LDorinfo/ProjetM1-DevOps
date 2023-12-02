@@ -43,7 +43,7 @@ function ConnectionPanel(props) {
 
     const handleClickWatchlist = (evt) => {
       evt.preventDefault();
-      props.setPage(["watchlist_page", user]);
+      props.setPage(["page_watchlist", user]);
     };
 
     const handleClickLogout = (evt) => {

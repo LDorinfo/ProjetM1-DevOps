@@ -26,3 +26,7 @@
     font-size: 1.5em;
     margin-top: 10px;
   }  
+
+  img{
+    cursor: pointer
+  }
