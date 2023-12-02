@@ -94,7 +94,7 @@ def login_user():
 
 @app.route("/api/userinfo", methods=["GET"])
 def info_user():
-    id = request.args.get("user_id")
+    id = session.get("user_id")
     user = User.query.filter_by(id=id).first()
     if user is None : 
         return jsonify({"error":"Unknown user"}), 401 
@@ -223,16 +223,21 @@ def create_comments():
 def editing_comments():
     newtextcomment = request.json.get('comment_text')
     id_comment = request.json.get('id_comment')
+    note = request.json.get('noteUser')
     #print(id_comment)
     #print(newtextcomment)
-    if newtextcomment is None : 
+    if newtextcomment is None: 
         return jsonify({"error":"Not found text"}), 404
     if id_comment is None: 
         return jsonify({"error":"Not found id"}), 404
+    if note is None: 
+        return jsonify({"error":"Not found note"}), 404
     comment = Comments.query.filter_by(id=id_comment).first()
     if comment is None: 
         return jsonify({"error":"Not found comment"}), 404
-    comment.comment_text = id_comment
+    if newtextcomment != "":
+        comment.comment_text = newtextcomment
+    comment.note= note
 
     db.session.commit()
     return jsonify({
@@ -370,6 +375,8 @@ def add_to_watchlist():
 
     return jsonify({"message": "Film added to Watchlist"})
 
+from models import Watchlist
+
 @app.route("/watchlist/remove", methods=["POST"])
 def remove_from_watchlist():
     user_id = session.get("user_id")
@@ -406,6 +413,7 @@ def get_watchlist():
         })
 
     return jsonify({"watchlist": watchlist_data})
+
 
 @app.route("/home")
 def home():
