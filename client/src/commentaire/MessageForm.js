@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { FaPaperPlane } from 'react-icons/fa';
 import "./Message.css";
+import "./NoteStars.css";
+import NoteStars from "./NoteStars";
 
 //permet de créer un message
 function MessageForm(props){
     //const [dataMessage, setDataMessage]= useState(); not need
     const [text_comments, setTextComments]= useState(); 
-    const [noteUser, setNoteUser]= useState(); 
+    const [noteUser, setNoteUser]= useState(0); 
 
     const getTextComments = (evt) => {setTextComments(evt.target.value)};
-    const getNoteUser = (evt)=> {setNoteUser(evt.target.value)}
+    //const getNoteUser = (evt)=> {setNoteUser(evt.target.value)}
+    // plus besoin
 
     const isValidForm = ()=>{
         if(text_comments.length === 0){
@@ -53,6 +56,7 @@ function MessageForm(props){
 			<label htmlFor="new_message_text">Nouveau commentaire</label>
 			<textarea id="new_message_text" placeholder="Nouveau commentaire..." value={text_comments} onChange={getTextComments}></textarea>
             </div>
+            <NoteStars noteUser={noteUser} setNoteUser={setNoteUser} isClickable={true}/>
 			<button className="buttonMSG" onClick={handleClickSend}><FaPaperPlane /> Envoyer</button>
 		</form>
     )

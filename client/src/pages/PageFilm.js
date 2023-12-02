@@ -5,11 +5,13 @@ import Message from "../commentaire/Message.js";
 import { useAuth } from "../AuthenticateContext.js";
 import ImageFilm from "../search/ImageFilm.js";
 import './PageFilm.css';
+import NoteStars from "../commentaire/NoteStars.js";
 
 function PageFilm(props) {
   const { user } = useAuth();
   const [comments, setComments] = useState([]);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
+  const [meanGrade, setMeanGrade]= useState(0); 
 
   const fetchComments = () => {
     fetch(`http://localhost:5000/api/comments?idFilm=${props.dataFilm.id}`, {
@@ -29,28 +31,43 @@ function PageFilm(props) {
     fetchComments();
   }, [props.dataFilm, setComments, setIsInWatchlist]);
 
+  useEffect(()=>{
+    updateGrade(); 
+  }, [comments]);
+
+  const updateGrade = ()=>{
+    // utilisation de useEffect pour mettre à jour la note du film à chaque fois qu'un commentaire est ajouté de la liste comments ou supprimer
+    const totalGrade = comments.reduce((sum, comment) => sum + comment.note, 0);
+    // utilisation d'un lambda
+    const averageGrade = totalGrade / comments.length || 0;
+    setMeanGrade(averageGrade);
+  }
+
   const handleNewMessage = (newMessage) => {
     setComments((prevComments) => [...prevComments, newMessage]);
+    updateGrade(); 
   };
 
   const handleDeleteMessage = (deletedMessageId) => {
     setComments((prevComments) => prevComments.filter((msg) => msg.id !== deletedMessageId));
+    updateGrade(); 
   };
 
+
   const addToWatchlist = () => {
-  fetch('http://localhost:5000/watchlist/add', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      film_id: props.dataFilm.id,
-      title: props.dataFilm.title, // ou name selon votre structure de données
-      poster_path: props.dataFilm.poster_path,
-    }),
-  })
+    fetch('http://localhost:5000/watchlist/add', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        film_id: props.dataFilm.id,
+        title: props.dataFilm.title, // ou name selon votre structure de données
+        poster_path: props.dataFilm.poster_path,
+      }),
+    })
     .then((response) => response.json())
     .then((data) => {
-      setIsInWatchlist(!isInWatchlist);
+        setIsInWatchlist(!isInWatchlist);
     })
     .catch((error) => console.log(error));
   };
@@ -85,6 +102,10 @@ function PageFilm(props) {
             </h1>
             <p>Sortie le : {props.dataFilm.release_date}</p>
             <p>{props.dataFilm.overview}</p>
+            <div className="mean-grade">
+              <NoteStars noteUser={meanGrade} isClickable={false}/>
+              <p>{meanGrade} / 5</p>
+            </div>
             {user ? (
               <button className="watchlist" onClick={isInWatchlist ? removeFromWatchlist : addToWatchlist}>
                 {isInWatchlist ? "Retirer de ma WatchList" : "Ajouter à ma WatchList"}
@@ -96,12 +117,12 @@ function PageFilm(props) {
         </div>
         <section>
           <div id="new_message">
-            <MessageForm username={user} idFilm={props.dataFilm} updateMessage={handleNewMessage} />
+            <MessageForm username={user} idFilm={props.dataFilm} updateMessage={handleNewMessage}/>
           </div>
           <div>
             <h1 className="titreMessage">Commentaires</h1>
             {comments.map((message) => (
-              <Message key={message.id} dataMessage={message} user_id={user} updateMessage={handleDeleteMessage} />
+              <Message key={message.id} dataMessage={message} user_id={user} updateMessage={handleDeleteMessage} updateTextMessage={fetchComments}/>
             ))}
           </div>
         </section>

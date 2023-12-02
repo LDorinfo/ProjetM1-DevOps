@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "./Message.css";
+import NoteStars from "./NoteStars";
 
 function Message(props){
     const [like, setLike]= useState(0);
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText]= useState("");
+    const [noteUser, setNoteUser]= useState(props.dataMessage.note); 
     // ajouter des outils pour modifier ou supprimer le message si l'utilisateur est connecté. 
     
     //si je veux créer un bouton like pour un commentaire: 
@@ -22,13 +24,14 @@ function Message(props){
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ comment_text : editedText, id_comment: props.dataMessage.id})
+            body: JSON.stringify({ comment_text : editedText, id_comment: props.dataMessage.id, noteUser : noteUser })
         })
         .then((response) => response.json())
         .then((data) => {
             console.log("Les modifications ont été envoyées");
             console.log(data); 
             setIsEditing(false);
+            props.updateTextMessage();
         })
         .catch((error) => console.log(error));
     }
@@ -52,18 +55,19 @@ function Message(props){
     return (
         <li className="le_msg">
             <h2>{props.dataMessage.username}</h2>
-            <p>{props.dataMessage.note}</p>
             <p>{props.dataMessage.comment_text}</p>
 			{props.user_id === props.dataMessage.user_id ? 
 				<div>
                     {isEditing ? (
                         <div>
+                        <NoteStars noteUser={noteUser} setNoteUser={setNoteUser} isClickable={true}/>
                         <textarea value={editedText} onChange={(evt) => setEditedText(evt.target.value)}/>
                         <button onClick={() => setIsEditing(!isEditing)}>Annuler</button>
                         <button onClick={handleClickSetMessage}>Envoyer</button>
                         </div>
                      ) : (
                         <div>
+                        <NoteStars noteUser={noteUser} setNoteUser={setNoteUser} isClickable={false}/>
                         <button onClick={() => setIsEditing(!isEditing)}>Editer</button>
                         </div>
                     )}
@@ -71,9 +75,11 @@ function Message(props){
                 </div>
 			:
             <div>
+                <NoteStars noteUser={noteUser} setNoteUser={setNoteUser} isClickable={false}/>
                 <button className="like-button" onClick={ handleClick }>
                     Like
                 </button>
+                
             </div>
             }
 		</li>
