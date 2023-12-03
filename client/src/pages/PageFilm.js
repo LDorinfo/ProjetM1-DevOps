@@ -27,14 +27,6 @@ function PageFilm(props) {
         .catch((error) => console.log(error));
         }
 
-  useEffect(() => {
-    fetchComments();
-  }, [props.dataFilm, setComments, setIsInWatchlist]);
-
-  useEffect(()=>{
-    updateGrade(); 
-  }, [comments]);
-
   const updateGrade = ()=>{
     // utilisation de useEffect pour mettre à jour la note du film à chaque fois qu'un commentaire est ajouté de la liste comments ou supprimer
     const totalGrade = comments.reduce((sum, comment) => sum + comment.note, 0);
@@ -85,6 +77,15 @@ function PageFilm(props) {
       })
       .catch((error) => console.log(error));
   };
+
+  useEffect(() => {
+    fetchComments();
+  }, [props.dataFilm, setComments, setIsInWatchlist]);
+
+  useEffect(()=>{
+    updateGrade(); 
+  }, [comments]);
+
 
   return (
     <div className="page-film-container">

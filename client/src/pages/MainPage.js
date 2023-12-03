@@ -16,7 +16,7 @@ function MainPage(props){
           return <Login setPage={setPage} />;
         } else if (page[0] === "home_page") {
           return <HomePage setPage={setPage} />;
-        } else if (page[0] === "profile_page") {
+        } else if (page[0] === "profil_page") {
           return <ProfilePage setPage={setPage} user_id={page[1]} />;
         } else if (page[0] === "signin_page") {
           return <Signin setPage={setPage} />;

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../NavigationBar";
-import ImageFilm from "../search/ImageFilm";
 import './watchlist.css'
 
-function Watchlist() {
+function Watchlist(props) {
   const [watchlist, setWatchlist] = useState([]);
 
   useEffect(() => {
@@ -23,7 +22,7 @@ function Watchlist() {
   return (
     <div className="watchlist-container">
       <header>
-        <NavigationBar />
+        <NavigationBar setPage={props.setPage}/>
       </header>
         <div class="watchlist-content">
           <div class="posterwatchlist">
