@@ -4,6 +4,34 @@ import { toast } from 'react-toastify';
 import "./Signin.css";
 
 
+export const isValidMdp =  (password) =>{
+	const passwordRes = /^(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.{8,})/;
+	// (?=.{8,}) permet de vérifier si le mot de passe à 8 caractères ou plus
+	// (?=.*[!@#$%^&*]) permet de vérifier si le mot de passe contient un caractère spéciale 
+	//(?=.*[A-Z]) permet de vérifier que le mot de passe contient au moins une majuscule. 
+
+	if (!passwordRes.test(password)) {
+		toast.error("Le mot de passe doit avoir au moins 8 caractères, une majuscule et un caractère spécial.");
+		return false;
+	}
+	return true;
+}
+
+export const isValidEmail = (email) => {
+	const emailRes = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	// [^\s@]: permet d'avoir le début de l'email sans espace ni @
+	return emailRes.test(email);
+};
+
+export const isValidNumber = (phone_number) => {
+	const phoneRes = /^[0-9]{10}$/; 
+	//Le numéro de téléphone doit avoir des nombres compris entre 0 et 9 et avoir 10 caractères
+	if(!phoneRes.test(phone_number)){
+		toast.error("Le numéro de téléphone est invalide");
+		return false; 
+	}
+	return true; 
+}
 function Signin (props) {
 	const [login, setLogin] = useState("");
 	const [firstName, setFirstName] = useState("");
@@ -28,38 +56,6 @@ function Signin (props) {
 	const getPhone_number = (evt) => {
 		const newPhoneNumber = evt.target.value;
 		setPhone_number(newPhoneNumber);
-	}
-	
-
-	const isValidEmail = (email) => {
-		const emailRes = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		// [^\s@]: permet d'avoir le début de l'email sans espace ni @
-		return emailRes.test(email);
-	  };
-	
-	const isValidNumber = (phone_number) => {
-		const phoneRes = /^[0-9]{10}$/; 
-		//Le numéro de téléphone doit avoir des nombres compris entre 0 et 9 et avoir 10 caractères
-  		if(!phoneRes.test(phone_number)){
-			toast.error("Le numéro de téléphone est invalide");
-		} else {
-			setErrorMessages([]);
-		}
-  	}
-
-	const isValidMdp =  (password) =>{
-		const passwordRes = /^(?=.*[A-Z])(?=.*[!@#$%^&*?])(?=.{8,})/;
-		// (?=.{8,}) permet de vérifier si le mot de passe à 8 caractères ou plus
-		// (?=.*[!@#$%^&*]) permet de vérifier si le mot de passe contient un caractère spéciale 
-		//(?=.*[A-Z]) permet de vérifier que le mot de passe contient au moins une majuscule. 
-
-		if (!passwordRes.test(password)) {
-			toast.error("Le mot de passe doit avoir au moins 8 caractères, une majuscule et un caractère spécial.");
-			return false;
-		} else {
-			setErrorMessages([]);
-			return true;
-		}
 	}
 
 	const submissionHandler = (evt) => {
@@ -91,7 +87,7 @@ function Signin (props) {
 		}
 
 		// si l'inscription de l'utilisateur est vrai
-		if(signinOK == true){
+		if(signinOK === true){
 			console.log("true"); 
 			// on doit envoyer les données au serveur
 			fetch('http://localhost:5000/register',{
@@ -114,11 +110,6 @@ function Signin (props) {
 		}
 		else
 			setErrorMessages(newerrorMessages);
-	}
-
-	const onClick = (evt)=>{
-		evt.preventDefault()
-		props.setPage(["login_page", undefined])
 	}
 	
 	return (

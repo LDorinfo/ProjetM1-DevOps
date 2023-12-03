@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -10,8 +10,7 @@ import './NavigationBar.css';
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
-  const [indiceCategorie, setIndiceCategorie]= useState(28); // par défaut ce sont les films d'actions
-  
+
 
   const handleClickMovies = (indice) => {
     // perme de faire la recherche pour les films dans les filtres sélectionnées. 
@@ -25,7 +24,6 @@ function NavigationBar(props) {
       .then((data)=>{
         console.log(data);
         props.setPage(["search_page", data])
-        setIndiceCategorie(28); 
       })
       .catch((error)=> console.log(error))
 }
@@ -40,8 +38,7 @@ const handleClickTV = (indice) => {
     .then((response)=> response.json())
     .then((data)=>{
       console.log(data);
-      props.setPage(["search_page", data])
-      setIndiceCategorie(28); 
+      props.setPage(["search_page", data]) 
     })
     .catch((error)=> console.log(error))
   }
