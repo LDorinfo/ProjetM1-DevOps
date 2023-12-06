@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from models import Comments, db, User, Watchlist
+from models import Comments, Like, db, User, Watchlist
 from config import ApplicationConfig
 import requests  # Importez le module requests
 from flask_migrate import Migrate
@@ -178,7 +178,9 @@ def get_comments():
     comments_list = []
     for comment in comments:
         user = User.query.filter_by(id=comment.user_id).first()
-
+        like = Like.query.filter_by(comment_id=comment.id).count()
+        print(like)
+        user_like = Like.query.filter_by(user_id=comment.user_id).count()
         if user is None: 
             return jsonify({"error" : "User not found"}), 404
 
@@ -186,9 +188,11 @@ def get_comments():
             "id": comment.id,
             "comment_text": comment.comment_text, 
             "note": comment.note, 
+            "like" : like,
             "user_id": comment.user_id, 
             "username": user.username,
-            "film_id": comment.film_id
+            "film_id": comment.film_id, 
+            "like_user": user_like
         })
 
     return jsonify({"status": "Found comments", "comments": comments_list})
@@ -215,9 +219,11 @@ def create_comments():
         "id": newcomments.id,
         "username": user.username,
         "comment_text": newcomments.comment_text,
+        "like": 0, 
         "note": newcomments.note,
         "user_id": newcomments.user_id,
-        "film_id": newcomments.film_id
+        "film_id": newcomments.film_id, 
+        "like_user": 0
     })
 @app.route('/api/comments/editing', methods=['POST'])
 def editing_comments():
@@ -243,7 +249,29 @@ def editing_comments():
     return jsonify({
         "status": "update comment"
     })
-    
+
+@app.route('/api/comment/like', methods=['POST'])
+def likes_comment():
+
+    user_id = session.get("user_id")
+    id_comment = request.json.get('id_comment')
+    if user_id is None: 
+        return jsonify({"status":"Not found Id in database User"}),404
+    if id_comment is None: 
+        return jsonify({"status":"Not found Id in database Comment"}),404 
+    nblikes = Like.query.filter_by(id=id_comment).count()
+    likes = Like.query.filter_by(user_id=user_id).first()
+    print(likes)
+    if likes is None : 
+        newlike = Like(comment_id =id_comment , user_id= user_id)
+        db.session.add(newlike)
+        db.session.commit()
+        print(nblikes)
+        return jsonify({"like": nblikes+1})
+    db.session.delete(likes)
+    db.session.commit()
+    return jsonify({"like":nblikes, "status": "suppression du like"})
+
 @app.route('/api/comments/delete', methods=['DELETE'])
 def delete_comments():
     id_comment = request.json.get('id_comment')

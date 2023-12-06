@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {isValidEmail, isValidMdp, isValidNumber} from "../connexion/Signin.js"; 
+import NavigationBar from "../NavigationBar.js";
 
 function ProfilePage(props){
     const [userData, setUserData]= useState(""); 
@@ -27,12 +28,12 @@ function ProfilePage(props){
     // modification des information de l'utilisateur. 
     const [isEditing, setIsEditing]= useState(false); 
 
-    const [username, setUsername] = useState("");
-	const [firstName, setFirstName] = useState("");
+    const [username, setUsername] = useState(userData.username);
+	const [firstName, setFirstName] = useState(userData.firstName);
 
-	const [lastName, setLastName] = useState("");
-	const [email, setEmail] = useState(""); 
-	const [phone_number, setPhone_number] = useState(""); 
+	const [lastName, setLastName] = useState(userData.lastName);
+	const [email, setEmail] = useState(userData.email); 
+	const [phone_number, setPhone_number] = useState(userData.phone_number); 
 	const [pass1, setPass1] = useState("");
 	const [pass2, setPass2] = useState("");
     
@@ -47,11 +48,11 @@ function ProfilePage(props){
     const handleUpdateProfile = (evt) => {
         evt.preventDefault(); // lorsque l'on clique sur le bouton valider. 
 
-		let newerrorMessages = []
         if(!isValidEmail(email) || !isValidNumber(phone_number) || !isValidMdp(pass1) || 
         (username.length === 0 || pass1.length === 0 || pass2.length === 0 || firstName.length === 0 || lastName.length === 0 || phone_number.length === 0 || email.length ===0) 
         || (pass1 !== pass2 )){
-            newerrorMessages.push("Erreur: il y a un problème dans l'un des champs");
+            console.log(email)
+            console.log("erreur");
         }else{
             fetch('http://localhost:5000/api/userinfo', {
                 method: 'GET',
@@ -71,7 +72,13 @@ function ProfilePage(props){
 
 
     return (
-
+        <div>
+            <NavigationBar setPage={props.setPage}></NavigationBar>
+		<main>
+			<aside>
+			<h1>Amis</h1>
+			</aside>
+			<section>
         <div>
             {!isEditing ? (
                 <div>
@@ -92,10 +99,13 @@ function ProfilePage(props){
 					<label htmlFor="signin_phone_number">Numéro de téléphone</label><input type="tel" id="signin_phoneNumber" placeholder="Numéro de téléphone" onChange={getPhone_number} className="signin_input"/>
 					<label htmlFor="signin_mdp1">Mot de passe</label><input type="password" id="signin_mdp1" placeholder="Mot de passe" onChange={getPass1} className="signin_input"/>
 					<label htmlFor="signin_mdp2">Confirmation du mot de passe</label><input type="password" id="signin_mdp2" placeholder="Confirmation du mot de passe" onChange={getPass2} className="signin_input"/>
-					<button onClick={handleUpdateProfile}>Valider</button><button type="reset">Réinitialiser</button>
+					<button onClick={handleUpdateProfile}>Valider</button><button type="reset" onClick={()=>setIsEditing(false)}>Annuler</button>
 				</form>
                 </div>
             ) }
+        </div>
+        </section>
+        </main>
         </div>
     ); 
 }
