@@ -3,7 +3,8 @@ import "./Message.css";
 import NoteStars from "./NoteStars";
 
 function Message(props){
-    const [like, setLike]= useState(0);
+    const [like, setLike]= useState(props.dataMessage.like||0);
+    const [isLiked, setIsLiked] = useState(props.dataMessage.like_user === 0);
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText]= useState("");
     const [noteUser, setNoteUser]= useState(props.dataMessage.note); 
@@ -12,10 +13,6 @@ function Message(props){
     //si je veux créer un bouton like pour un commentaire: 
     // il va falloir que je mette à jour les données du commentaire avec une requêtes fetch
     // il va falloir que j'ajoute un nombre dans la base de donnée = note. 
-    const  handleClick = (evt)=>{
-        evt.preventDefault();
-        setLike(like+1);
-    }
     // mettre un useEffect pour obtenir le nombre de like dès qu'on charge la page. 
     const handleClickSetMessage = (evt)=>{
         evt.preventDefault();
@@ -52,10 +49,28 @@ function Message(props){
         })
         .catch((error) => console.log(error));
     }
+
+    const handleClickLike =(evt)=>{
+        evt.preventDefault(); 
+        setIsLiked(!isLiked);
+        fetch(`http://localhost:5000/api/comment/like`,{
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({id_comment: props.dataMessage.id })
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data); 
+            setLike(data.like); 
+        })
+        .catch((error) => console.log(error));
+    }
     return (
         <li className="le_msg">
             <h2>{props.dataMessage.username}</h2>
             <p>{props.dataMessage.comment_text}</p>
+            {like}❤
 			{props.user_id === props.dataMessage.user_id ? 
 				<div>
                     {isEditing ? (
@@ -76,9 +91,15 @@ function Message(props){
 			:
             <div>
                 <NoteStars noteUser={noteUser} setNoteUser={setNoteUser} isClickable={false}/>
-                <button className="like-button" onClick={ handleClick }>
-                    Like
-                </button>
+                {isLiked? 
+                    <button className="like-button" onClick={ handleClickLike }>
+                     DisLike
+                    </button>
+                : 
+                    <button className="like-button" onClick={ handleClickLike }>
+                     Like
+                    </button>
+                }
                 
             </div>
             }
