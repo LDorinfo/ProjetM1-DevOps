@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
-Notre projet consiste en un site de critique de cinéma. Il permet de partager son avis. 
+///Notre projet consiste en un site de critique de cinéma. Il permet de partager son avis. 
 
 Pour utiliser React il faut installer le module react, je vous invite à regader sur ce site : https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
