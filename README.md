@@ -1,7 +1,7 @@
 "# ProjetM1-DevOps" 
 
-[![Version 0.2]([https://img.shields.io/badge/Version-1.0.0-brightgreen.svg])(https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.2)]
-[![Version 0.3](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)(https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.3)]
+[![Version 0.2](https://img.shields.io/badge/Version-0.2-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.2)
+[![Version 0.3](https://img.shields.io/badge/Version-0.3-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.3)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)]([LICENSE.md](https://github.com/LDorinfo/ProjetM1-DevOps/blob/main/LICENCE))
 
 Notre projet consiste en un site de critique de cinéma. Il permet de partager son avis. 
