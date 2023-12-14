@@ -17,8 +17,8 @@ function Message(props){
     const handleClickSetMessage = (evt)=>{
         evt.preventDefault();
         console.log(editedText);
-        fetch(`http://localhost:5000/api/comments/editing`,{
-            method: 'POST',
+        fetch(`http://localhost:5000/comments/editing`,{
+            method: 'PUT',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ comment_text : editedText, id_comment: props.dataMessage.id, noteUser : noteUser })
@@ -35,7 +35,7 @@ function Message(props){
 
     const handleClickDelete = (evt)=>{
         evt.preventDefault();
-        fetch(`http://localhost:5000/api/comments/delete`,{
+        fetch(`http://localhost:5000/comments/delete`,{
             method: 'DELETE',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -53,7 +53,7 @@ function Message(props){
     const handleClickLike =(evt)=>{
         evt.preventDefault(); 
         setIsLiked(!isLiked);
-        fetch(`http://localhost:5000/api/comment/like`,{
+        fetch(`http://localhost:5000/api/comments/like`,{
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

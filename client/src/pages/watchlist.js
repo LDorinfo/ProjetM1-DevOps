@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../NavigationBar";
 import './watchlist.css'
+import ImageFilm from "../search/ImageFilm";
 
 function Watchlist(props) {
   const [watchlist, setWatchlist] = useState([]);
 
   useEffect(() => {
     // Requête GET pour récupérer la Watchlist côté serveur
-    fetch('http://localhost:5000/get-watchlist', {
+    fetch('http://localhost:5000/watchlist/get-watchlist', {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -24,14 +25,13 @@ function Watchlist(props) {
       <header>
         <NavigationBar setPage={props.setPage}/>
       </header>
-        <div class="watchlist-content">
-          <div class="posterwatchlist">
+        <div className="watchlist-content">
+          <div className="posterwatchlist">
           <h2>Ma Watchlist</h2>
             {watchlist.map((item) => (
-                <img class='img'
-                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                alt={item.title}
-              />
+              <div key={item.film_id}>
+              <ImageFilm dataFilm={item} setPage={props.setPage}/>
+              </div>
             ))}
           </div>
       </div>

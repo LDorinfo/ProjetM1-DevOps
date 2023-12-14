@@ -15,7 +15,10 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     phone_number = db.Column(db.String(15))
-    isconnected = db.Column(db.Boolean, default=False)
+    likes = db.relationship('Likes', backref='user_likes' )
+    comments = db.relationship('Comments', backref='user_comments' )
+    watchlist = db.relationship('Watchlist', backref='user_watchlist' )
+#    evenements = db.relationship('Evenement', backref='user_evenements')
 
 class Comments(db.Model): 
     __tablename__="comments"
@@ -24,13 +27,16 @@ class Comments(db.Model):
     note = db.Column(db.Integer)  # note 
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     film_id = db.Column(db.String(32), nullable=False)
-    user = db.relationship('User', backref='comments')
-    likes = db.relationship('Like', backref='comments', lazy=True)
+    user = db.relationship('User', backref='comments_user' )
+    likes = db.relationship('Likes', backref='comments_likes' )
 
-class Like(db.Model):
+class Likes(db.Model):
+    __tablename__ = "likes"
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'), nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    comment_id = db.Column(db.String(32), db.ForeignKey('comments.id'), nullable=False)
+    user = db.relationship('User', backref='likes_user', )
+    comment = db.relationship('Comments', backref='likes_comments' )
 
 class Watchlist(db.Model):
     __tablename__ = "watchlist"
@@ -39,3 +45,14 @@ class Watchlist(db.Model):
     film_id = db.Column(db.String(32), nullable=False)
     title = db.Column(db.String(60))
     poster_path = db.Column(db.String(100))
+    user = db.relationship('User', backref='watchlist_user' )
+
+class Evenement(db.Model):
+    __tablename__ = "evenement"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+#    id_user = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    title = db.Column(db.String(32))
+    description = db.Column(db.String(64))
+    prix = db.Column(db.Integer)
+    image = db.Column(db.String(32))
+#    user = db.relationship('User', backref='evenement_user' )

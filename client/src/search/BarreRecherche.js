@@ -13,7 +13,7 @@ function BarreRecherche (props) {
 		let newerrorMessages = []
         //cette fonction fera la recherche, est ce qu'il faudrait utiliser query directement dans la requête: peut-être plus pour les filtres
         // Elle enverra une requête au serveur pour savoir. 
-		fetch(`http://localhost:5000/api/search-multi?query=${recherche}`,{
+		fetch(`http://localhost:5000/search/search-multi?query=${recherche}`,{
 			method:'GET', 
 			credentials: 'include',
 			headers: {"Content-Type": "application/json"},

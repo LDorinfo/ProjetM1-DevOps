@@ -1,0 +1,14 @@
+Nous utilisons une API REST ainsi les requêtes doivent respecter la structure suivante: 
+ - utilisation de la méthode fetch dans le front pour l'envoie des requêtes
+ - définition de la méthode utilisée dans le back et dans le front :  
+    - GET lorsque l'on veut obtenir la liste des entités 
+    - POST lorsque l'on veut créer une entité
+    - GET avec des attributs dans l'URL pour avoir les informations relatives à une entité
+    - PUT pour mettre à jour les données 
+    - DELETE pour supprimer une entité. 
+ - à chaque requête dans le front on inclu les cookies pour retenir les données de la session en cours. credentials: 'include',
+ - On reçoit les réponses en JSON et on envoi les informations au serveur en JSON. headers: { 'Content-Type': 'application/json' },
+ - Dans le back les routes commencent par un /. On suit la politique CORS. 
+ - Utilisation de majuscule à chaque composant. Les noms doivent être clairs. On commente le code lorsque c'est nécessaire. 
+ - Mise en place de diffèrent répertoire pour faciliter la comprehension du code.
+ - Il y a des avertissement ESLint avec React.  

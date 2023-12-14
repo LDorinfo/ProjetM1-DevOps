@@ -14,7 +14,7 @@ function PageFilm(props) {
   const [meanGrade, setMeanGrade]= useState(0); 
 
   const fetchComments = () => {
-    fetch(`http://localhost:5000/api/comments?idFilm=${props.dataFilm.id}`, {
+    fetch(`http://localhost:5000/comments/comments?idFilm=${props.dataFilm.id}`, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -66,7 +66,7 @@ function PageFilm(props) {
 
   const removeFromWatchlist = () => {
     fetch('http://localhost:5000/watchlist/remove', {
-      method: 'POST',
+      method: 'DELETE',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ film_id: props.dataFilm.id }),
@@ -112,7 +112,7 @@ function PageFilm(props) {
                 {isInWatchlist ? "Retirer de ma WatchList" : "Ajouter à ma WatchList"}
               </button>
             ) : (
-              <p class="msg">Connectez-vous pour l'ajouter à votre Watchlist !</p>
+              <p className="msg">Connectez-vous pour l'ajouter à votre Watchlist !</p>
             )}
           </div>
         </div>

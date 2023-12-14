@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import NavigationBar from '../NavigationBar';
 import ImageFilm from '../search/ImageFilm';
+import ListEvenement from '../evenements/ListEvenement';
+import SwaggerUIComponent from '../Swagger/SwaggerUIComponent';
 
 function HomePage(props) {
   const [popularMovies, setPopularMovies] = useState([]);
@@ -13,7 +15,7 @@ function HomePage(props) {
   useEffect(() => {
     const fetchPopularData = () => {
       // Fetch popular movies
-      fetch('http://localhost:5000/api/trending-movie', {
+      fetch('http://localhost:5000/search/trending-movie', {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -26,7 +28,7 @@ function HomePage(props) {
         .catch((error) => console.log(error));
 
       // Fetch popular TV shows
-      fetch('http://localhost:5000/api/trending-tv', {
+      fetch('http://localhost:5000/search/trending-tv', {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -113,9 +115,11 @@ function HomePage(props) {
             )}
           </div>
         </section>
+        <SwaggerUIComponent></SwaggerUIComponent>
       </div>
     </div>
   );
 }
+//<div><ListEvenement setPage={props.setPage}/></div>
 
 export default HomePage;

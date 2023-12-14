@@ -38,7 +38,7 @@ function Search(props){
           {props.datasearch.results.map((movie) => (
             // Vérifiez si le film a un poster_path avant de l'afficher
             movie.poster_path && (
-              <div key={movie.id} class="resultsearch">
+              <div key={movie.id} className="resultsearch">
                 <ImageFilm dataFilm={movie} setPage={props.setPage}/>
               </div>
             )
