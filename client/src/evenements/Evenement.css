@@ -1,0 +1,5 @@
+#imageEvenement{
+    width : "250"; 
+    height : "300";  
+    object-fit: cover; /* Assurez-vous que l'image couvre complètement la zone définie */
+}

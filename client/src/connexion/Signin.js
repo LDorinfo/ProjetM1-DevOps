@@ -90,7 +90,7 @@ function Signin (props) {
 		if(signinOK === true){
 			console.log("true"); 
 			// on doit envoyer les données au serveur
-			fetch('http://localhost:5000/register',{
+			fetch('http://localhost:5000/users/register',{
 				method:'POST', 
 				credentials: 'include',
 				headers: {"Content-Type": "application/json"},

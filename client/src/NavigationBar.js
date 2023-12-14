@@ -14,7 +14,7 @@ function NavigationBar(props) {
 
   const handleClickMovies = (indice) => {
     // perme de faire la recherche pour les films dans les filtres sélectionnées. 
-      fetch(`http://localhost:5000/api/filtre?query=${indice}`, {
+      fetch(`http://localhost:5000/search/filtre?query=${indice}`, {
           method: 'GET',
           headers: {"Content-Type": "application/json"}, 
           credentials: 'include'
@@ -29,7 +29,7 @@ function NavigationBar(props) {
 }
 const handleClickTV = (indice) => {
   // perme de faire la recherche pour les films dans les filtres sélectionnées. 
-    fetch(`http://localhost:5000/api/tv/filtre?query=${indice}`, {
+    fetch(`http://localhost:5000/search/tv/filtre?query=${indice}`, {
         method: 'GET',
         headers: {"Content-Type": "application/json"}, 
         credentials: 'include'

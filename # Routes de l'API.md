@@ -22,7 +22,7 @@
 
 ## Login
 **Nom du service Web:** Login
-**URL:** 	POST 	/login
+**URL:** 	PUT 	/login
 **Description :** 	Connexion de l'utilisateur. 
 **Paramètres d’entrée:** username, password
 **Exemples de sortie :** 
@@ -74,9 +74,9 @@
 
 ## SetUser
 **Nom du service Web:** SetUser
-**URL:** 	PATCH 	/modify
+**URL:** 	PUT	/modify
 **Description :** 	modification des information de l'utilisateur
-**Paramètres d’entrée:** user_id
+**Paramètres d’entrée:** username, password, lastName, firstName, email, phone_number
 **Exemples de sortie :** 
 {"error": "User not authenticated"}), 401
 {"error": "User not found"}), 404,
@@ -102,11 +102,121 @@
 }
 **Erreurs possibles:** l'utilisateur n'est pas connu de la base de données (401), L'utilisateur n'est pas authentifié (401), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
 **Avancement du service :** finalisé
-**Composant JS:** ConnectionPanel.js
+**Composant JS:** ConnectionPanel.js / n'existe plus remplacé par @me 
+
+## Logout 
+**Nom du service Web:** Logout
+**URL:** 	PUT	/users/logout
+**Description :** déconnecte l'utilisateur
+**Paramètres d’entrée:** user_id
+**Exemples de sortie :** 
+jsonify({"error": "User not authenticated"}), 401
+jsonify({"error": "User not found"}), 404
+jsonify({"message": "Logout successful"})
+**Erreurs possibles:** L'utilisateur n'est pas connecté (401), l'utilisateur n'existe pas (404), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** ConnectionPannel.js
+
+## DeleteComment
+**Nom du service Web:** DeleteComment
+**URL:** 	DELETE	/comments/delete
+**Description :** supprime un commentaire
+**Paramètres d’entrée:**
+**Exemples de sortie :** 
+return jsonify({"error":"Not found id"}), 404
+return jsonify({"error":"Not found comment"}), 404
+ jsonify({
+        "status": "delete comment",
+        "id": id_comment
+    })
+**Erreurs possibles:** Ne trouve aucun commentaire (404), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** Message.js 
+
+## Like_comment
+**Nom du service Web:** Like_comment
+**URL:** 	POST	/comments/like
+**Description :** ajoute un like au commentaire et si l'utilisateur a déjà mis un like le supprime. 
+**Paramètres d’entrée:**user_id, id_comment
+**Exemples de sortie :** 
+jsonify({"status":"Not found Id in database User"}),404
+jsonify({"status":"Not found Id in database Comment"}),404 
+jsonify({"like": nblikes+1})
+jsonify({"like":nblikes, "status": "suppression du like"})
+**Erreurs possibles:** Ne trouve aucun commentaire ou pas l'utilisateur (404), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** Message.js 
+
+## EditComment
+**Nom du service Web:** EditComment
+**URL:** 	PUT	/comments/edit
+**Description :** modification du commentaire 
+**Paramètres d’entrée:**comment_text, id_comment, noteUser
+**Exemples de sortie :** 
+jsonify({"error":"Not found text"}), 404
+jsonify({"error":"Not found id"}), 404
+jsonify({"error":"Not found note"}), 404
+jsonify({"error":"Not found comment"}), 404
+jsonify({
+        "status": "update comment"
+    })
+**Erreurs possibles:** Ne trouve pas l'un des paramètres ou le commentaire en question (404), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** Message.js 
+
+## CreateComment
+**Nom du service Web:** CreateComment
+**URL:** 	POST	/comments/create
+**Description :** création d'un commentaire
+**Paramètres d’entrée:**comments, note, idFilm, username
+**Exemples de sortie :** 
+jsonify({"error":"Comments without idFilm"}), 404
+return jsonify({"error" : "User unauthenticate, it's guest and he can not publish"}),403
+jsonify({"error" : "User not found"}), 404
+jsonify({
+        "id": newcomments.id,
+        "username": user.username,
+        "comment_text": newcomments.comment_text,
+        "note": newcomments.note,
+        "user_id": newcomments.user_id,
+        "film_id": newcomments.film_id, 
+        "like_user": 0
+    })
+**Erreurs possibles:** Ne trouve pas l'un des paramètres ou le commentaire en question (404), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** MessageForm.js 
+
+## GetComment
+**Nom du service Web:** GetComments
+**URL:** 	GET	/comments/comments
+**Description :** avoir tous les commentaires pour un certain film 
+**Paramètres d’entrée:** idFilm
+**Exemples de sortie :** 
+jsonify({"status":"Not found Id in database Comment"}), 404 
+jsonify({"error":"Aucun commentaire"}), 404 
+jsonify({"error" : "User not found"}), 404
+jsonify({"status": "Found comments", "comments": comments_list})
+**Erreurs possibles:** Ne trouve pas l'id du film ou de commentaire pour ce film ou ne trouve pas l'utilisateur pour tel commentaire (404), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** PageFilm.js
+
+## searchMulti
+**Nom du service Web:** searchMulti
+**URL:** 	GET	/search/search-multi
+**Description :** effectue une recherche dans l'API TMDB pour trouver le film par mot clé
+**Paramètres d’entrée:**query
+**Exemples de sortie :** 
+jsonify({"error": "Pas de résultats à la recherche"}), 401 
+search_results = response.json()
+        return search_results
+**Erreurs possibles:** Ne trouve aucun résultat (401), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finalisé
+**Composant JS:** BarreRecherche.js 
+
 
 ## TrendingMovies
 **Nom du service Web:** TrendingMovies
-**URL:** 	GET	/api/trending-movies
+**URL:** 	GET	/search/trending-movies
 **Description :** effectue une recherche dans l'API TMDB pour les films qui sont tendances. 
 **Paramètres d’entrée:** 
 **Exemples de sortie :** 
@@ -117,7 +227,7 @@ jsonify(search_results.get('results', [])),  []
 
 ## TrendingTV
 **Nom du service Web:** TrendingTV
-**URL:** 	GET	/api/trending-tv
+**URL:** 	GET	/search/trending-tv
 **Description :** effectue une recherche dans l'API TMDB pour les tendance à la télé. 
 **Paramètres d’entrée:**
 **Exemples de sortie :** 
@@ -126,201 +236,78 @@ jsonify(search_results.get('results', [])), 200,   []
 **Avancement du service :** finalisé
 **Composant JS:** HomePage.js 
 
-## DiscoverActionMovies
-**Nom du service Web:** DiscoverActionMovies
-**URL:** 	GET	/api/discover-action-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films d'action. 
-**Paramètres d’entrée:**
+## FiltreMovies
+**Nom du service Web:** FiltreMovies
+**URL:** 	GET	/search/filtre
+**Description :** effectue une recherche dans l'API TMDB pour les films d'un certain genre. 
+**Paramètres d’entrée:**query
 **Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
+search_results = response.json()
+        return search_results
+[]
 **Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
 **Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
+**Composant JS:** NavigationBar.js 
 
-## DiscoverAdventureMovies
-**Nom du service Web:** DiscoverAdventureMovies
-**URL:** 	GET	/api/discover-adventure-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films d'aventure. 
-**Paramètres d’entrée:**
+## SearchTV
+**Nom du service Web:** SearchTV
+**URL:** 	GET	/search/tv/filtre
+**Description :** effectue une recherche dans l'API TMDB pour les serie d'un certain genre. 
+**Paramètres d’entrée:**query
 **Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
+search_results = response.json()
+        return search_results
+[]
 **Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-
-## DiscoverAnimationMovies
-**Nom du service Web:** DiscoverAnimationMovies
-**URL:** 	GET	/api/discover-animation-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films d'animation. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverComedyMovies
-**Nom du service Web:** DiscoverComedyMovies
-**URL:** 	GET	/api/discover-comedy-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films comiques. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverCrimeMovies
-**Nom du service Web:** DiscoverCrimeMovies
-**URL:** 	GET	/api/discover-crime-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films policiers. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverDocumentaryMovies
-**Nom du service Web:** DiscoverDocumentaryMovies
-**URL:** 	GET	/api/discover-documentary-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films documentaire. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverDramaMovies
-**Nom du service Web:** DiscoverDramaMovies
-**URL:** 	GET	/api/discover-drama-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films dramatiques. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverFamilyMovies
-**Nom du service Web:** DiscoverFamilyMovies
-**URL:** 	GET	/api/discover-family-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films policiers. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverFantasyMovies
-**Nom du service Web:** DiscoverFantasyMovies
-**URL:** 	GET	/api/discover-fantasy-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films fantastiques. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverHistoryMovies
-**Nom du service Web:** DiscoverHistoryMovies
-**URL:** 	GET	/api/discover-history-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films historiques. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverHorrorMovies
-**Nom du service Web:** DiscoverHorrorMovies
-**URL:** 	GET	/api/discover-horror-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films d'horreur. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverMusicMovies
-**Nom du service Web:** DiscoverMusicMovies
-**URL:** 	GET	/api/discover-music-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films musicaux. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverMysteryMovies
-**Nom du service Web:** DiscoverMysteryMovies
-**URL:** 	GET	/api/discover-mystery-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films mystères. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverRomanceMovies
-**Nom du service Web:** DiscoverRomanceMovies
-**URL:** 	GET	/api/discover-romance-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films romantiques. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverSciencefictionMovies
-**Nom du service Web:** DiscoverScienceFictionMovies
-**URL:** 	GET	/api/discover-sciencefiction-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films de science-fiction. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverthrillerMovies
-**Nom du service Web:** DiscoverThrillerMovies
-**URL:** 	GET	/api/discover-thriller-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films à suspense. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
-
-## DiscoverWarMovies
-**Nom du service Web:** DiscoverWarMovies
-**URL:** 	GET	/api/discover-war-movies
-**Description :** effectue une recherche dans l'API TMDB pour les films sur la guerre. 
-**Paramètres d’entrée:**
-**Exemples de sortie :** 
-jsonify(search_results.get('results', [])), 200,   []
-**Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
-**Avancement du service :** finalisé
-**Composant JS:** HomePage.js 
+**Avancement du service :** In progress
+**Composant JS:** NavigationBar.js 
 
 ## DiscoverWesternMovies
 **Nom du service Web:** DiscoverWesternMovies
-**URL:** 	GET	/api/discover-western-movies
+**URL:** 	GET	/search/discover-western-movies
 **Description :** effectue une recherche dans l'API TMDB pour les films policiers. 
 **Paramètres d’entrée:**
 **Exemples de sortie :** 
 jsonify(search_results.get('results', [])), 200,   []
 **Erreurs possibles:** Ne trouve aucun résultat (retourne un tableau vide), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
 **Avancement du service :** finalisé
+**Composant JS:** HomePage.js 
+
+## SetEvent
+**Nom du service Web:** SetEvent
+**URL:** 	PUT	/event/change
+**Description :** modifier un événement
+**Paramètres d’entrée:** user_id, title, description, prix, image, idEvent
+**Exemples de sortie :** 
+jsonify({"error": "User not authenticated"}), 401
+jsonify({"evenement": event})
+**Erreurs possibles:** l'utilisateur n'est pas connecté (401), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** En cours
+**Composant JS:** EvenementPage.js 
+
+## CreateEvent
+**Nom du service Web:** CreateEvent
+**URL:** 	POST	/event/create
+**Description :** créer un événement
+**Paramètres d’entrée:** user_id, title, description, prix, image
+**Exemples de sortie :** 
+jsonify({"error": "Paramatre problem user"}), 401
+jsonify({"error": "Paramatre problem"}), 401
+jsonify({"evenement": event})
+**Erreurs possibles:** l'utilisateur n'est pas connecté ou l'un des paramètres est invalide (401), le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** finish 
+**Composant JS:** ProfilPage.js 
+
+## GetEvents
+**Nom du service Web:** GetEvents
+**URL:** 	GET	/event/events
+**Description :** retourne tous les événements
+**Paramètres d’entrée:** 
+**Exemples de sortie :** 
+jsonify({
+            "error": "No events"
+        }), 404
+jsonify({"events": events})
+**Erreurs possibles:** Il n'y a pas d'évenement (404) le serveur de bdd ne répond pas (le serveur va interroger la base de données, le serveur est incapable de mener à bien l’opération) ou erreur interne (500).
+**Avancement du service :** En cours
 **Composant JS:** HomePage.js 

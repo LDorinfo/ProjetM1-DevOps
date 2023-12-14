@@ -33,8 +33,8 @@ function MessageForm(props){
     const handleClickSend = (evt)=>{ 
         evt.preventDefault();
         if(isValidForm()){
-            fetch(`http://localhost:5000/api/comments/create`,{
-                method: 'PUT',
+            fetch(`http://localhost:5000/comments/create`,{
+                method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: props.username, idFilm: props.idFilm.id, note : noteUser, comments : text_comments  })
@@ -52,7 +52,7 @@ function MessageForm(props){
 
     return (
         <form className="formMessage">
-            <div class="labelandarea">
+            <div className="labelandarea">
 			<label htmlFor="new_message_text">Nouveau commentaire</label>
 			<textarea id="new_message_text" placeholder="Nouveau commentaire..." value={text_comments} onChange={getTextComments}></textarea>
             </div>

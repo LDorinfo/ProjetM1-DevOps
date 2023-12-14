@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Evenement from "./Evenement";
 
 function ListEvenement(props){
-    const [evenements, setEvenements]=useState(); 
+    const [evenements, setEvenements]=useState([]); 
     // utilise une requête fetch pour obtenir tous les événements et 
     //les affiches graces au composant Evenement. 
     useEffect(()=>{
         const fetchEvenement = ()=>{
-            fetch('http://localhost:5000/api/evenements', {
+            fetch('http://localhost:5000/event/events', {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -26,7 +26,7 @@ function ListEvenement(props){
     return(
         <div>
         {evenements.map((evenement) => (
-            <Evenement key={evenement.id} evenement={evenement} />
+            <Evenement setPage={props.setPage} dataevenement={evenement} />
         ))}
         </div>
     ); 

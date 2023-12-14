@@ -49,8 +49,8 @@ function ConnectionPanel(props) {
     const handleClickLogout = (evt) => {
       evt.preventDefault();
     
-      fetch("http://localhost:5000/logout", {
-        method: 'POST',
+      fetch("http://localhost:5000/users/logout", {
+        method: 'PUT',
         credentials: 'include',
       })
       .then((response) => response.json())

@@ -6,3 +6,5 @@ Flask-Session
 redis
 flask-cors
 flask-Migrate
+Flask-RESTful
+flask-restx

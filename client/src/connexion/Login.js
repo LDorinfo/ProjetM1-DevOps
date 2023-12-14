@@ -24,8 +24,8 @@ function Login(props) {
     evt.preventDefault();
     let newerrorMessages = [];
 
-    fetch('http://localhost:5000/login', {
-      method: 'POST',
+    fetch('http://localhost:5000/users/login', {
+      method: 'PUT',
       credentials: 'include',
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ username: login, password })

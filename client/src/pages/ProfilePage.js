@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import {isValidEmail, isValidMdp, isValidNumber} from "../connexion/Signin.js"; 
 import NavigationBar from "../NavigationBar.js";
+import EvenementForm from "../evenements/EvenementForm.js";
 
 function ProfilePage(props){
     const [userData, setUserData]= useState(""); 
     useEffect(()=>{
         const fetchUserData = () => {
             // Fetch popular movies
-        fetch('http://localhost:5000/api/userinfo', {
+        fetch('http://localhost:5000/users/userinfo', {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
@@ -54,8 +55,8 @@ function ProfilePage(props){
             console.log(email)
             console.log("erreur");
         }else{
-            fetch('http://localhost:5000/api/userinfo', {
-                method: 'GET',
+            fetch('http://localhost:5000/users/modify', {
+                method: 'PUT',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: username, password : pass1, email: email, first_name: firstName, last_name: lastName, phone_number: phone_number})
@@ -105,6 +106,7 @@ function ProfilePage(props){
             ) }
         </div>
         </section>
+        <EvenementForm ></EvenementForm>
         </main>
         </div>
     ); 
