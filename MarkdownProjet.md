@@ -33,8 +33,7 @@ Le projet que nous entreprenons émane de notre profonde passion pour le monde c
 |**Avantage Cineverse**|Intégration d'un chatbot intelligent pour des recommandations personnalisées|Accent sur la qualité artistique, analyses approfondies|Système de recommandation innovant avec chatbot|
 
 **Personas: Amateur de film**
-
-![](Aspose.Words.06b26c8a-81c5-42ee-8fb6-ea5ec4ee559f.001.jpeg)
+![images](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/a4c2858c-3d97-43dd-bb30-4bdb8b701e6e)
 
 **CONTEXTE**
 
@@ -81,7 +80,7 @@ réunion pour aller au cinéma voir ce film, penser à une option pour la suppre
 
 **Personas: Une association**
 
-![](Aspose.Words.06b26c8a-81c5-42ee-8fb6-ea5ec4ee559f.002.jpeg)
+![Aspose Words 06b26c8a-81c5-42ee-8fb6-ea5ec4ee559f 002](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/2b56218b-625c-4524-958e-ba4c4456d4b7)
 
 **CONTEXTE**
 
