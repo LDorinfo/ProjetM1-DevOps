@@ -53,7 +53,7 @@ function Message(props){
     const handleClickLike =(evt)=>{
         evt.preventDefault(); 
         setIsLiked(!isLiked);
-        fetch(`http://localhost:5000/api/comments/like`,{
+        fetch(`http://localhost:5000/comments/like`,{
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
