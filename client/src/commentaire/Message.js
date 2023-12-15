@@ -4,7 +4,7 @@ import NoteStars from "./NoteStars";
 
 function Message(props){
     const [like, setLike]= useState(props.dataMessage.like||0);
-    const [isLiked, setIsLiked] = useState(props.dataMessage.like_user === 0);
+    const [isLiked, setIsLiked] = useState(props.dataMessage.like_user !== 0);
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText]= useState("");
     const [noteUser, setNoteUser]= useState(props.dataMessage.note); 
