@@ -9,3 +9,4 @@ flask-Migrate
 Flask-RESTful
 flask-restx
 coverage
+requests
