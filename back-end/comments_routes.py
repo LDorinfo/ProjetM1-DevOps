@@ -9,6 +9,7 @@ bcrypt = Bcrypt()
 
 @comments_blueprint.route('/comments', methods=['GET'])
 def get_comments():
+    user_id = session.get("user_id")
     idFilm = request.args.get('idFilm')
     if idFilm is None: 
         return jsonify({"status":"Not found Id in database Comment"}), 404 
@@ -21,7 +22,7 @@ def get_comments():
         user = User.query.filter_by(id=comment.user_id).first()
         like = Likes.query.filter_by(comment_id=comment.id).count()
         print(like)
-        user_like = Likes.query.filter_by(user_id=comment.user_id).count()
+        user_like = Likes.query.filter_by(user_id=user_id).count()
         if user is None: 
             return jsonify({"error" : "User not found"}), 404
 
