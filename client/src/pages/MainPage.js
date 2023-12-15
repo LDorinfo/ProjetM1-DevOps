@@ -5,7 +5,7 @@ import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
 import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
-import Watchlist from './Watchlist.js';
+import Watchlist from './watchlist.js';
 
 function MainPage(props){
     const [page, setPage]= useState(["home_page", undefined]); 
