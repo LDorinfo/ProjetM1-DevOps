@@ -78,6 +78,34 @@ function PageFilm(props) {
       .catch((error) => console.log(error));
   };
 
+  const fetchMediaVideos = () => {
+    fetch('http://localhost:5000/get-trailer', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: props.dataFilm.id,
+        media_type: props.dataFilm.media_type,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      const videos = data.videos;
+  
+      // Si des vidéos sont disponibles, ouvrez le lien de la première vidéo 
+      if (videos && videos.length > 0) {
+        const videoKey = videos[0].key;
+        window.open(`https://www.youtube.com/watch?v=${videoKey}`, '_blank');
+      } else {
+        // Aucune vidéo disponible
+        console.log("Aucune vidéo disponible");
+      }
+    })
+    .catch((error) => console.log(error));
+  };     
+
   useEffect(() => {
     fetchComments();
   }, [props.dataFilm, setComments, setIsInWatchlist]);
@@ -101,7 +129,8 @@ function PageFilm(props) {
             <h1 className="titreMessage">
               {props.dataFilm.title ? props.dataFilm.title : props.dataFilm.name}
             </h1>
-            <p>Sortie le : {props.dataFilm.release_date}</p>
+            <p>Sortie le : {props.dataFilm.release_date}    <a className="bandeannonce" onClick={fetchMediaVideos}>Bande annonce</a></p>
+
             <p>{props.dataFilm.overview}</p>
             <div className="mean-grade">
               <NoteStars noteUser={meanGrade} isClickable={false}/>

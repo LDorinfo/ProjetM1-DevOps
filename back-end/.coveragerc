@@ -1,0 +1,4 @@
+[run]
+include =
+    app.py
+    test_app.py
