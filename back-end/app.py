@@ -212,6 +212,35 @@ def get_watchlist():
 
     return jsonify({"watchlist": watchlist_data})
 
+@app.route("/get-trailer", methods=["POST"])
+def get_trailer():
+    data = request.json
+
+    media_id = data.get("id")
+    media_type = data.get("media_type")
+
+    if not media_id or not media_type:
+        return jsonify({"error": "Paramètres manquants"}), 400
+
+    # Construisez l'URL de l'API TMDb en fonction du type de média
+    tmdb_url = f"https://api.themoviedb.org/3/{media_type}/{media_id}/videos"
+
+    # Ajoutez la clé API à la requête
+    params = {"api_key": tmdb_api_key, 'language':'fr-FR'}
+
+    # Effectuez la requête vers l'API TMDb
+    response = requests.get(tmdb_url, params=params)
+
+    if response.status_code != 200:
+        return jsonify({"error": "Erreur lors de la requête vers l'API TMDb"}), response.status_code
+
+    data = response.json()
+
+    # Récupérez les résultats de la requête
+    videos = data.get("results", [])
+
+    return jsonify({"videos": videos})
+
 
 @app.route("/home")
 def home():
