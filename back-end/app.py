@@ -14,9 +14,11 @@ from evenement_routes import event_blueprint
 from watchlist_routes import watchlist_blueprint
 from flasgger import Swagger
 
+
+
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
-migrate = Migrate(app, db, render_as_batch=True)
+migrate= Migrate(app,db,render_as_batch=True)
 
 # Accédez à la clé d'API TMDb depuis la configuration
 tmdb_api_key = app.config["TMDB_API_KEY"]
@@ -26,27 +28,28 @@ BASE_URL = 'https://api.themoviedb.org/3'
 
 bcrypt = Bcrypt(app)
 cors = CORS(app, supports_credentials=True)
-# => prise en charge des cookies dans les requêtes 
+#=> prise en charge des cookies dans les requêtes 
 server_session = Session(app)
 db.init_app(app)
 app.register_blueprint(users_blueprint, url_prefix='/users')
 app.register_blueprint(comments_blueprint, url_prefix='/comments')
 app.register_blueprint(event_blueprint, url_prefix='/event')
 app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
-# app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
-# pas possible car ces routes ont besoin de tmdb_api_key
+#app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
+#pas possible car ces routes on besoin de tmdb_api_key
 
 # documentation API Swagger
 swagger = Swagger(app)
-import os
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_DEBUG'] = True
 app.config['MAIL_USERNAME'] = 'cineverse.noreply@gmail.com'
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = {'flask email', 'cineverse.noreply@gmail.com'}
+app.config['MAIL_PASSWORD'] = 'ROUjeElaR0se'
+app.config['MAIL_DEFAULT_SENDER'] = {'flask email','cineverse.noreply@gmail.com'}
+
 
 mail = Mail(app)
 
@@ -77,8 +80,8 @@ def get_current_user():
         description: Non autorisé, l'utilisateur n'est pas authentifié.
     """
     user_id = session.get("user_id")
-    # stocke la clé dans la session flask
-    # session.get permet de récupérer la clé user_id dans la session flask.
+    #stocke la clé dans la session flask
+    # session.get permet de récupère la clé user_id dans la session flask.
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -86,9 +89,8 @@ def get_current_user():
     return jsonify({
         "id": user.id,
         "email": user.email
-    })
-
-
+    }) 
+#@search_blueprint.route('search/search-multi', methods=['GET'])
 @app.route('/search/search-multi', methods=['GET'])
 def search_multi():
     """
@@ -103,7 +105,7 @@ def search_multi():
     responses:
       200:
         description: Les résultats de la recherche.
-      401:
+      401: 
         error: Pas de résultats à la recherche
     """
     keyword = request.args.get('query')
@@ -114,13 +116,14 @@ def search_multi():
         search_results = response.json()
         return search_results
     else:
-        return jsonify({"error": "Pas de résultats à la recherche"}), 401
-
-
+        return jsonify({"error": "Pas de résultats à la recherche"}), 401 
+    
+#@search_blueprint.route('search/api/trending-movie', methods=['GET'])
 @app.route('/search/trending-movie', methods=['GET'])
 def trending_movies():
     """
     Récupère les films populaires du jour.
+
     ---
     tags:
       - Recherche
@@ -154,12 +157,13 @@ def trending_movies():
     else:
         print("On retourne rien")
         return []
-
-
+    
+#@search_blueprint.route('search/api/trending-tv', methods=['GET'])
 @app.route('/search/trending-tv', methods=['GET'])
 def trending_tv():
     """
     Récupère les émissions de télévision populaires de la semaine.
+
     ---
     tags:
       - Recherche
@@ -193,11 +197,12 @@ def trending_tv():
     else:
         return []
 
-
+#@search_blueprint.route('search/filtre', methods=['GET'])
 @app.route('/search/filtre', methods=['GET'])
 def filtre_movies():
     """
     Récupère les films en fonction d'un genre spécifié.
+
     ---
     tags:
       - Recherche
@@ -246,7 +251,7 @@ def filtre_movies():
     # 878 pour les films de science fiction.
     # 53 pour les films à suspense. 
     # 10752 pour les films de guerre
-    params = {'api_key': tmdb_api_key, 'with_genres': keyword}
+    params = {'api_key': tmdb_api_key, 'with_genres':keyword}
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
@@ -254,12 +259,13 @@ def filtre_movies():
         return search_results
     else:
         return []
-
-
+    
+#@search_blueprint.route('search/tv/filtre', methods=['GET'])
 @app.route('/search/tv/filtre', methods=['GET'])
 def search_tv():
     """
     Récupère les émissions de télévision en fonction d'un genre spécifié.
+
     ---
     tags:
       - Recherche
@@ -292,20 +298,20 @@ def search_tv():
     keyword = request.args.get('query')
     url = f'{BASE_URL}/discover/tv'
 
-    params = {'api_key': tmdb_api_key, 'with_genres': keyword}
+    params = {'api_key': tmdb_api_key, 'with_genres':keyword}
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
         search_results = response.json()
         return search_results
     else:
-        return []
-
-
+        return [] 
+#@search_blueprint.route('search/discover-western-movies', methods=['GET'])
 @app.route('/search/discover-western-movies', methods=['GET'])
 def western_movies():
     """
     Récupère les films du genre Western.
+
     ---
     tags:
       - Recherche
@@ -330,7 +336,7 @@ def western_movies():
         description: Non autorisé, l'accès à la ressource est refusé.
     """
     url = f'{BASE_URL}/discover/movie'
-    params = {'api_key': tmdb_api_key, 'with_genres': 37, 'language': 'fr-FR'}
+    params = {'api_key': tmdb_api_key, 'with_genres':37, 'language':'fr-FR'}
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
@@ -338,12 +344,11 @@ def western_movies():
         return jsonify(search_results.get('results', []))
     else:
         return []
-
-
 @app.route("/get-trailer", methods=["POST"])
 def get_trailer():
     """
     Récupère les bandes-annonces d'un film ou d'une émission de télévision.
+
     ---
     tags:
       - Bande-annonce
@@ -380,7 +385,7 @@ def get_trailer():
     tmdb_url = f"https://api.themoviedb.org/3/{media_type}/{media_id}/videos"
 
     # Ajoutez la clé API à la requête
-    params = {"api_key": tmdb_api_key, 'language': 'fr-FR'}
+    params = {"api_key": tmdb_api_key, 'language':'fr-FR'}
 
     # Effectuez la requête vers l'API TMDb
     response = requests.get(tmdb_url, params=params)
@@ -395,11 +400,11 @@ def get_trailer():
 
     return jsonify({"videos": videos})
 
-
 @app.route('/forgot-password', methods=['POST'])
 def forgot_password():
     """
     Envoie un e-mail pour réinitialiser le mot de passe.
+
     ---
     tags:
       - Authentification
@@ -425,11 +430,11 @@ def forgot_password():
     mail.send(msg)
     return "Message envoyé"
 
-
 @app.route("/home")
 def home():
     return "Hello"
 
-
 if __name__ == "__main__":
+    
+
     app.run(debug=True)
