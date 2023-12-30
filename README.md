@@ -50,3 +50,13 @@ Si besoin installer react-icon/fa :
 Pour désactiver l'environnement virtuel il faut : 
   Sous Windows taper : \\\ .\mon_env\Scripts\deactivate \\\
   Sous Linux/macOS : \\\ source mon_env/bin/deactivate \\\
+
+
+## API Swagger 
+Nous avons une api swagger dans le back avec le framework flasgger. Pour la lancer il faut langer le back, le serveur : python3 app.py
+
+Ensuite il faut ouvrir la page http://localhost:5000/apidocs/ dans le navigateur web. 
+
+## Analyse de code / qualité de code
+
+Pour l'analyse de code nous utilisons codacy. 

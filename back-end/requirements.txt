@@ -7,6 +7,7 @@ redis
 flask-cors
 flask-Migrate
 Flask-RESTful
-flask-restx
 coverage
 requests
+flask-mail
+flasgger

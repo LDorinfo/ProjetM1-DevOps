@@ -2,23 +2,24 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from outil import generate_unique_token
 from models import db, User
 from flask_mail import Message, Mail
 from config import ApplicationConfig
 import requests  # Importez le module requests
 from flask_migrate import Migrate
-from flask_restx import Api, Swagger
 from users_routes import users_blueprint
 from comments_routes import comments_blueprint
 #from search_routes import search_blueprint
 from evenement_routes import event_blueprint
 from watchlist_routes import watchlist_blueprint
+from flasgger import Swagger
+
+
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 migrate= Migrate(app,db,render_as_batch=True)
-swagger = Swagger(app)
+
 # Accédez à la clé d'API TMDb depuis la configuration
 tmdb_api_key = app.config["TMDB_API_KEY"]
 
@@ -36,7 +37,9 @@ app.register_blueprint(event_blueprint, url_prefix='/event')
 app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
 #app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
 #pas possible car ces routes on besoin de tmdb_api_key
-api = Api(app, version='0.3', title='ProjetM1-DevOps API', description='API Documentation')
+
+# documentation API Swagger
+swagger = Swagger(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -55,6 +58,27 @@ with app.app_context():
 
 @app.route("/@me")
 def get_current_user():
+    """
+    Récupère les détails de l'utilisateur actuellement authentifié.
+
+    ---
+    tags:
+      - Utilisateur
+    responses:
+      200:
+        description: Données de l'utilisateur récupérées avec succès.
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Identifiant de l'utilisateur.
+            email:
+              type: string
+              description: Adresse e-mail de l'utilisateur.
+      401:
+        description: Non autorisé, l'utilisateur n'est pas authentifié.
+    """
     user_id = session.get("user_id")
     #stocke la clé dans la session flask
     # session.get permet de récupère la clé user_id dans la session flask. 
@@ -69,6 +93,21 @@ def get_current_user():
 #@search_blueprint.route('search/search-multi', methods=['GET'])
 @app.route('/search/search-multi', methods=['GET'])
 def search_multi():
+    """
+    Recherche multi-critères.
+    ---
+    parameters:
+      - name: query
+        in: query
+        type: string
+        required: true
+        description: Le terme de recherche.
+    responses:
+      200:
+        description: Les résultats de la recherche.
+      401: 
+        error: Pas de résultats à la recherche
+    """
     keyword = request.args.get('query')
     url = f'{BASE_URL}/search/multi'
     params = {'api_key': tmdb_api_key, 'query': keyword}
@@ -82,6 +121,32 @@ def search_multi():
 #@search_blueprint.route('search/api/trending-movie', methods=['GET'])
 @app.route('/search/trending-movie', methods=['GET'])
 def trending_movies():
+    """
+    Récupère les films populaires du jour.
+
+    ---
+    tags:
+      - Recherche
+    responses:
+      200:
+        description: Liste des films populaires du jour.
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Titre du film.
+              release_date:
+                type: string
+                description: Date de sortie du film.
+              poster_path:
+                type: string
+                description: Chemin vers l'affiche du film.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
+    """
     url = f'{BASE_URL}/trending/movie/day?language=fr-FR'
     params = {'api_key': tmdb_api_key}
     response = requests.get(url, params=params)
@@ -96,6 +161,32 @@ def trending_movies():
 #@search_blueprint.route('search/api/trending-tv', methods=['GET'])
 @app.route('/search/trending-tv', methods=['GET'])
 def trending_tv():
+    """
+    Récupère les émissions de télévision populaires de la semaine.
+
+    ---
+    tags:
+      - Recherche
+    responses:
+      200:
+        description: Liste des émissions populaires de la semaine.
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Nom de l'émission de télévision.
+              first_air_date:
+                type: string
+                description: Date de première diffusion de l'émission.
+              poster_path:
+                type: string
+                description: Chemin vers l'affiche de l'émission.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
+    """
     url = f'{BASE_URL}/trending/tv/week?language=fr-FR'
     params = {'api_key': tmdb_api_key}
     response = requests.get(url, params=params)
@@ -109,6 +200,38 @@ def trending_tv():
 #@search_blueprint.route('search/filtre', methods=['GET'])
 @app.route('/search/filtre', methods=['GET'])
 def filtre_movies():
+    """
+    Récupère les films en fonction d'un genre spécifié.
+
+    ---
+    tags:
+      - Recherche
+    parameters:
+      - name: query
+        in: query
+        type: integer
+        required: true
+        description: ID du genre de film.
+    responses:
+      200:
+        description: Liste des films du genre spécifié.
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Titre du film.
+              release_date:
+                type: string
+                description: Date de sortie du film.
+              poster_path:
+                type: string
+                description: Chemin vers l'affiche du film.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
+    """
     keyword = request.args.get('query')
     url = f'{BASE_URL}/discover/movie'
     # 28 pour les films d'action
@@ -140,6 +263,38 @@ def filtre_movies():
 #@search_blueprint.route('search/tv/filtre', methods=['GET'])
 @app.route('/search/tv/filtre', methods=['GET'])
 def search_tv():
+    """
+    Récupère les émissions de télévision en fonction d'un genre spécifié.
+
+    ---
+    tags:
+      - Recherche
+    parameters:
+      - name: query
+        in: query
+        type: integer
+        required: true
+        description: ID du genre de l'émission de télévision.
+    responses:
+      200:
+        description: Liste des émissions de télévision du genre spécifié.
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Nom de l'émission de télévision.
+              first_air_date:
+                type: string
+                description: Date de première diffusion de l'émission.
+              poster_path:
+                type: string
+                description: Chemin vers l'affiche de l'émission.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
+    """
     keyword = request.args.get('query')
     url = f'{BASE_URL}/discover/tv'
 
@@ -154,6 +309,32 @@ def search_tv():
 #@search_blueprint.route('search/discover-western-movies', methods=['GET'])
 @app.route('/search/discover-western-movies', methods=['GET'])
 def western_movies():
+    """
+    Récupère les films du genre Western.
+
+    ---
+    tags:
+      - Recherche
+    responses:
+      200:
+        description: Liste des films du genre Western.
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                description: Titre du film.
+              release_date:
+                type: string
+                description: Date de sortie du film.
+              poster_path:
+                type: string
+                description: Chemin vers l'affiche du film.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
+    """
     url = f'{BASE_URL}/discover/movie'
     params = {'api_key': tmdb_api_key, 'with_genres':37, 'language':'fr-FR'}
     response = requests.get(url, params=params)
@@ -163,71 +344,35 @@ def western_movies():
         return jsonify(search_results.get('results', []))
     else:
         return []
-    
-@app.route("/watchlist/add", methods=["POST"])
-def add_to_watchlist():
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "User not authenticated"}), 401
-
-    data = request.json
-    film_id = data.get("film_id")
-    title = data.get("title")  # Ajoutez cette ligne
-    poster_path = data.get("poster_path")
-
-    # Vérifie si le film est déjà dans la Watchlist de l'utilisateur
-    existing_watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
-    if existing_watchlist_item:
-        return jsonify({"message": "Film already in Watchlist"})
-
-    # Ajoutez le film à la Watchlist dans la base de données
-    watchlist_item = Watchlist(user_id=user_id, film_id=film_id, title=title, poster_path=poster_path)
-    db.session.add(watchlist_item)
-    db.session.commit()
-
-    return jsonify({"message": "Film added to Watchlist"})
-
-from models import Watchlist
-
-@app.route("/watchlist/remove", methods=["POST"])
-def remove_from_watchlist():
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "User not authenticated"}), 401
-
-    film_id = request.json.get("film_id")
-
-    # Recherche et suppression de l'entrée correspondante dans la Watchlist
-    watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
-    if not watchlist_item:
-        return jsonify({"error": "Film not found in Watchlist"})
-
-    db.session.delete(watchlist_item)
-    db.session.commit()
-
-    return jsonify({"message": "Film removed from Watchlist"})
-
-@app.route("/get-watchlist", methods=["GET"])
-def get_watchlist():
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "User not authenticated"}), 401
-
-    watchlist = Watchlist.query.filter_by(user_id=user_id).all()
-
-    watchlist_data = []
-    for item in watchlist:
-        watchlist_data.append({
-            "film_id": item.film_id,
-            "title": item.title,
-            "poster_path": item.poster_path,
-            # Ajoutez d'autres champs au besoin
-        })
-
-    return jsonify({"watchlist": watchlist_data})
-
 @app.route("/get-trailer", methods=["POST"])
 def get_trailer():
+    """
+    Récupère les bandes-annonces d'un film ou d'une émission de télévision.
+
+    ---
+    tags:
+      - Bande-annonce
+    parameters:
+      - in: body
+        name: Trailer Request
+        description: Informations sur le média pour lequel récupérer les bandes-annonces.
+        required: true
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: ID du film ou de l'émission de télévision.
+            media_type:
+              type: string
+              enum: ['movie', 'tv']
+              description: Type de média ('movie' pour film, 'tv' pour émission de télévision).
+    responses:
+      200:
+        description: Liste des bandes-annonces du média spécifié.
+      400:
+        description: Paramètres manquants dans la requête.
+    """
     data = request.json
 
     media_id = data.get("id")
@@ -257,6 +402,27 @@ def get_trailer():
 
 @app.route('/forgot-password', methods=['POST'])
 def forgot_password():
+    """
+    Envoie un e-mail pour réinitialiser le mot de passe.
+
+    ---
+    tags:
+      - Authentification
+    parameters:
+      - in: body
+        name: Forgot Password Request
+        description: Adresse e-mail pour la réinitialisation du mot de passe.
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              description: Adresse e-mail de l'utilisateur.
+    responses:
+      200:
+        description: Message indiquant que l'e-mail de réinitialisation a été envoyé.
+    """
     email = request.json.get('email')
 
     msg = Message('Réinitialisation du mot de passe', recipients=[email])
