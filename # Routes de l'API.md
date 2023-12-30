@@ -1,7 +1,6 @@
-# Routes de l'API.md
+# Routes de l'API
 
-1# Routes de l'API entre le serveurs et le Client
-## Signin 
+## Signin
 **Nom du service Web:** Signin
 **URL:** 	POST 	/register
 **Description :** 	Créer un utilisateur
