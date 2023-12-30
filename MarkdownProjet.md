@@ -1,8 +1,8 @@
-#Cinéverse
+#Cinéverse  
 ## Equipe 
-- Lea Dornat
-- Mouna Lisa Saadi
-- Vanessa Martin
+- Lea Dornat  
+- Mouna Lisa Saadi  
+- Vanessa Martin  
 
 Cinéverse est un projet qui vise à transformer l'expérience cinématographique en combinant la passion pour le cinéma avec les dernières avancées technologiques. Ce projet consiste en la création d'un site web dédié à la critique de films, enrichi d'un système de recommandation basé sur un chatbot intelligent.
 
@@ -11,9 +11,9 @@ Il s'adresse à une audience diversifiée, allant des cinéphiles passionnés au
 ##Motivation 
 Le projet que nous entreprenons émane de notre profonde passion pour le monde cinématographique et de la conviction que l'expérience de choisir un film peut être grandement améliorée par l'innovation technologique.
 
-- La profusion de choix de films disponible aujourd'hui crée un défi pour les amateurs de cinéma lorsqu'il s'agit de trouver des films qui correspondent à leurs goûts personnels. Cinéverse vise à résoudre ce problème en utilisant un chatbot intelligent pour simplifier le processus de recommandation, prenant en compte les préférences individuelles de l'utilisateur.
-- Cinéverse s'efforce de personnaliser l'expérience de chaque utilisateur comprenant ses préférences uniques, en s'adaptant à ses humeurs changeante en suggérant des films qui correspondent à sa palette cinématographique spécifique.
-- Au-delà de la recommandation de films, nous aspirons à créer une communauté cinéphile dynamique. Cinéverse offre un espace intéractif où les utilisateurs peuvent partager leurs critiques, recommandations et expériences, favorisant ainsi une discussion active et une paticipation communautaire.
+- La profusion de choix de films disponible aujourd'hui crée un défi pour les amateurs de cinéma lorsqu'il s'agit de trouver des films qui correspondent à leurs goûts personnels. Cinéverse vise à résoudre ce problème en utilisant un chatbot intelligent pour simplifier le processus de recommandation, prenant en compte les préférences individuelles de l'utilisateur.  
+- Cinéverse s'efforce de personnaliser l'expérience de chaque utilisateur comprenant ses préférences uniques, en s'adaptant à ses humeurs changeante en suggérant des films qui correspondent à sa palette cinématographique spécifique.  
+- Au-delà de la recommandation de films, nous aspirons à créer une communauté cinéphile dynamique. Cinéverse offre un espace intéractif où les utilisateurs peuvent partager leurs critiques, recommandations et expériences, favorisant ainsi une discussion active et une paticipation communautaire.  
 
 #Concurrence 
 
@@ -51,18 +51,18 @@ Pierre peut aussi organiser ses idées avec Cineverse afin de lui permettre de d
 
 **BUTS ET COMPORTEMENTS**
 
-- Pierre se connecte à Cineverse avec ses identifiants et mots de passe sur un page s’accueille commune à tous les utilisateurs même ceux qui n’ont pas de compte.
-  - Pierre peut rechercher un film avec la barre de recherche. La barre de recherche lui fait des propositions en cas d’oubli du nom de film.
-    - Pierre peut accéder à la page d’un film, visualiser la bande annonce, les commentaires, la description et mettre un avis via un formulaire. Pour accéder à la page d’un film il suffit de cliquer sur l’affiche ou le nom du film après avoir fait sa recherche ou après avoir consulter sa liste de favoris ou la liste des suggestions du moment. La page du film permet aussi de montrer sur quelle plateforme de streaming le film est disponible.
+- Pierre se connecte à Cineverse avec ses identifiants et mots de passe sur un page s’accueille commune à tous les utilisateurs même ceux qui n’ont pas de compte.  
+- Pierre peut rechercher un film avec la barre de recherche. La barre de recherche lui fait des propositions en cas d’oubli du nom de film.  
+- Pierre peut accéder à la page d’un film, visualiser la bande annonce, les commentaires, la description et mettre un avis via un formulaire. Pour accéder à la page d’un film il suffit de cliquer sur l’affiche ou le nom du film après avoir fait sa recherche ou après avoir consulter sa liste de favoris ou la liste des suggestions du moment. La page du film permet aussi de montrer sur quelle plateforme de streaming le film est disponible.  
 - Pierre peut noter le film via des pictogrammes.
-- Pierre peut revenir à tout moment sur l’une des pages qu’il a consulté grâce à un historique.
-  - Pierre dispose d’une barre de navigation qui le suit à chacune des pages qu’il consulte. Cette barre de navigation est composée d’un menu déroulant, de la barre de recherche et d’information sur son profil et d’un lien de déconnexion sinon par défaut des liens vers les pages de connexion et d’inscription.
-- Pierre peut consulter son profil et le modifier. Il peut également suivre d’autres utilisateurs. Il peut créer des groupes de discussion où rejoindre des groupes de discussion en recherchant les groupes dans la barre de recherche ou avec le bouton créer un groupe dans le menu. Pour créer un groupe, il sera obligatoire de choisir un thème de discussion.
-- Pierre peut aussi accéder aux statistiques du site afin de se rendre compte de la fiabilité de ce dernier.
-  - Pierre peut s’abonner pour soutenir le site.
-- Pierre peut consulter les cinémas les plus proches sur une carte. (interaction avec google map peut-être).
-  - Pierre peut consulter les associations inscrites sur le site et suivre les événements qu’elles organisent.
-    - Pierre peut également consulter l’assistant virtuel lorsqu’il a besoin de conseil sur quelle film choisir.
+- Pierre peut revenir à tout moment sur l’une des pages qu’il a consulté grâce à un historique.  
+- Pierre dispose d’une barre de navigation qui le suit à chacune des pages qu’il consulte. Cette barre de navigation est composée d’un menu déroulant, de la barre de recherche et d’information sur son profil et d’un lien de déconnexion sinon par défaut des liens vers les pages de connexion et d’inscription.  
+- Pierre peut consulter son profil et le modifier. Il peut également suivre d’autres utilisateurs. Il peut créer des groupes de discussion où rejoindre des groupes de discussion en recherchant les groupes dans la barre de recherche ou avec le bouton créer un groupe dans le menu. Pour créer un groupe, il sera obligatoire de choisir un thème de discussion.  
+- Pierre peut aussi accéder aux statistiques du site afin de se rendre compte de la fiabilité de ce dernier.  
+- Pierre peut s’abonner pour soutenir le site.
+- Pierre peut consulter les cinémas les plus proches sur une carte. (interaction avec google map peut-être).  
+- Pierre peut consulter les associations inscrites sur le site et suivre les événements qu’elles organisent.  
+- Pierre peut également consulter l’assistant virtuel lorsqu’il a besoin de conseil sur quelle film choisir.  
 
 **CE QUE CELA IMPLIQUE**
 
@@ -88,12 +88,14 @@ Anna est la présidente d’une association de cinéma. Elle veut faire connaitr
 
 Anna veut un moyen facile de partager ses avis, ses recommandations et un moyen de discuter facilement avec les membres de l’association.
 
-Elle veut pouvoir avoir un support pour organiser ses projets et les partagés. **BUTS ET COMPORTEMENTS**
+Elle veut pouvoir avoir un support pour organiser ses projets et les partagés. 
 
-- Anna peut avec Cineverse crée un compte pour son association. Elle peut ajouter des membres à son association dans l’onglet du profil de l’association dans la zone organisation.
-  - Anna peut créer un groupe spécifique à l’association. Elle peut sur la page de profil de l’association partager des événements que sont association organise. Elle peut demander de l’aide sur certain projet.
-- Anna comme un amateur de cinéma peut partager son avis sur certains films en utilisant des commentaires sur la page du film ou en utilisant des pictogrammes.
-  - Anna peut supprimer des membres de son association et en ajouter.
+**BUTS ET COMPORTEMENTS**
+
+- Anna peut avec Cineverse crée un compte pour son association. Elle peut ajouter des membres à son association dans l’onglet du profil de l’association dans la zone organisation.  
+- Anna peut créer un groupe spécifique à l’association. Elle peut sur la page de profil de l’association partager des événements que sont association organise. Elle peut demander de l’aide sur certain projet.  
+- Anna comme un amateur de cinéma peut partager son avis sur certains films en utilisant des commentaires sur la page du film ou en utilisant des pictogrammes.  
+- Anna peut supprimer des membres de son association et en ajouter.  
 
 **CE QUE CELA IMPLIQUE**
 
@@ -103,28 +105,28 @@ Cela implique d’avoir la liste des associations qui se sont inscrites sur le s
 
 **Architecture Technique**
 
-1. Backend - Python :
+1. Backend - Python :  
 
 Le backend est implémenté en langage Python avec l’utilisation du framework flask.
 
 - Framework Web - Flask
-  - Organisation en Package : Le backend est structuré en deux principaux packages :
-    - Package Client : Responsable de la gestion des utilisateurs, des recommandations, et des interactions avec la base de données.
-      - Package API : Organisé par app.py pour les requêtes provenant du frontend.
-- Base de Données : Notre base de données de film est issu d’un système externe et notre base de données d’utilisateurs ( recommendation) sera réalisée manuellement à travers un questionnaire.
-  - Tests Unitaires : Les tests unitaires seront réalisés en utilisant des frameworks tels que Mockito et JUnit pour garantir la robustesse du backend. Des mocks seront créés pour simuler divers scénarios, assurant ainsi la fiabilité des fonctions essentielles.
-  - Tests d'API REST : Les tests d'API REST seront effectués pour vérifier la cohérence des points d'extrémité et la manipulation correcte des données entre le frontend et le backend. On utilise l'API Swagger (pas encore mise en place) pour faire des test et également Postman. 
+- Organisation en Package : Le code est structuré en deux principaux packages :  
+  - Package Back-End : Responsable de la gestion des utilisateurs, des recommandations, et des interactions avec la base de données.  
+    - Package API : Organisé par app.py pour les requêtes provenant du frontend.  
+    - Base de Données : Notre base de données de film est issu d’un système externe et notre base de données d’utilisateurs ( recommendation) sera réalisée manuellement à travers un questionnaire. 
+  - Package Client : Il contient tous les composants et permet d'avoir une interface adapté aux utilisateurs.   
+- Tests Unitaires : Les tests unitaires seront réalisés en utilisant des frameworks tels que Mockito et JUnit pour garantir la robustesse du backend. Des mocks seront créés pour simuler divers scénarios, assurant ainsi la fiabilité des fonctions essentielles.  
+- Tests d'API REST : Les tests d'API REST seront effectués pour vérifier la cohérence des points d'extrémité et la manipulation correcte des données entre le frontend et le backend. On utilise l'API Swagger (pas encore mise en place) pour faire des test et également Postman.   
 
-2. Frontend - React avec JSON :
-- Bibliothèque Frontend - React : Pour le développement du frontend, nous utiliserons React pour sa flexibilité et sa facilité d'intégration avec des API REST.
-  - Communication avec l'API : Le frontend interagira avec le backend via des appels d'API REST, échangeant des données au format JSON pour une communication efficace et légère.
-    - Librairies HTTP - Fetch et Axios : Pour effectuer des requêtes HTTP depuis le frontend, nous avons choisi d'utiliser deux librairies populaires : Fetch et Axios.
-      - Organisation en Package : Le frontend est structuré en deux packages principaux :
-        - Package Components : Contient tous les composants React nécessaires pour l'interface utilisateur.
-          - Package Services : Gère les appels d'API et la communication avec le backend.
-      - Tests d'Interface : Les tests d'interface seront effectués à l'aide de frameworks tel que Jest , garantissant la fonctionnalité correcte des composants React et une expérience utilisateur sans faille.
-3. Tests Bonus :
-- Tests de Base de Données : Des tests spécifiques seront mis en place pour évaluer la robustesse de la base de données, couvrant la gestion des erreurs, les transactions, et la cohérence des données.
+2. Frontend - React avec JSON :  
+- Bibliothèque Frontend - React : Pour le développement du frontend, nous utiliserons React pour sa flexibilité et sa facilité d'intégration avec des API REST.  
+  - Communication avec l'API : Le frontend interagira avec le backend via des appels d'API REST, échangeant des données au format JSON pour une communication efficace et légère.  
+  - Librairies HTTP - Fetch et Axios : Pour effectuer des requêtes HTTP depuis le frontend, nous avons choisi d'utiliser deux librairies populaires : Fetch et Axios.  
+- Organisation en Package : Le frontend est structuré en plusieurs packages triés en fonction de la catégorie de composants.  
+- Tests d'Interface : Les tests d'interface seront effectués à l'aide de frameworks tel que Jest , garantissant la fonctionnalité correcte des composants React et une expérience utilisateur sans faille.  
+
+3. Tests Bonus:  
+- Tests de Base de Données : Des tests spécifiques seront mis en place pour évaluer la robustesse de la base de données, couvrant la gestion des erreurs, les transactions, et la cohérence des données.  
 
 
 ![Alt text](./images/DiagrammeComposan_versionV03.png)
