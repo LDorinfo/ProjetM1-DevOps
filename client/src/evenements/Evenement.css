@@ -1,5 +1,50 @@
-#imageEvenement{
-    width : "250"; 
-    height : "300";  
-    object-fit: cover; /* Assurez-vous que l'image couvre complètement la zone définie */
-}
+/* Evenement.css */
+
+.card-container {
+    display: flex; /* Set the container to use flexbox */
+    flex-wrap: wrap; /* Allow the items to wrap to the next line if there's not enough space */
+  }
+  
+  .card {
+    /* Existing styles for the card component */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    flex: 1 0 calc(33.3333% - 20px); /* Adjust the width of each card based on the desired layout */
+    /* You can adjust the width percentage or use media queries for responsiveness */
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .imageEvenement {
+    /* Existing styles for the image component */
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  
+  .titleEvent {
+    /* Existing styles for the title component */
+    color: #333;
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  .description {
+    /* Existing styles for the description component */
+    color: #666;
+    margin: 0 10px 10px;
+  }
+  
+  .prix {
+    /* Existing styles for the price component */
+    color: #007bff;
+    margin: 0 10px 10px;
+  }
+  

@@ -9,8 +9,8 @@ function EvenementPage(props){
       <header>
         <NavigationBar setPage={props.setPage}/>
       </header>
-      <Evenement setPage={props.setPage} dataevenement={props.dataevenement}/>
-      <EvenementForm change={props.dataevenement.idEvent}/>
+      <Evenement setPage={props.setPage} dataevenement={props.data}/>
+      <EvenementForm change={props.data.id}/>
     </div>
     )
 }

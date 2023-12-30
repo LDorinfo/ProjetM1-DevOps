@@ -4,13 +4,15 @@ import ReactDOM from 'react-dom/client';
 import MainPage from './pages/MainPage.js';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './AuthenticateContext.js';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
     <MainPage />
+    <ToastContainer/>
     </AuthProvider>
   </React.StrictMode>
 );

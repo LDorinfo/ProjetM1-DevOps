@@ -14,8 +14,14 @@ function ListEvenement(props){
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  console.log(data);
-                  setEvenements(data || []);
+                    console.log(data.events);
+
+                    // Assurez-vous que data est un tableau avant de le définir comme état
+                    if (Array.isArray(data.events)) {
+                      setEvenements(data.events);
+                    } else {
+                      console.error("La réponse du serveur n'est pas un tableau.", data);
+                    }
                 })
                 .catch((error) => console.log(error));
         }
@@ -24,11 +30,11 @@ function ListEvenement(props){
 
 
     return(
-        <div>
-        {evenements.map((evenement) => (
-            <Evenement setPage={props.setPage} dataevenement={evenement} />
-        ))}
-        </div>
+      <div className="card-container">
+      {evenements.map((evenement) => (
+        <Evenement setPage={props.setPage} dataevenement={evenement} key={evenement.id} />
+      ))}
+    </div>
     ); 
 }
 

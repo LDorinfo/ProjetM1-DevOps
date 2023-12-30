@@ -5,6 +5,7 @@ import ImageFilm from '../search/ImageFilm';
 import ListEvenement from '../evenements/ListEvenement';
 import SwaggerUIComponent from '../Swagger/SwaggerUIComponent';
 
+
 function HomePage(props) {
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularTVShows, setPopularTVShows] = useState([]);
@@ -40,7 +41,6 @@ function HomePage(props) {
         })
         .catch((error) => console.log(error));
     };
-
     fetchPopularData();
   }, [setPopularMovies,setPopularTVShows]);
 
@@ -116,6 +116,7 @@ function HomePage(props) {
           </div>
         </section>
         <SwaggerUIComponent></SwaggerUIComponent>
+        <div><ListEvenement setPage={props.setPage}/></div>
       </div>
     </div>
   );

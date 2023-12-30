@@ -6,6 +6,7 @@ import NavigationBar from "../NavigationBar";
 function Login(props) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail]= useState(""); 
 
   const getLogin = (evt) => {
     setLogin(evt.target.value);
@@ -14,11 +15,38 @@ function Login(props) {
   const getPassword = (evt) => {
     setPassword(evt.target.value);
   };
+  const getemail = (evt) => {
+    setEmail(evt.target.value); 
+  }; 
 
   const handleClickSignin = (evt) => {
     evt.preventDefault();
     props.setPage(["signin_page", undefined]);
   };
+
+  const handleForgotPassword = (evt) => {
+    evt.preventDefault();
+    if(email.length ==0){
+      toast("Merci de renseigner votre mail");
+    }else{
+    // Envoie une demande de réinitialisation de mot de passe au backend
+    fetch('http://localhost:5000/forgot-password', {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ email: email })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Password reset email sent:', data);
+        toast("Un e-mail de réinitialisation de mot de passe a été envoyé.");
+      })
+      .catch(error => {
+        console.error('Error sending password reset email:', error);
+        toast("Une erreur s'est produite. Veuillez réessayer.");
+      });
+    }
+  };
+
 
   const handleClick = (evt) => {
     evt.preventDefault();
@@ -62,7 +90,10 @@ function Login(props) {
             </div>
 
             <div className="remember-forgot">
-              <a href="#">Mot de passe oublié ?</a>
+              <a href="#" onClick={handleForgotPassword}>Mot de passe oublié ?</a>
+            </div>
+            <div className="input-box">
+              <input type="email" placeholder="email" required onChange={getemail} />
             </div>
             <button type="submit" onClick={handleClick} className="button_log" variant="primary">Se connecter</button>
 

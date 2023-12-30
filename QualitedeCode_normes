@@ -12,3 +12,5 @@ Nous utilisons une API REST ainsi les requêtes doivent respecter la structure s
  - Utilisation de majuscule à chaque composant. Les noms doivent être clairs. On commente le code lorsque c'est nécessaire. 
  - Mise en place de diffèrent répertoire pour faciliter la comprehension du code.
  - Il y a des avertissement ESLint avec React.  
+
+ - utilisation des procedure CRUD et RPC pour l'API REST

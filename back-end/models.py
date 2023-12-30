@@ -50,9 +50,9 @@ class Watchlist(db.Model):
 class Evenement(db.Model):
     __tablename__ = "evenement"
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
-#    id_user = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     title = db.Column(db.String(32))
     description = db.Column(db.String(64))
     prix = db.Column(db.Integer)
     image = db.Column(db.String(32))
-#    user = db.relationship('User', backref='evenement_user' )
+    user = db.relationship('User', backref='evenement_user' )

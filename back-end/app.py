@@ -2,7 +2,9 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
+from outil import generate_unique_token
 from models import db, User
+from flask_mail import Message, Mail
 from config import ApplicationConfig
 import requests  # Importez le module requests
 from flask_migrate import Migrate
@@ -15,7 +17,7 @@ from watchlist_routes import watchlist_blueprint
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
-migrate= Migrate(app,db)
+migrate= Migrate(app,db,render_as_batch=True)
 swagger = Swagger(app)
 # Accédez à la clé d'API TMDb depuis la configuration
 tmdb_api_key = app.config["TMDB_API_KEY"]
@@ -35,6 +37,18 @@ app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
 #app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
 #pas possible car ces routes on besoin de tmdb_api_key
 api = Api(app, version='0.3', title='ProjetM1-DevOps API', description='API Documentation')
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_USERNAME'] = 'cineverse.noreply@gmail.com'
+app.config['MAIL_PASSWORD'] = 'ROUjeElaR0se'
+app.config['MAIL_DEFAULT_SENDER'] = {'flask email','cineverse.noreply@gmail.com'}
+
+
+mail = Mail(app)
 
 with app.app_context():
     db.create_all()
@@ -241,6 +255,14 @@ def get_trailer():
 
     return jsonify({"videos": videos})
 
+@app.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    email = request.json.get('email')
+
+    msg = Message('Réinitialisation du mot de passe', recipients=[email])
+    msg.body = "Corps : Merci de cliquer sur le lien pour réinitialiser le mot de passe "
+    mail.send(msg)
+    return "Message envoyé"
 
 @app.route("/home")
 def home():
