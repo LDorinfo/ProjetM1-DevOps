@@ -1,7 +1,7 @@
 # search_routes.py
 from flask import Blueprint, jsonify, request, session
 from flask_bcrypt import Bcrypt
-from models import Evenement, db
+from models import Evenement, User, db
 
 event_blueprint = Blueprint('event', __name__)
 bcrypt = Bcrypt()
@@ -160,3 +160,56 @@ def events_get():
     ]
 
     return jsonify({"events": events_data})
+@event_blueprint.route("/adduser", methods=["PUT"])
+def add_participant():
+    """
+    Add a user as a participant to an event.
+
+    ---
+    tags:
+      - Événements
+    parameters:
+      - name: user_id
+        in: body
+        type: string
+        required: true
+        description: ID of the user
+      - name: evenement_id
+        in: body
+        type: string
+        required: true
+        description: ID of the event
+
+    responses:
+      201:
+        description: User added as a participant
+      400:
+        description: User ID or Event ID not provided
+      404:
+        description: User not found
+      200:
+        description: User already a participant
+    """
+    user_id = request.json.get('user')
+    evenement_id = request.json.get('evenement_id')
+
+    if user_id is None or evenement_id is None:
+        return jsonify({"error": "User ID or Event ID not provided"}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Vérifie si l'événement est déjà dans les participations de l'utilisateur
+    if user.participations is None:
+      user.participations =f'{evenement_id}'
+      db.session.commit()
+      return jsonify({"message": "User added as a participant"}), 201
+    if evenement_id in user.participations.split(','):
+        return jsonify({"message": "User already a participant"}), 200
+
+    # Ajoute l'événement aux participations de l'utilisateur
+    user.participations += f',{evenement_id}'
+    db.session.commit()
+
+    return jsonify({"message": "User added as a participant"}), 201
