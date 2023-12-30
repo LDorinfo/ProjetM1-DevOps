@@ -1,5 +1,6 @@
-# Routes de l'API entre le serveurs et le Client
+# Routes de l'API.md
 
+1# Routes de l'API entre le serveurs et le Client
 ## Signin 
 **Nom du service Web:** Signin
 **URL:** 	POST 	/register
