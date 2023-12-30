@@ -127,8 +127,9 @@ Le backend est implémenté en langage Python avec l’utilisation du framework 
 - Tests de Base de Données : Des tests spécifiques seront mis en place pour évaluer la robustesse de la base de données, couvrant la gestion des erreurs, les transactions, et la cohérence des données.
 
 
-![Alt text](./images/DiagrammeComponsan_versionV03.png)
-![Alt text](./images/DiagrammeComponsant_versionAlpha.png)
+![Alt text](./images/DiagrammeComposan_versionV03.png)
+
+![Alt text](./images/DiagrammeComposant_versionAlpha.png)
 
 #Livraison 1 : Version 0.2 
 ##WireFrames
@@ -195,4 +196,14 @@ L'utilisateur peut visionner la bande annonce du film depuis la page du film.
 
 
 L'utilisateur peut également ajouter le film à sa watch liste pour le retrouver plutard. 
+
+#Livraison 4 : Version Alpha 
+**Evenement**
+L'utilisateur peut créer des événements auxquelle d'autre utilisateurs pourront participer. Cela reste à améliorer. 
+Dans cette livraison nous avons aussi mis en place l'API Swagger, une route pour réinitialiser son mot de passe, mis à jour le diagramme des composants. 
+
+
+![image](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/02a35350-18ea-49bd-aac9-be38a11c7bbe)
+
+![image](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/da90e0b4-c26e-4c97-a83c-33efd0ffa0f3)
 
