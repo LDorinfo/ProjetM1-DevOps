@@ -81,10 +81,10 @@ def get_current_user():
     """
     user_id = session.get("user_id")
     #stocke la clé dans la session flask
-    # session.get permet de récupère la clé user_id dans la session flask. 
+    # session.get permet de récupère la clé user_id dans la session flask.
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
-    
+
     user = User.query.filter_by(id=user_id).first()
     return jsonify({
         "id": user.id,
@@ -248,7 +248,7 @@ def filtre_movies():
     # 10402 pour les comédies musicales 
     # 9648 pour les films mystérieux 
     # 10749 pour les films romantiques 
-    # 878 pour les films de science fiction. 
+    # 878 pour les films de science fiction.
     # 53 pour les films à suspense. 
     # 10752 pour les films de guerre
     params = {'api_key': tmdb_api_key, 'with_genres':keyword}
@@ -435,4 +435,6 @@ def home():
     return "Hello"
 
 if __name__ == "__main__":
+    
+
     app.run(debug=True)
