@@ -9,7 +9,7 @@ function Message(props){
     const [editedText, setEditedText]= useState("");
     const [noteUser, setNoteUser]= useState(props.dataMessage.note); 
     // ajouter des outils pour modifier ou supprimer le message si l'utilisateur est connecté. 
-    
+    console.log(isLiked)
     //si je veux créer un bouton like pour un commentaire: 
     // il va falloir que je mette à jour les données du commentaire avec une requêtes fetch
     // il va falloir que j'ajoute un nombre dans la base de donnée = note. 

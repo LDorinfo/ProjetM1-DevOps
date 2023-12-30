@@ -6,6 +6,7 @@ import ProfilePage from './ProfilePage.js';
 import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
 import Watchlist from './Watchlist.js';
+import EvenementPage from '../evenements/EvenementPage.js';
 
 function MainPage(props){
     const [page, setPage]= useState(["home_page", undefined]); 
@@ -26,6 +27,8 @@ function MainPage(props){
           return <PageFilm setPage={setPage} dataFilm={page[1]} />; 
         }else if(page[0]=== "page_watchlist") {
           return <Watchlist setPage={setPage} data={page[1]} />; 
+        }else if(page[0]=== "event_page") {
+          return <EvenementPage setPage={setPage} data={page[1]} />; 
         }
       })();
 }    

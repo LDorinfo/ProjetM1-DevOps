@@ -6,24 +6,19 @@ function Evenement(props){
         props.setPage(["event_page", props.dataevenement])
     }
     return( 
-        <div>
-            <div>
-                <img className="imageEvenement" onClick={handleClickPageEvenement}>
-                    src={props.dataevenement.image}
-                    alt={props.dataevenement.title} 
-                </img>
-            </div>
-            <div>
-                <h4 className='titleEvent' onClick={handleClickPageEvenement}>{props.dataevenement.title}</h4>
-                <p>{props.dataevenement.description}</p>
-                {props.dataevenement.prix ==0? 
-                    <p>Gratuit</p>
-                :
-                    <p>{props.dataevenement.prix} pour les membres</p>
-                }   
-            </div>
-        </div>
-    )
+        <div className="card" onClick={handleClickPageEvenement}>
+      <img className="imageEvenement" src={props.dataevenement.image} alt={props.dataevenement.title} />
+      <div>
+        <h4 className="titleEvent">{props.dataevenement.title}</h4>
+        <p className="description">{props.dataevenement.description}</p>
+        {props.dataevenement.prix === 0 ? (
+          <p className="prix">Gratuit</p>
+        ) : (
+          <p className="prix">{props.dataevenement.prix} pour les membres</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Evenement; 

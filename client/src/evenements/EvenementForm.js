@@ -1,13 +1,14 @@
 import React,{ useState } from "react";
 import { useAuth } from "../AuthenticateContext";
 import { FaPaperPlane } from 'react-icons/fa';
+import {toast} from 'react-toastify';
 
 function EvenementForm(props){
-    const {username}= useAuth();
+    const {user}= useAuth();
     const [textEvent, setTextEvent] = useState(""); 
     const [prix, setPrix]= useState(0); 
     const [title, setTitle]= useState(""); 
-
+    console.log(user)
     const getTitleEvent= (event)=>{
         setTitle(event.target.value); 
     }
@@ -37,13 +38,18 @@ function EvenementForm(props){
     // plus besoin
 
     const isValidForm = ()=>{
+      console.log(user)
+      console.log(title)
+      console.log(textEvent)
+      console.log(prix)
+      console.log(file)
         if(textEvent.length === 0){
-            console.error("Vous n'avez pas écrit de commentaire.");
+            toast.error("Vous n'avez pas écrit de commentaire.");
             return false; 
         }
-        if(username === null){
-            console.log(props.username);
-            console.error("Vous n'êtes pas connecté !");
+        if(!user){
+            console.log(user);
+            toast.error("Vous n'êtes pas connecté !");
             return false; 
         }
         return true; 
@@ -56,15 +62,15 @@ function EvenementForm(props){
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: username,image: file, title : title, prix : prix, description : textEvent  })
+                body: JSON.stringify({ user_id: user, image: file, title : title, prix : prix, description : textEvent  })
             })
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setFile(""); 
-                setTitle(""); 
-                setPrix(""); 
-                setTextEvent("");  
+                //setFile(""); 
+                //setTitle(""); 
+                //setPrix(""); 
+                //setTextEvent("");  
             })
             .catch((error) => console.log(error));
         }
@@ -77,15 +83,15 @@ function EvenementForm(props){
                 method: 'PUT',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: username,idEvent : props.change, file : file, title : title, prix : prix, description : textEvent  })
+                body: JSON.stringify({ user_id: user,idEvent : props.change, file : file, title : title, prix : prix, description : textEvent  })
             })
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                setFile(""); 
-                setTitle(""); 
-                setPrix(""); 
-                setTextEvent("");  
+                //setFile(""); 
+                //setTitle(""); 
+                //setPrix(""); 
+                //setTextEvent("");  
             })
             .catch((error) => console.log(error));
         }

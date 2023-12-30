@@ -38,18 +38,26 @@ def event_create():
     prix = request.json.get("prix")
     image = request.json.get("image")
 
-    if image is None: 
-        return jsonify({"error": "Paramatre problem user"}), 401
-    if  user_id or prix or title or description is None:
+    if user_id is None or prix is None or description is None or image is None:
         return jsonify({"error": "Paramatre problem"}), 401
 
-    event = Evenement(id_user= user_id, prix = prix, title= title, image = image, description = description)
+    event = Evenement(user_id= user_id, prix = prix, title= title, image = image, description = description)
     #if event is None : 
     #    return jsonify({"error": "Problem to create"})
 
     db.session.add(event)
     db.session.commit() 
-    return jsonify({"evenement": event})
+
+    event_data = {
+    'id': event.id,
+    'user_id': event.user_id,
+    'title': event.title,
+    'description': event.description,
+    'prix': event.prix,
+    'image': event.image,
+    # Include other attributes as needed
+    }
+    return jsonify({"evenement": event_data})
 
 @event_blueprint.route("/events", methods=["GET"])
 def events_get():
@@ -58,4 +66,18 @@ def events_get():
         return jsonify({
             "error": "No events"
         }), 404
-    return jsonify({"events": events})
+    
+    events_data = [
+        {
+            'id': event.id,
+            'user_id': event.user_id,
+            'title': event.title,
+            'description': event.description,
+            'prix': event.prix,
+            'image': event.image,
+            # Include other attributes as needed
+        }
+        for event in events
+    ]
+
+    return jsonify({"events": events_data})
