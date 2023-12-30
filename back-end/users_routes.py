@@ -9,6 +9,44 @@ bcrypt = Bcrypt()
 
 @users_blueprint.route("/register", methods=["POST"])
 def register_user():
+    """
+    Enregistre un nouvel utilisateur.
+
+    ---
+    tags:
+      - Utilisateurs
+    parameters:
+      - in: body
+        name: Informations utilisateur
+        description: Informations pour créer un nouvel utilisateur.
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              description: Adresse e-mail de l'utilisateur.
+            password:
+              type: string
+              description: Mot de passe de l'utilisateur.
+            username:
+              type: string
+              description: Nom d'utilisateur de l'utilisateur.
+            first_name:
+              type: string
+              description: Prénom de l'utilisateur.
+            last_name:
+              type: string
+              description: Nom de famille de l'utilisateur.
+            phone_number:
+              type: string
+              description: Numéro de téléphone de l'utilisateur.
+    responses:
+      200:
+        description: Informations sur le nouvel utilisateur créé.
+      409:
+        description: L'utilisateur existe déjà.
+    """
     email = request.json["email"]
     password = request.json["password"]
     username = request.json["username"]
@@ -39,6 +77,32 @@ def register_user():
 
 @users_blueprint.route("/login", methods=["PUT"])
 def login_user():
+    """
+    Connecte un utilisateur.
+
+    ---
+    tags:
+      - Utilisateurs
+    parameters:
+      - in: body
+        name: Informations de connexion
+        description: Informations pour connecter un utilisateur.
+        required: true
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              description: Nom d'utilisateur de l'utilisateur.
+            password:
+              type: string
+              description: Mot de passe de l'utilisateur.
+    responses:
+      200:
+        description: Utilisateur connecté avec succès.
+      401:
+        description: Nom d'utilisateur ou mot de passe incorrect.
+    """
     username = request.json["username"]
     password = request.json["password"]
 
@@ -58,6 +122,18 @@ def login_user():
 
 @users_blueprint.route("/userinfo", methods=["GET"])
 def info_user():
+    """
+    Récupère les informations de l'utilisateur connecté.
+
+    ---
+    tags:
+      - Utilisateurs
+    responses:
+      200:
+        description: Informations de l'utilisateur connecté.
+      401:
+        description: Utilisateur non authentifié.
+    """
     id = session.get("user_id")
     user = User.query.filter_by(id=id).first()
     if user is None : 
@@ -74,6 +150,46 @@ def info_user():
 
 @users_blueprint.route("/modify", methods=["PUT"])
 def modify_user():
+    """
+    Modifie les informations de l'utilisateur connecté.
+
+    ---
+    tags:
+      - Utilisateurs
+    parameters:
+      - in: body
+        name: Nouvelles informations utilisateur
+        description: Nouvelles informations pour l'utilisateur connecté.
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              description: Nouvelle adresse e-mail de l'utilisateur.
+            password:
+              type: string
+              description: Nouveau mot de passe de l'utilisateur.
+            username:
+              type: string
+              description: Nouveau nom d'utilisateur de l'utilisateur.
+            first_name:
+              type: string
+              description: Nouveau prénom de l'utilisateur.
+            last_name:
+              type: string
+              description: Nouveau nom de famille de l'utilisateur.
+            phone_number:
+              type: string
+              description: Nouveau numéro de téléphone de l'utilisateur.
+    responses:
+      200:
+        description: Informations mises à jour pour l'utilisateur connecté.
+      401:
+        description: Utilisateur non authentifié.
+      404:
+        description: Utilisateur non trouvé.
+    """
     if "user_id" not in session:
         return jsonify({"error": "User not authenticated"}), 401
 
@@ -110,6 +226,18 @@ def modify_user():
 
 @users_blueprint.route("/logout", methods=["PUT"])
 def logout_user():
+    """
+    Déconnecte l'utilisateur connecté.
+
+    ---
+    tags:
+      - Utilisateurs
+    responses:
+      401:
+        description: Utilisateur non authentifié.
+      404:
+        description: Utilisateur non trouvé.
+    """
     user_id = session.get("user_id")
 
     if not user_id:

@@ -8,6 +8,41 @@ bcrypt = Bcrypt()
 
 @event_blueprint.route("/change", methods=["PUT"])
 def event_change():
+    """
+    Met à jour les informations d'un événement existant.
+
+    ---
+    tags:
+      - Événements
+    parameters:
+      - in: body
+        name: Informations sur l'événement
+        description: Informations mises à jour pour l'événement.
+        required: true
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Nouveau titre de l'événement.
+            description:
+              type: string
+              description: Nouvelle description de l'événement.
+            prix:
+              type: float
+              description: Nouveau prix de l'événement.
+            image:
+              type: string
+              description: Nouveau chemin vers l'image de l'événement.
+            idEvent:
+              type: integer
+              description: ID de l'événement à mettre à jour.
+    responses:
+      200:
+        description: Informations mises à jour pour l'événement spécifié.
+      401:
+        description: Non autorisé, l'utilisateur n'est pas authentifié.
+    """
     user_id = session.get("user_id")
     title = request.json.get("title")
     description = request.json.get("description")
@@ -32,6 +67,38 @@ def event_change():
 
 @event_blueprint.route("/create", methods=["POST"])
 def event_create():
+    """
+    Crée un nouvel événement.
+
+    ---
+    tags:
+      - Événements
+    parameters:
+      - in: body
+        name: Nouvel événement
+        description: Informations pour créer un nouvel événement.
+        required: true
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Titre de l'événement.
+            description:
+              type: string
+              description: Description de l'événement.
+            prix:
+              type: float
+              description: Prix de l'événement.
+            image:
+              type: string
+              description: Chemin vers l'image de l'événement.
+    responses:
+      200:
+        description: Informations sur le nouvel événement créé.
+      401:
+        description: Paramètre manquant, l'utilisateur n'est pas authentifié.
+    """
     user_id = session.get("user_id")
     title = request.json.get("title")
     description = request.json.get("description")
@@ -61,6 +128,18 @@ def event_create():
 
 @event_blueprint.route("/events", methods=["GET"])
 def events_get():
+    """
+    Récupère la liste de tous les événements.
+
+    ---
+    tags:
+      - Événements
+    responses:
+      200:
+        description: Liste de tous les événements.
+      404:
+        description: Aucun événement trouvé.
+    """
     events = Evenement.query.all()
     if events is None: 
         return jsonify({
