@@ -127,37 +127,72 @@ Le backend est implémenté en langage Python avec l’utilisation du framework 
 - Tests de Base de Données : Des tests spécifiques seront mis en place pour évaluer la robustesse de la base de données, couvrant la gestion des erreurs, les transactions, et la cohérence des données.
 
 
-![Alt text](image.png)
+![Alt text](./images/DiagrammeComponsan_versionV03.png)
+![Alt text](./images/DiagrammeComponsant_versionAlpha.png)
 
 #Livraison 1 : Version 0.2 
 ##WireFrames
 **page d'acceuil**
 La page d'accueil permet de visualiser des films tendances et de naviger graçe à une barre de navigation. On estime son coût à moins d'une livraison. 
-![Alt text](./images/image-1.png)
+
+
+![Alt text](./images/homepage_wireframe.png)
+
+
+
 **page de connexion**
 La page de connexion permet à l'utilisateur de s'inscrire ou de se connecter avec son compte. 
-![Alt text](images/image-2.png)
-![Alt text](images/image-3.png)
+
+
+![Alt text](images/Inscription_wireframe.png)
+
+
+![Alt text](images/Connexion_wireframe.png)
+
+
+
 On a également lors de cette livraison un back bien fourni avec des fonctionalités diverses. 
 
 #Livraison 2 : Version 0.3
 **page qui affiche les résultats de la recherche**
 Nous avons créer un interface pour que l'utilisateur puisse avoir accès aux résultats de sa recherche et faire d'autre recherche avec la barre de navigation. 
-![Alt text](images/image-4.png)
+
+
+![Alt text](images/Recherche_wireframe.png)
+
+
+
 **page film**
 La page de film permet d'afficher toutes les informations relatives au film qui intéresse l'utilisateur. 
-![Alt text](image-1.png)
+
+
+
+![Alt text](./images/film_page_wireframe_1.png)
+
+
 ## feature 3 et petite feature 4 : commentaire (suppression, modification, création d'une table dans la bdd, création d'un commentaire sur la page film)
-L'utilisateur a également la possibilité d'ajouter un commentaire sur la page du film pour partager son avis avec la communauté de Cinéverse. 
-![Alt text](image-2.png)
+L'utilisateur a également la possibilité d'ajouter un commentaire sur la page du film pour partager son avis avec la communauté de Cinéverse.
+
+
+![Alt text](./images/commentaires_wireframe.png)
 
 #Livraison 3 : Version 0.4 
 **Like et note**
 L'utilisateur peut commenter les commentaires des autres avec un système de like. 
+
+
 ![290168532-c57dfa59-ce42-4a7f-beb3-006cdd219b25](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/57722c16-6765-4f71-bcd0-3750864fc287)
+
+
+
 L'utilisateur peut également noter le film. La note du film repose sur la moyenne de la note de tous les commentaires. 
 **Bande annonce**
 L'utilisateur peut visionner la bande annonce du film depuis la page du film. 
+
+
+
 ![290167660-c151ac83-54a6-4c2d-b4d6-2eaa4cfe814e](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/c102191e-b6e4-4afd-a8d9-1395ea4eaa6e)
+
+
 L'utilisateur peut également ajouter le film à sa watch liste pour le retrouver plutard. 
 

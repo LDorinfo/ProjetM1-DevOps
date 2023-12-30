@@ -3,7 +3,6 @@ import './HomePage.css';
 import NavigationBar from '../NavigationBar';
 import ImageFilm from '../search/ImageFilm';
 import ListEvenement from '../evenements/ListEvenement';
-import SwaggerUIComponent from '../Swagger/SwaggerUIComponent';
 
 
 function HomePage(props) {
@@ -115,7 +114,6 @@ function HomePage(props) {
             )}
           </div>
         </section>
-        <SwaggerUIComponent></SwaggerUIComponent>
         <div><ListEvenement setPage={props.setPage}/></div>
       </div>
     </div>
