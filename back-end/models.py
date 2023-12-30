@@ -18,8 +18,8 @@ class User(db.Model):
     likes = db.relationship('Likes', backref='user_likes' )
     comments = db.relationship('Comments', backref='user_comments' )
     watchlist = db.relationship('Watchlist', backref='user_watchlist' )
+    participations = db.Column(db.String(255))  # Stocke les IDs des événements séparés par des virgules
 #    evenements = db.relationship('Evenement', backref='user_evenements')
-
 class Comments(db.Model): 
     __tablename__="comments"
     id = db.Column(db.String(32), primary_key=True, unique=True,default=get_uuid)
