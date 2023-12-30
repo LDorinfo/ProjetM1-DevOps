@@ -38,7 +38,7 @@ app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
 
 # documentation API Swagger
 swagger = Swagger(app)
-
+import os
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
