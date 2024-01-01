@@ -77,25 +77,32 @@ function EvenementForm(props){
     }
 
     const handleClickSendChange = (evt)=>{ 
-        evt.preventDefault();
-        if(isValidForm()){
-            fetch(`http://localhost:5000/event/change`,{
-                method: 'PUT',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: user,idEvent : props.change, file : file, title : title, prix : prix, description : textEvent  })
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                //setFile(""); 
-                //setTitle(""); 
-                //setPrix(""); 
-                //setTextEvent("");  
-            })
-            .catch((error) => console.log(error));
-        }
-    }
+      evt.preventDefault();
+      if(!user){
+          console.log(user);
+          toast.error("Vous n'êtes pas connecté !");
+          return false; 
+      }else{
+          fetch(`http://localhost:5000/event/change`,{
+              method: 'PUT',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ user_id: user,idEvent : props.change, file : file, title : title, prix : prix, description : textEvent  })
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              console.log(data);
+              setFile(""); 
+              setTitle(""); 
+              setPrix(""); 
+              setTextEvent("");  
+              //if(props.onEventUpdate){
+              //  props.onEventUpdate();
+              //}
+          })
+          .catch((error) => console.log(error));
+      }
+  }
 
 //<input type="file" id="event_picture" onChange={handleFileChange} />
   return (
