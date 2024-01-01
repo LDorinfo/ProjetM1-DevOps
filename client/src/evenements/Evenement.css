@@ -1,33 +1,39 @@
 /* Evenement.css */
 
 .card-container {
-    display: flex; /* Set the container to use flexbox */
-    flex-wrap: wrap; /* Allow the items to wrap to the next line if there's not enough space */
-  }
+  display: flex;
+  flex-wrap: wrap; /* This allows items to wrap to the next line */
+  align-items: flex-start; /* Aligns items to the start of the container */
+  gap: 10px; /* Adjust as needed for spacing between cards */
+  margin-left: 134px;
+}
+
+
   
-  .card {
-    /* Existing styles for the card component */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-    flex: 1 0 calc(33.3333% - 20px); /* Adjust the width of each card based on the desired layout */
-    /* You can adjust the width percentage or use media queries for responsiveness */
-  }
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  flex: 1 1 200px; /* Change the flex basis to 300px and allow it to grow and shrink */
+  max-width: 200px; /* Set a maximum width */
+}
+
   
   .card:hover {
     transform: scale(1.05);
   }
   
   .imageEvenement {
-    /* Existing styles for the image component */
-    width: 100%;
-    height: 150px;
+    width: auto;
+    height: 150px; /* Set a fixed height for the images */
+    max-width: 100%; /* Ensure the images do not exceed the container width */
     object-fit: cover;
     cursor: pointer;
-  }
+}
+
   
   .titleEvent {
     /* Existing styles for the title component */
@@ -48,3 +54,102 @@
     margin: 0 10px 10px;
   }
   
+  .formEvent {
+    width: 600px;
+    background-color: transparent;
+    border: 5px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px 40px;
+    margin: auto;
+    margin-top: 5px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column; /* Organise les éléments en colonne */
+}
+
+.formEvent .event_picture_label {
+    display: block;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.formEvent .labelandarea,
+.formEvent .change_affiche {
+    display: flex;
+    flex-direction: column; /* Organise les éléments en colonne */
+}
+
+.formEvent label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.formEvent input,
+.formEvent textarea {
+    width: calc(100% - 40px);
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 14px;
+    color: #fff;
+    padding: 20px;
+    outline: none;
+}
+
+.formEvent .buttonEvent {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.formEvent .image-preview {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.formEvent p {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.event-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 550px;
+  margin-bottom: 20px; /* Ajustez la marge inférieure selon vos préférences */
+}
+
+.event-container h2 {
+  margin: 20px 0; /* Ajustez la marge autour du titre selon vos préférences */
+}
+
+.event-container button {
+    width: 120px;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}

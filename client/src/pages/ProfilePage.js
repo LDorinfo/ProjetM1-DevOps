@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar.js";
 import EvenementForm from "../evenements/EvenementForm.js";
-import { useAuth } from "../AuthenticateContext.js";
 
 function ProfilePage(props){
     const {user}= useAuth();
@@ -9,7 +8,7 @@ function ProfilePage(props){
     useEffect(()=>{
         const fetchUserData = () => {
             // Fetch popular movies
-        fetch(`http://localhost:5000/users/userinfo?user_id=${user}`, {
+        fetch('http://localhost:5000/users/userinfo', {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
@@ -29,6 +28,8 @@ function ProfilePage(props){
     // gestion des notifications
     // modification des information de l'utilisateur. 
     const [isEditing, setIsEditing]= useState(false); 
+
+    const {user}= useAuth();
 
     const [username, setUsername] = useState();
 	const [firstName, setFirstName] = useState();
@@ -69,22 +70,22 @@ function ProfilePage(props){
         <div>
             <NavigationBar setPage={props.setPage}></NavigationBar>
 		<main>
-			<aside>
-			<h1>Amis</h1>
-			</aside>
 			<section>
-        <div>
+        <div >
             {!isEditing ? (
                 <div>
-                    <h2>Profil de {userData.username}</h2>
+                    <h2 className="centered-text">Profil de {userData.username}</h2>
                     <p>Email: {userData.email}</p>
                     <p>Nom: {userData.last_name}</p>
                     <p>Prénom: {userData.first_name}</p>
                     <p>Numéro de téléphone: {userData.phone_number}</p>
-                    <button onClick={()=> setIsEditing(true)}>Modifier</button>
+                    <button className="edit-button" onClick={() => setIsEditing(true)}>Modifier</button>
+                    <h2 className="centered-text">Ajouter un événement</h2>
+                    <EvenementForm ></EvenementForm>
                 </div>
             ):(
                 <div>
+                <h2>Modifier ses informations</h2>
                 <form className="profil_form">
 					<label htmlFor="firstname">Nom</label><input id="firstname" placeholder="Nom" onChange={getFirstName} className="signin_input"/>
 					<label htmlFor="lastname">Prénom</label><input id="lastname" placeholder="Prénom" onChange={getLastName} className="signin_input"/>
@@ -98,7 +99,6 @@ function ProfilePage(props){
             ) }
         </div>
         </section>
-        <EvenementForm ></EvenementForm>
         </main>
         </div>
     ); 
