@@ -3,6 +3,8 @@ import { useAuth } from "../AuthenticateContext";
 import NavigationBar from "../NavigationBar";
 import Evenement from "./Evenement";
 import EvenementForm from "./EvenementForm";
+import './Evenement.css'; 
+import './Evenement.css'; 
 
 function EvenementPage(props){
   const {user}= useAuth();
@@ -46,10 +48,12 @@ function EvenementPage(props){
       <header>
         <NavigationBar setPage={props.setPage}/>
       </header>
-      <Evenement setPage={props.setPage} dataevenement={props.data}/>
-      
-      <button onClick={handleClickAddParticipant}>Participer</button>
-      {props.data.user_id == user ? <EvenementForm change={props.data.id}/> : <p>Créateur : {eventusername}</p>}
+      <div className="event-container">
+        <Evenement setPage={props.setPage} dataevenement={props.data}/> 
+        <button onClick={handleClickAddParticipant}>Participer</button>
+        <h2>Modifier l'évenement</h2>
+        {props.data.user_id == user ? <EvenementForm change={props.data.id}/> : <p>Créateur : {eventusername}</p>}
+      </div>
     </div>
   )
 }
