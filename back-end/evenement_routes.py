@@ -63,7 +63,16 @@ def event_change():
     if image: 
         event.image = image
     db.session.commit() 
-    return jsonify({"evenement": event})
+    event_data = {
+    'id': event.id,
+    'user_id': event.user_id,
+    'title': event.title,
+    'description': event.description,
+    'prix': event.prix,
+    'image': event.image,
+    }
+    return jsonify({"evenement": event_data})
+
 
 @event_blueprint.route("/create", methods=["POST"])
 def event_create():
