@@ -134,7 +134,7 @@ def info_user():
       401:
         description: Utilisateur non authentifié.
     """
-    id = session.get("user_id")
+    id = request.args.get("user_id")
     user = User.query.filter_by(id=id).first()
     if user is None : 
         return jsonify({"error":"Unknown user"}), 401 
