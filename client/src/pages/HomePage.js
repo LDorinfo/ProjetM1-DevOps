@@ -114,6 +114,7 @@ function HomePage(props) {
             )}
           </div>
         </section>
+        <h2>Évenements <img src="https://img.icons8.com/fluency/48/starred-ticket.png" alt="starred-ticket"/></h2>
         <div><ListEvenement setPage={props.setPage}/></div>
       </div>
     </div>

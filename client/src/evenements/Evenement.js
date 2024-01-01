@@ -14,7 +14,7 @@ function Evenement(props){
         {props.dataevenement.prix === 0 ? (
           <p className="prix">Gratuit</p>
         ) : (
-          <p className="prix">{props.dataevenement.prix} pour les membres</p>
+          <p className="prix">{props.dataevenement.prix} Pour les membres</p>
         )}
       </div>
     </div>
