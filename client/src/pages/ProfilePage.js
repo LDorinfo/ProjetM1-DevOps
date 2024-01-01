@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar.js";
 import EvenementForm from "../evenements/EvenementForm.js";
+import { useAuth } from "../AuthenticateContext.js";
 
 function ProfilePage(props){
+    const {user}= useAuth();
     const [userData, setUserData]= useState(""); 
     useEffect(()=>{
         const fetchUserData = () => {
             // Fetch popular movies
-        fetch('http://localhost:5000/users/userinfo', {
+        fetch(`http://localhost:5000/users/userinfo?user_id=${user}`, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' }
