@@ -1,8 +1,0 @@
-@startuml
-Front -> Serveur: Authentication Request
-Serveur-> Bdd : Authentication Request, User exists ? 
-Bdd--> Serveur: Authentication Response
-Serveur--> Front: Authentication Response
-
-@enduml
-
