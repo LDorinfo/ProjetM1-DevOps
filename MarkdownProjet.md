@@ -209,3 +209,26 @@ Dans cette livraison nous avons aussi mis en place l'API Swagger, une route pour
 
 ![image](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/da90e0b4-c26e-4c97-a83c-33efd0ffa0f3)
 
+## Arborescence du projet 
+Structure du dossier pour le volume OS
+Le numéro de série du volume est BA98-D3E2
+C:.
+└───ProjetM1-DevOps
+    ├───.github
+    │   └───workflows
+    ├───back-end
+    │   ├───instance
+    │   ├───migrations
+    │   │   ├───versions
+    │   │   └───__pycache__
+    │   ├───venv
+    │   │   
+    ├───client
+    │   ├───public
+    │   └───src
+    │       ├───commentaire
+    │       ├───connexion
+    │       ├───evenements
+    │       ├───pages
+    │       └───search
+    └───images

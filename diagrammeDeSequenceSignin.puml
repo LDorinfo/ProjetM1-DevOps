@@ -1,0 +1,22 @@
+@startuml
+actor Client
+participant "Signin.js" as SigninComponent
+participant "API Server" as APIServer
+database Database
+
+Client -> SigninComponent: Remplit le formulaire
+activate SigninComponent
+
+SigninComponent -> APIServer: Requête POST /register
+activate APIServer
+
+APIServer -> Database: Vérifie l'existence de l'utilisateur
+activate Database
+
+Database --> APIServer: Utilisateur existe ou non
+
+APIServer --> SigninComponent: Réponse JSON
+deactivate Database
+deactivate APIServer
+deactivate SigninComponent
+@enduml

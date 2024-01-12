@@ -47,7 +47,7 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_DEBUG'] = True
 app.config['MAIL_USERNAME'] = 'cineverse.noreply@gmail.com'
-app.config['MAIL_PASSWORD'] = 'ROUjeElaR0se'
+#app.config['MAIL_PASSWORD'] =
 app.config['MAIL_DEFAULT_SENDER'] = {'flask email','cineverse.noreply@gmail.com'}
 
 
