@@ -1,0 +1,22 @@
+@startuml
+actor Client
+participant "MessageForm.js" as MessageFormComponent
+participant "API Server" as APIServer
+database Database
+
+Client -> MessageFormComponent: Rédige un commentaire
+activate MessageFormComponent
+
+MessageFormComponent -> APIServer: Requête POST /comments/create
+activate APIServer
+
+APIServer -> Database: Crée le commentaire dans la base de données
+activate Database
+
+Database --> APIServer: Commentaire créé avec succès
+
+APIServer --> MessageFormComponent: Réponse JSON avec le commentaire créé
+deactivate Database
+deactivate APIServer
+deactivate MessageFormComponent
+@enduml
