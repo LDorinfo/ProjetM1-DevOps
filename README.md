@@ -2,6 +2,8 @@
 
 [![Version 0.2](https://img.shields.io/badge/Version-0.2-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.2)
 [![Version 0.3](https://img.shields.io/badge/Version-0.3-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.3)
+[![Version 0.4](https://img.shields.io/badge/Version-0.4-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.4)
+[![Version 1.0](https://img.shields.io/badge/Version-1.0-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/valpha)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/blob/main/LICENCE)
 
 Notre projet consiste en un site de critique de cinéma. Il permet de partager son avis. 
@@ -15,6 +17,8 @@ Pour le côté client :
 
 [![Version 0.2](https://img.shields.io/badge/Version-0.2-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.2)
 [![Version 0.3](https://img.shields.io/badge/Version-0.3-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.3)
+[![Version 0.4](https://img.shields.io/badge/Version-0.4-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.4)
+[![Version 1.0](https://img.shields.io/badge/Version-1.0-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/valpha)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/blob/main/client/LICENCE)
 
 1- Installer les dépendances du client avec la commande npm install depuis le dossier client
@@ -30,6 +34,8 @@ Si besoin installer react-icon/fa :
 
 [![Version 0.2](https://img.shields.io/badge/Version-0.2-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.2)
 [![Version 0.3](https://img.shields.io/badge/Version-0.3-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.3)
+[![Version 0.4](https://img.shields.io/badge/Version-0.4-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.4)
+[![Version 1.0](https://img.shields.io/badge/Version-1.0-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/valpha)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/blob/main/back-end/LICENCE)
 
 1- S'assurer d'avoir une version de python installer sur son ordinateur : \\\ python3 --version \\\
