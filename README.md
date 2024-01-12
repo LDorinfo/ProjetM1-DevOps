@@ -4,7 +4,7 @@
 [![Version 0.3](https://img.shields.io/badge/Version-0.3-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.3)
 [![Version 0.4](https://img.shields.io/badge/Version-0.4-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/v0.4)
 [![Version 1.0](https://img.shields.io/badge/Version-1.0-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/releases/tag/valpha)
-
+[![Tags](https://img.shields.io/badge/tag-brightgreen.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/tags)
 [![Qualité de code](https://img.shields.io/badge/Codacy-brightgreen.svg)](https://app.codacy.com/organizations/gh/LDorinfo/repositories)
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/LDorinfo/ProjetM1-DevOps/blob/main/LICENCE)
