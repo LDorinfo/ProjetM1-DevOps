@@ -64,5 +64,5 @@ Nous avons une api swagger dans le back avec le framework flasgger. Pour la lanc
 Ensuite il faut ouvrir la page http://localhost:5000/apidocs/ dans le navigateur web. 
 
 ## Analyse de code / qualité de code
-
+[![Qualité de code](https://img.shields.io/badge/Codacy-brightgreen.svg)](https://app.codacy.com/organizations/gh/LDorinfo/repositories)
 Pour l'analyse de code nous utilisons codacy. 
