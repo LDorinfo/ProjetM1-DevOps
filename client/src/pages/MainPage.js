@@ -5,6 +5,9 @@ import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
 import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
+//Celenium, cypress.io pour les tests d'intégration. 
+//Test d'intégration avec les composants, test de la communication avec la Bdd. test de la communication avec le front. 
+// Test fonctionnel : ensemble de méthodes. 
 import Watchlist from './Watchlist.js';
 import EvenementPage from '../evenements/EvenementPage.js';
 
