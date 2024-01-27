@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from models import db, User
+from models import Planning, db, User
 from flask_mail import Message, Mail
 from config import ApplicationConfig
 import requests  # Importez le module requests
@@ -153,7 +153,8 @@ def trending_movies():
 
     if response.status_code == 200:
         search_results = response.json()
-        return jsonify(search_results.get('results', []))
+        print(search_results)
+        return jsonify(search_results)
     else:
         print("On retourne rien")
         return []
@@ -292,6 +293,8 @@ def search_tv():
               poster_path:
                 type: string
                 description: Chemin vers l'affiche de l'émission.
+      404:
+        description: Aucun résultat trouvé pour la recherche spécifiée.
       401:
         description: Non autorisé, l'accès à la ressource est refusé.
     """
@@ -303,9 +306,11 @@ def search_tv():
 
     if response.status_code == 200:
         search_results = response.json()
-        return search_results
+        if not search_results:
+            return jsonify([]), 404  # Aucun résultat trouvé
+        return jsonify(search_results)
     else:
-        return [] 
+        return jsonify([]), 500
 #@search_blueprint.route('search/discover-western-movies', methods=['GET'])
 @app.route('/search/discover-western-movies', methods=['GET'])
 def western_movies():
@@ -429,12 +434,120 @@ def forgot_password():
     msg.body = "Corps : Merci de cliquer sur le lien pour réinitialiser le mot de passe "
     mail.send(msg)
     return "Message envoyé"
+@app.route('/movie/details', methods=['GET'])
+def get_movie_details():
+    """
+    Récupère les détails d'un film en fonction de son ID en utilisant l'endpoint /find.
 
+    ---
+    tags:
+      - Détails du film
+    parameters:
+      - name: movie_id
+        in: query
+        type: integer
+        required: true
+        description: ID du film.
+    responses:
+      200:
+        description: Détails du film.
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Titre du film.
+            release_date:
+              type: string
+              description: Date de sortie du film.
+            overview:
+              type: string
+              description: Résumé du film.
+            poster_path:
+              type: string
+              description: Chemin vers l'affiche du film.
+      404:
+        description: Aucun résultat trouvé pour l'ID du film.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
+    """
+    #https://www.themoviedb.org/movie/787699-wonka?language=fr-FR
+    movie_id = request.args.get('query')
+    url = f'{BASE_URL}/movie/{movie_id}'
+
+    params = {'api_key': tmdb_api_key}
+    headers = {"accept": "application/json"}
+
+    response = requests.get(url, params=params, headers=headers)
+    print(response)
+    if response.status_code == 200:
+        movie_details = response.json()
+
+        return jsonify({"info": movie_details})
+    else:
+        return jsonify({'error': 'Aucun résultat trouvé pour l\'ID du film.'}), 404
+
+@app.route('/planning/add', methods=['POST'])
+def add_eventPlanning():
+    idFilm = request.json.get('idFilm')
+    user_id = request.json.get('user')
+    start= request.json.get('start')
+    end= request.json.get('end')
+    print(start)
+    title = request.json.get('title')
+    if idFilm is None :
+        return jsonify({"error": "IdFilm is not present"}), 404
+    if start is None : 
+      return jsonify({"error": "Start is not present"}), 404
+    if end is None :
+      return jsonify({"error": "End is not present"}), 404
+    if title is None :
+      return jsonify({"error": "title is not present"}), 404
+    if user_id is None: 
+        return jsonify({"error" : "User unauthenticate"}),403
+    user = User.query.filter_by(id=user_id).first()
+    if user is None: 
+        return jsonify({"error" : "User not found"}), 404
+    newprojet = Planning(title= title, end = end, start=start, user_id= user_id,film_id=idFilm)
+    db.session.add(newprojet)
+    db.session.commit()
+  
+    return jsonify({
+        "id": newprojet.id,
+        "start": newprojet.start,
+        "end": newprojet.end,
+        "title": newprojet.title,
+        "film_id": newprojet.film_id
+    })
+
+from datetime import datetime
+@app.route('/planning/get', methods=['GET'])
+def get_eventPlanning():
+  user_id = session.get("user_id")
+  if user_id is None: 
+    return jsonify({"error" : "User unauthenticate"}),403
+  events_planning = Planning.query.filter_by(user_id=user_id).all()
+  if events_planning is None : 
+    return jsonify({"error":"No events"}), 404 
+    
+  events_list = []
+  for event_planning in events_planning:
+    # Convertir les chaînes de caractères en objets datetime
+    start_date = datetime.strptime(event_planning.start, '%Y, %m, %d, %H, %M')
+    end_date = datetime.strptime(event_planning.end, '%Y, %m, %d, %H, %M')
+    events_list.append({
+      "id": event_planning.id,
+      "start": start_date.strftime('%Y-%m-%dT%H:%M:%S'),
+      "end": end_date.strftime('%Y-%m-%dT%H:%M:%S'),
+      "title": event_planning.title,
+      "film_id": event_planning.film_id,
+    })
+  print(events_list)
+  return jsonify({"status": "Found events", "planning": events_list})
+    
 @app.route("/home")
 def home():
     return "Hello"
 
 if __name__ == "__main__":
-    
-
-    app.run(debug=True)
+  app.run(debug=True)

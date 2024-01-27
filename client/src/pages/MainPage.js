@@ -5,6 +5,7 @@ import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
 import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
+import Planning from './Planning.js';
 //Celenium, cypress.io pour les tests d'intégration. 
 //Test d'intégration avec les composants, test de la communication avec la Bdd. test de la communication avec le front. 
 // Test fonctionnel : ensemble de méthodes. 
@@ -32,6 +33,8 @@ function MainPage(props){
           return <Watchlist setPage={setPage} data={page[1]} />; 
         }else if(page[0]=== "event_page") {
           return <EvenementPage setPage={setPage} data={page[1]} />; 
+        }else if(page[0]==="page_planning"){
+          return <Planning setPage={setPage} data={page[1]}/>;
         }
       })();
 }    

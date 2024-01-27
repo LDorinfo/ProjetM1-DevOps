@@ -38,7 +38,7 @@ const handleClickTV = (indice) => {
     .then((response)=> response.json())
     .then((data)=>{
       console.log(data);
-      props.setPage(["search_page", data]) 
+      props.setPage(["search_page", data])
     })
     .catch((error)=> console.log(error))
   }
@@ -76,9 +76,9 @@ const handleClickTV = (indice) => {
               onMouseLeave={() => setSerieDropdownOpen(false)}
             >
               {/* Add TV series categories as NavDropdown items */}
-              <NavDropdown.Item href='#'onClick={()=>handleClickTV(14)}>Fantastique</NavDropdown.Item>
-              <NavDropdown.Item href='#' onClick={()=>handleClickTV(878)}>Science-Fiction</NavDropdown.Item>
-              <NavDropdown.Item href='#' onClick={()=>handleClickTV(27)}>Horror</NavDropdown.Item>
+              <NavDropdown.Item href='#'onClick={()=>handleClickTV(10765)}>Fantastique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(10751)}>Family</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(10759)}>Action & Adventure</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>

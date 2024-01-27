@@ -29,7 +29,7 @@ function Watchlist(props) {
           <div className="posterwatchlist">
           <h2>Ma Watchlist</h2>
             {watchlist.map((item) => (
-              <div key={item.film_id}>
+              <div key={item.id}>
               <ImageFilm dataFilm={item} setPage={props.setPage}/>
               </div>
             ))}
