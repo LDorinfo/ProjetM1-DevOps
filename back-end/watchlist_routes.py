@@ -148,11 +148,11 @@ def get_watchlist():
     watchlist_data = []
     for item in watchlist:
         watchlist_data.append({
-            "film_id": item.film_id,
+            "id": item.film_id,
             "title": item.title,
             "poster_path": item.poster_path,
             # Ajoutez d'autres champs au besoin
-        })
+        }) 
 
     return jsonify({"watchlist": watchlist_data})
 

@@ -1,0 +1,11 @@
+Choix de conception pour un planning de films
+react-scheduler : Il utilise mui/emotion/ date-fns. Ce sont des bibliothèques que l'on utilise pas. 
+	-> mui propose une suite complète d'outils d'interface utilisateur gratuits. Ce sont des composants prêts à l'emploi. Je pense pas en avoir besoin car on a déjà nos propre composant. 
+	-> emotion est une bibliothèque pour écrire des styles CSS avec JavaScript. 
+	-> date-fns permet de manipuler des dates JavaScript dans un navigateur. Il est immuable et pur (renvoie toujours une nouvelle instance de date au lieu de modifier celle transmise) et permet d'éviter de surcharger notre projet. Il est cohérent car il renvoie toujours la date dans le même fuseau horaire peu importe ce qui est transmis. Rapide car petit. API simple.
+
+react-big-calendar : utilise également-fns et à son propre style. 
+fullCalendar : permet d'avoir le bon fuseau horaire seul problème est qu'il est moins précis que react-big-calendar. 
+
+Je vais donc partir sur react-big-calendar. 
+Utilisation de fetch car on n'a pas besoin d'installer un outil en plus : npm axio. 
