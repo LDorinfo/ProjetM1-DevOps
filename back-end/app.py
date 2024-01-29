@@ -485,6 +485,42 @@ def get_movie_details():
     else:
         return jsonify({'error': 'Aucun résultat trouvé pour l\'ID du film.'}), 404
 
+@app.route('/planning/delete', methods=['DELETE'])
+def delete_event():
+    """
+    Supprime un événement du planning en fonction de son ID.
+
+    ---
+    tags:
+      - Planning
+    parameters:
+      - name: id_event
+        in: body
+        type: integer
+        required: true
+        description: ID de l'événement à supprimer.
+    responses:
+      200:
+        description: Événement supprimé avec succès.
+      404:
+        description: Aucun événement trouvé avec l'ID spécifié.
+    """
+    data = request.json
+    id_event = data.get('id_event')
+
+    if id_event is None:
+        return jsonify({"error": "ID de l'événement manquant"}), 400
+
+    event_to_delete = Planning.query.get(id_event)
+
+    if event_to_delete is None:
+        return jsonify({"error": "Aucun événement trouvé avec l'ID spécifié"}), 404
+
+    db.session.delete(event_to_delete)
+    db.session.commit()
+
+    return jsonify({"status": "Événement supprimé avec succès"})
+
 @app.route('/planning/add', methods=['POST'])
 def add_eventPlanning():
     idFilm = request.json.get('idFilm')

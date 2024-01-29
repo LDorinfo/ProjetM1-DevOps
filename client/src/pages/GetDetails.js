@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import ImageFilm from '../search/ImageFilm';
 import { format } from 'date-fns';
 
 function GetDetails(props){
-    /*useEffect(() => {
+  /*const [dataFilm, setData]= useState()
+    useEffect(() => {
         const fetchGetDetails = async () => {
           if (props.selectedEvent) {
             try {
@@ -21,9 +23,8 @@ function GetDetails(props){
         };
     
         fetchGetDetails();
-    });*/
+    },[dataFilm]);*/
 
-    console.log(props.datafilm)
     return (<div className="planning-details">
     <h2>Event Details</h2>
     <p>
@@ -45,7 +46,9 @@ function GetDetails(props){
       <ImageFilm dataFilm ={props.datafilm} setPage={props.setPage}></ImageFilm> : 
       <button>Details Film</button>
     }
-  </div>)
+  <button onClick={props.handleDelete} className="close-btn"> Delete</button>
+  </div>
+  )
 }
 
 export default GetDetails; 
