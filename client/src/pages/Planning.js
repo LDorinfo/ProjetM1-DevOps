@@ -140,7 +140,7 @@ function Planning(props){
     <div>
         {selectedEvent && (
           <div>
-            <GetDetails event={selectedEvent} onClose={handleCloseDetails} datafilm={datafilm} />
+            <GetDetails event={selectedEvent} onClose={handleCloseDetails} datafilm={datafilm} setPage={props.setPage}/>
           </div>
         )}
         <label htmlFor="title-calendar">Title</label>

@@ -4,7 +4,6 @@ function ImageFilm(props){
         console.log(i.id)
         props.setPage(["film_page", i])
       }
-    console.log(props.dataFilm)
     return (<img
         className="movieposter"
         src={`https://image.tmdb.org/t/p/w500${props.dataFilm.poster_path}`}
