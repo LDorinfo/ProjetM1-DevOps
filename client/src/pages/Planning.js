@@ -15,7 +15,7 @@ import GetDetails from './GetDetails';
 //<ImageFilm datafilm ={datafilm}></ImageFilm>
 function Planning(props){
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [idFilm, setIdFilm]= useState(872585);  
+  const [idFilm, setIdFilm]= useState();  
   const [events, setEvent]= useState([]); 
   const [startdate, setDateStart]= useState(''); 
   const [datafilm, setData]= useState();
@@ -72,8 +72,10 @@ function Planning(props){
     console.log("Updated events:", events);
   }, [setIschange]);
   
-    const fetchGetDetails= () => {
-    fetch(`http://localhost:5000/movie/details?query=${idFilm}`, {
+  const fetchGetDetails= (event) => {
+      console.log(event)
+      if(event){
+    fetch(`http://localhost:5000/movie/details?query=${event.id_film}`, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -86,9 +88,13 @@ function Planning(props){
     })
     .catch((error) => console.log(error));
   }
-  const handleSelectEvent = (evt) => {
-    setSelectedEvent(evt);
-    fetchGetDetails();
+}
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event);
+    console.log(event)
+    console.log(selectedEvent)
+    fetchGetDetails(event); 
+
   };
   /*const handleClickDetails = (evt) =>{
     //fetchGetDetails(); 
@@ -123,7 +129,25 @@ function Planning(props){
     })
     .catch((error)=> console.log(error))
   }
-  console.log(selectedEvent)
+  
+  
+  const handleDelete = (evt) => {
+    evt.preventDefault();
+    // perme de faire la recherche pour les films dans les filtres sélectionnées. 
+    fetch(`http://localhost:5000/planning/delete`, {
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json"}, 
+      credentials: 'include', 
+      body : JSON.stringify({id_event : selectedEvent.id})
+    })
+    .then((response)=> response.json())
+    .then((data)=>{
+      console.log(data);
+      setEvent((prevEvents) => prevEvents.filter(event => event.id !== selectedEvent.id));
+      setSelectedEvent(null);
+    })
+    .catch((error)=> console.log(error))
+  }
   return(
     <div>
         <NavigationBar setPage={props.setPage}/>
@@ -140,7 +164,7 @@ function Planning(props){
     <div>
         {selectedEvent && (
           <div>
-            <GetDetails event={selectedEvent} onClose={handleCloseDetails} datafilm={datafilm} setPage={props.setPage}/>
+            <GetDetails event={selectedEvent} handleDelete={handleDelete} onClose={handleCloseDetails} datafilm={datafilm} setPage={props.setPage}/>
           </div>
         )}
         <label htmlFor="title-calendar">Title</label>
