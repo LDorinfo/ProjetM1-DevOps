@@ -153,8 +153,7 @@ def trending_movies():
 
     if response.status_code == 200:
         search_results = response.json()
-        print(search_results)
-        return jsonify(search_results)
+        return jsonify(search_results.get('results', []))
     else:
         print("On retourne rien")
         return []
@@ -479,7 +478,6 @@ def get_movie_details():
     headers = {"accept": "application/json"}
 
     response = requests.get(url, params=params, headers=headers)
-    print(response)
     if response.status_code == 200:
         movie_details = response.json()
 
@@ -493,7 +491,6 @@ def add_eventPlanning():
     user_id = request.json.get('user')
     start= request.json.get('start')
     end= request.json.get('end')
-    print(start)
     title = request.json.get('title')
     if idFilm is None :
         return jsonify({"error": "IdFilm is not present"}), 404
@@ -542,7 +539,6 @@ def get_eventPlanning():
       "title": event_planning.title,
       "film_id": event_planning.film_id,
     })
-  print(events_list)
   return jsonify({"status": "Found events", "planning": events_list})
     
 @app.route("/home")

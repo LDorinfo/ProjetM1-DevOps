@@ -13,8 +13,7 @@ function HomePage(props) {
   const [currentSlideMovies, setCurrentSlideMovies] = useState(0);
   const [currentSlideTVShows, setCurrentSlideTVShows] = useState(0);
 
-
-  useEffect(() => {
+  useEffect(()=>{
     const fetchPopularData = () => {
       // Fetch popular movies
       fetch('http://localhost:5000/search/trending-movie', {
@@ -26,11 +25,16 @@ function HomePage(props) {
         .then((data) => {
           console.log(data);
           setPopularMovies(data || []);
+          console.log(popularMovies)
         })
         .catch((error) => console.log(error));
-
+    };
+    fetchPopularData();
+  }, [setPopularMovies]); 
+  useEffect(() => {
       // Fetch popular TV shows
-      fetch('http://localhost:5000/search/trending-tv', {
+    const fetchPopularTVdata = () => {
+        fetch('http://localhost:5000/search/trending-tv', {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -42,8 +46,8 @@ function HomePage(props) {
         })
         .catch((error) => console.log(error));
     };
-    fetchPopularData();
-  }, [setPopularMovies,setPopularTVShows]);
+    fetchPopularTVdata(); 
+  }, [setPopularTVShows]);
 
   const nextSlideMovies = () => {
     setCurrentSlideMovies((prevSlide) => (prevSlide + 1) % Math.ceil(popularMovies.length / 7));
@@ -60,7 +64,6 @@ function HomePage(props) {
   const prevSlideTVShows = () => {
     setCurrentSlideTVShows((prevSlide) => (prevSlide - 1 + Math.ceil(popularTVShows.length / 7)) % Math.ceil(popularTVShows.length / 7));
   };
-
   return (
     <div>
       <header>
