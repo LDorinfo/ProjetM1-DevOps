@@ -11,6 +11,7 @@ import Planning from './Planning.js';
 // Test fonctionnel : ensemble de méthodes. 
 import Watchlist from './Watchlist.js';
 import EvenementPage from '../evenements/EvenementPage.js';
+import Cinemamaps from './Cinemamaps.js';
 
 function MainPage(props){
     const [page, setPage]= useState(["home_page", undefined]); 
@@ -35,6 +36,8 @@ function MainPage(props){
           return <EvenementPage setPage={setPage} data={page[1]} />; 
         }else if(page[0]==="page_planning"){
           return <Planning setPage={setPage} data={page[1]}/>;
+        }else if(page[0]=== "maps_page") {
+          return <Cinemamaps setPage={setPage} />; 
         }
       })();
 }    

@@ -10,6 +10,7 @@ import './NavigationBar.css';
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
+  const [page, setPage] = useState(["maps_page", undefined]);
 
 
   const handleClickMovies = (indice) => {
@@ -42,6 +43,11 @@ const handleClickTV = (indice) => {
     })
     .catch((error)=> console.log(error))
   }
+
+  const handleClickMaps = (evt) => {
+    evt.preventDefault();
+    props.setPage(["maps_page", undefined]);
+  };
 
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark">
@@ -80,6 +86,7 @@ const handleClickTV = (indice) => {
               <NavDropdown.Item href='#' onClick={()=>handleClickTV(10751)}>Family</NavDropdown.Item>
               <NavDropdown.Item href='#' onClick={()=>handleClickTV(10759)}>Action & Adventure</NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link href='./Cinemamaps.js' onClick={handleClickMaps}>Cinéma</Nav.Link>
           </Nav>
           <Nav>
             <BarreRecherche setPage={props.setPage} />
