@@ -45,7 +45,7 @@ function GetDetails(props){
     { props.datafilm ? 
       <ImageFilm dataFilm ={props.datafilm} setPage={props.setPage}></ImageFilm> : 
       <button>Details Film</button>
-    }
+    } s
   <button onClick={props.handleDelete} className="close-btn"> Delete</button>
   </div>
   )

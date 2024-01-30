@@ -58,6 +58,6 @@ export default MainPage;
             }
             else if(page[0]==="signin_page"){
                 return <Signin setPage={setPage}/>
-            }
+            } 
         })
 */
