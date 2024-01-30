@@ -523,6 +523,60 @@ def delete_event():
 
 @app.route('/planning/add', methods=['POST'])
 def add_eventPlanning():
+    """
+    Ajoute un nouvel événement de planification pour un film.
+
+    ---
+    tags:
+      - Planning
+    parameters:
+      - in: body
+        name: Event Planning
+        description: Informations sur l'événement de planification à ajouter.
+        required: true
+        schema:
+          type: object
+          properties:
+            idFilm:
+              type: integer
+              description: ID du film associé à l'événement.
+            user:
+              type: integer
+              description: ID de l'utilisateur associé à l'événement.
+            start:
+              type: string
+              description: Date et heure de début de l'événement au format ISO 8601.
+            end:
+              type: string
+              description: Date et heure de fin de l'événement au format ISO 8601.
+            title:
+              type: string
+              description: Titre de l'événement.
+
+    responses:
+      200:
+        description: Événement de planification ajouté avec succès.
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Identifiant unique de l'événement de planification.
+            start:
+              type: string
+              description: Date et heure de début de l'événement au format ISO 8601.
+            end:
+              type: string
+              description: Date et heure de fin de l'événement au format ISO 8601.
+            title:
+              type: string
+              description: Titre de l'événement.
+            film_id:
+              type: integer
+              description: ID du film associé à l'événement.
+      404:
+        description: Les informations requises ne sont pas présentes.
+    """
     idFilm = request.json.get('idFilm')
     user_id = request.json.get('user')
     start= request.json.get('start')
@@ -556,6 +610,47 @@ def add_eventPlanning():
 from datetime import datetime
 @app.route('/planning/get', methods=['GET'])
 def get_eventPlanning():
+  """
+    Récupère la liste des événements de planification pour l'utilisateur authentifié.
+
+    ---
+    tags:
+      - Planning
+    responses:
+      200:
+        description: Liste des événements de planification trouvés.
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Statut de la requête.
+            planning:
+              type: array
+              description: Liste des événements de planification.
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Identifiant unique de l'événement de planification.
+                  start:
+                    type: string
+                    description: Date et heure de début de l'événement au format ISO 8601.
+                  end:
+                    type: string
+                    description: Date et heure de fin de l'événement au format ISO 8601.
+                  title:
+                    type: string
+                    description: Titre de l'événement.
+                  film_id:
+                    type: integer
+                    description: ID du film associé à l'événement.
+      403:
+        description: L'utilisateur n'est pas authentifié.
+      404:
+        description: Aucun événement de planification trouvé.
+  """ 
   user_id = session.get("user_id")
   if user_id is None: 
     return jsonify({"error" : "User unauthenticate"}),403
