@@ -209,6 +209,15 @@ Dans cette livraison nous avons aussi mis en place l'API Swagger, une route pour
 
 ![image](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/da90e0b4-c26e-4c97-a83c-33efd0ffa0f3)
 
+Livraison 5 : Version 1.1
+**Outil de planification**
+L'utilisateur dispose d'un outil (calendrier) pour programmer le prochain film qu'il souhaite pouvoir voir. 
+
+![Alt text](./images/wireframe_Planning1.png)
+![Alt text](./images/wireframe_planning2.png)
+
+
+
 ## Arborescence du projet 
 Structure du dossier pour le volume OS
 Le numéro de série du volume est BA98-D3E2
