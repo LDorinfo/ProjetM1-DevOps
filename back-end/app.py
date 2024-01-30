@@ -584,9 +584,9 @@ def add_eventPlanning():
     title = request.json.get('title')
     if idFilm is None :
         return jsonify({"error": "IdFilm is not present"}), 404
-    if start is None : 
+    if start is None or "" : 
       return jsonify({"error": "Start is not present"}), 404
-    if end is None :
+    if end is None or "" :
       return jsonify({"error": "End is not present"}), 404
     if title is None :
       return jsonify({"error": "title is not present"}), 404
