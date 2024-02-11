@@ -12,6 +12,7 @@ from comments_routes import comments_blueprint
 #from search_routes import search_blueprint
 from evenement_routes import event_blueprint
 from watchlist_routes import watchlist_blueprint
+from planning_routes import planning_blueprint
 from flasgger import Swagger
 
 
@@ -35,6 +36,7 @@ app.register_blueprint(users_blueprint, url_prefix='/users')
 app.register_blueprint(comments_blueprint, url_prefix='/comments')
 app.register_blueprint(event_blueprint, url_prefix='/event')
 app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
+app.register_blueprint(planning_blueprint, url_prefix='/planning')
 #app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
 #pas possible car ces routes on besoin de tmdb_api_key
 
@@ -521,157 +523,8 @@ def delete_event():
 
     return jsonify({"status": "Événement supprimé avec succès"})
 
-@app.route('/planning/add', methods=['POST'])
-def add_eventPlanning():
-    """
-    Ajoute un nouvel événement de planification pour un film.
 
-    ---
-    tags:
-      - Planning
-    parameters:
-      - in: body
-        name: Event Planning
-        description: Informations sur l'événement de planification à ajouter.
-        required: true
-        schema:
-          type: object
-          properties:
-            idFilm:
-              type: integer
-              description: ID du film associé à l'événement.
-            user:
-              type: integer
-              description: ID de l'utilisateur associé à l'événement.
-            start:
-              type: string
-              description: Date et heure de début de l'événement au format ISO 8601.
-            end:
-              type: string
-              description: Date et heure de fin de l'événement au format ISO 8601.
-            title:
-              type: string
-              description: Titre de l'événement.
 
-    responses:
-      200:
-        description: Événement de planification ajouté avec succès.
-        schema:
-          type: object
-          properties:
-            id:
-              type: integer
-              description: Identifiant unique de l'événement de planification.
-            start:
-              type: string
-              description: Date et heure de début de l'événement au format ISO 8601.
-            end:
-              type: string
-              description: Date et heure de fin de l'événement au format ISO 8601.
-            title:
-              type: string
-              description: Titre de l'événement.
-            film_id:
-              type: integer
-              description: ID du film associé à l'événement.
-      404:
-        description: Les informations requises ne sont pas présentes.
-    """
-    idFilm = request.json.get('idFilm')
-    user_id = request.json.get('user')
-    start= request.json.get('start')
-    end= request.json.get('end')
-    title = request.json.get('title')
-    if idFilm is None :
-        return jsonify({"error": "IdFilm is not present"}), 404
-    if start is None or "" : 
-      return jsonify({"error": "Start is not present"}), 404
-    if end is None or "" :
-      return jsonify({"error": "End is not present"}), 404
-    if title is None :
-      return jsonify({"error": "title is not present"}), 404
-    if user_id is None: 
-        return jsonify({"error" : "User unauthenticate"}),403
-    user = User.query.filter_by(id=user_id).first()
-    if user is None: 
-        return jsonify({"error" : "User not found"}), 404
-    newprojet = Planning(title= title, end = end, start=start, user_id= user_id,film_id=idFilm)
-    db.session.add(newprojet)
-    db.session.commit()
-  
-    return jsonify({
-        "id": newprojet.id,
-        "start": newprojet.start,
-        "end": newprojet.end,
-        "title": newprojet.title,
-        "film_id": newprojet.film_id
-    })
-
-from datetime import datetime
-@app.route('/planning/get', methods=['GET'])
-def get_eventPlanning():
-  """
-    Récupère la liste des événements de planification pour l'utilisateur authentifié.
-
-    ---
-    tags:
-      - Planning
-    responses:
-      200:
-        description: Liste des événements de planification trouvés.
-        schema:
-          type: object
-          properties:
-            status:
-              type: string
-              description: Statut de la requête.
-            planning:
-              type: array
-              description: Liste des événements de planification.
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    description: Identifiant unique de l'événement de planification.
-                  start:
-                    type: string
-                    description: Date et heure de début de l'événement au format ISO 8601.
-                  end:
-                    type: string
-                    description: Date et heure de fin de l'événement au format ISO 8601.
-                  title:
-                    type: string
-                    description: Titre de l'événement.
-                  film_id:
-                    type: integer
-                    description: ID du film associé à l'événement.
-      403:
-        description: L'utilisateur n'est pas authentifié.
-      404:
-        description: Aucun événement de planification trouvé.
-  """ 
-  user_id = session.get("user_id")
-  if user_id is None: 
-    return jsonify({"error" : "User unauthenticate"}),403
-  events_planning = Planning.query.filter_by(user_id=user_id).all()
-  if events_planning is None : 
-    return jsonify({"error":"No events"}), 404 
-    
-  events_list = []
-  for event_planning in events_planning:
-    # Convertir les chaînes de caractères en objets datetime
-    start_date = datetime.strptime(event_planning.start, '%Y, %m, %d, %H, %M')
-    end_date = datetime.strptime(event_planning.end, '%Y, %m, %d, %H, %M')
-    events_list.append({
-      "id": event_planning.id,
-      "start": start_date.strftime('%Y-%m-%dT%H:%M:%S'),
-      "end": end_date.strftime('%Y-%m-%dT%H:%M:%S'),
-      "title": event_planning.title,
-      "film_id": event_planning.film_id,
-    })
-  return jsonify({"status": "Found events", "planning": events_list})
-    
 @app.route("/home")
 def home():
     return "Hello"
