@@ -6,12 +6,13 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import ConnectionPanel from './connexion/ConnectionPanel';
 import BarreRecherche from './search/BarreRecherche';
 import './NavigationBar.css';
+import Cinemamaps from './pages/Cinemamaps';
+import { useNavigate,Route } from 'react-router-dom';
 
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
-  const [page, setPage] = useState(["maps_page", undefined]);
-
+  const history = useNavigate();
 
   const handleClickMovies = (indice) => {
     // perme de faire la recherche pour les films dans les filtres sélectionnées. 
@@ -24,7 +25,7 @@ function NavigationBar(props) {
       .then((response)=> response.json())
       .then((data)=>{
         console.log(data);
-        props.setPage(["search_page", data])
+        history(`/search?query=${indice}&data=${JSON.stringify(data)}`);
       })
       .catch((error)=> console.log(error))
 }
@@ -39,25 +40,25 @@ const handleClickTV = (indice) => {
     .then((response)=> response.json())
     .then((data)=>{
       console.log(data);
-      props.setPage(["search_page", data])
+      history(`/search?query=${indice}&data=${JSON.stringify(data)}`);
     })
     .catch((error)=> console.log(error))
   }
 
-  const handleClickMaps = (evt) => {
-    evt.preventDefault();
-    props.setPage(["maps_page", undefined]);
+  const handleClickMaps = () => {
+    // Naviguer vers la page de cinéma
+    history("/maps");
   };
 
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark">
       <Container>
         <img className="popcorn-icon" src="https://img.icons8.com/fluency/48/popcorn.png" alt="popcorn"/>
-        <Navbar.Brand href="./Homepage.js">CineVerse</Navbar.Brand>
+        <Navbar.Brand href="/">CineVerse</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href='./Homepage.js'>Accueil</Nav.Link>
+            <Nav.Link href='/'>Accueil</Nav.Link>
             <NavDropdown 
               title="Films" 
               id="films-dropdown" 
@@ -86,11 +87,11 @@ const handleClickTV = (indice) => {
               <NavDropdown.Item href='#' onClick={()=>handleClickTV(10751)}>Family</NavDropdown.Item>
               <NavDropdown.Item href='#' onClick={()=>handleClickTV(10759)}>Action & Adventure</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href='./Cinemamaps.js' onClick={handleClickMaps}>Cinéma</Nav.Link>
+            <Nav.Link href='./maps' onClick={handleClickMaps}>Cinéma</Nav.Link>
           </Nav>
           <Nav>
-            <BarreRecherche setPage={props.setPage} />
-            <ConnectionPanel setPage={props.setPage} />
+            <BarreRecherche />
+            <ConnectionPanel />
           </Nav>
         </Navbar.Collapse>
       </Container>

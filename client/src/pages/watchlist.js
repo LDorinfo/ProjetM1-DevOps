@@ -23,14 +23,14 @@ function Watchlist(props) {
   return (
     <div className="watchlist-container">
       <header>
-        <NavigationBar setPage={props.setPage}/>
+        <NavigationBar/>
       </header>
         <div className="watchlist-content">
           <div className="posterwatchlist">
           <h2>Ma Watchlist</h2>
             {watchlist.map((item) => (
               <div key={item.id}>
-              <ImageFilm dataFilm={item} setPage={props.setPage}/>
+              <ImageFilm dataFilm={item}/>
               </div>
             ))}
           </div>

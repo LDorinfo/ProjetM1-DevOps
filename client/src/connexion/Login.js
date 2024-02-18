@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import "./Login.css";
 import NavigationBar from "../NavigationBar";
 
-function Login(props) {
+function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail]= useState(""); 
+  const [email, setEmail] = useState("");
+  const history = useNavigate();
 
   const getLogin = (evt) => {
     setLogin(evt.target.value);
@@ -15,38 +17,38 @@ function Login(props) {
   const getPassword = (evt) => {
     setPassword(evt.target.value);
   };
+
   const getemail = (evt) => {
-    setEmail(evt.target.value); 
-  }; 
+    setEmail(evt.target.value);
+  };
 
   const handleClickSignin = (evt) => {
     evt.preventDefault();
-    props.setPage(["signin_page", undefined]);
+    history("/signin");
   };
 
   const handleForgotPassword = (evt) => {
     evt.preventDefault();
-    if(email.length ==0){
+    if (email.length === 0) {
       toast("Merci de renseigner votre mail");
-    }else{
-    // Envoie une demande de réinitialisation de mot de passe au backend
-    fetch('http://localhost:5000/forgot-password', {
-      method: 'POST',
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ email: email })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Password reset email sent:', data);
-        toast("Un e-mail de réinitialisation de mot de passe a été envoyé.");
+    } else {
+      // Envoie une demande de réinitialisation de mot de passe au backend
+      fetch('http://localhost:5000/forgot-password', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email })
       })
-      .catch(error => {
-        console.error('Error sending password reset email:', error);
-        toast("Une erreur s'est produite. Veuillez réessayer.");
-      });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Password reset email sent:', data);
+          toast("Un e-mail de réinitialisation de mot de passe a été envoyé.");
+        })
+        .catch(error => {
+          console.error('Error sending password reset email:', error);
+          toast("Une erreur s'est produite. Veuillez réessayer.");
+        });
     }
   };
-
 
   const handleClick = (evt) => {
     evt.preventDefault();
@@ -55,15 +57,14 @@ function Login(props) {
     fetch('http://localhost:5000/users/login', {
       method: 'PUT',
       credentials: 'include',
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: login, password })
     })
       .then(response => response.json())
       .then(data => {
         console.log('User connected successfully:', data);
         toast("Connexion!");
-        props.setPage(["home_page", data.id]);
-        window.location.reload();
+        history("/",{ replace: true }); // Redirige vers la page d'accueil après la connexion
       })
       .catch(error => {
         console.error('Error during connexion:', error);
@@ -74,7 +75,7 @@ function Login(props) {
   return (
     <div>
       <header>
-        <NavigationBar setPage={props.setPage} ></NavigationBar>
+        <NavigationBar ></NavigationBar>
       </header>
       <main>
         <div className="wrapper">

@@ -12,12 +12,13 @@ import Planning from './Planning.js';
 import Watchlist from './Watchlist.js';
 import EvenementPage from '../evenements/EvenementPage.js';
 import Cinemamaps from './Cinemamaps.js';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 function MainPage(props){
-    const [page, setPage]= useState(["home_page", undefined]); 
-    console.log(page)
+    //const [page, setPage]= useState(["home_page", undefined]); 
+    //console.log(page)
     
-    return (() => {
+  /*  return (() => {
         if (page[0] === "login_page") {
           return <Login setPage={setPage} />;
         } else if (page[0] === "home_page") {
@@ -41,7 +42,25 @@ function MainPage(props){
         }
       })();
 }    
-
+*/
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const query = queryParams.get('query');
+  return (
+    <Routes>
+      <Route path="/login" element={<Login/>} />
+      <Route path="/" element={<HomePage/>} exact />
+      <Route path="/profile/:userId" element={<ProfilePage/>} />
+      <Route path="/signin" element={<Signin/>} />
+      <Route path="/search" element={<Search query={query} />} />
+      <Route path="/film/:filmId" element={<PageFilm/>} />
+      <Route path="/watchlist/:userId" element={<Watchlist/>} />
+      <Route path="/evenement" element={EvenementPage} />
+      <Route path="/planning" element={Planning} />
+      <Route path="/maps" element={<Cinemamaps/>} />
+    </Routes>
+  );
+}
 export default MainPage; 
 
 /*(()=>{

@@ -1,9 +1,10 @@
 import { useState} from "react";
 import './BarreRecherche.css'
-
+import { useNavigate } from 'react-router-dom';
 
 function BarreRecherche (props) {
 	const [recherche,setRecherche] = useState("");
+	const history = useNavigate();
 	
 	const getRecheche= (evt) => {setRecherche(evt.target.value)};
 
@@ -22,7 +23,7 @@ function BarreRecherche (props) {
 		.then(response => response.json()) // retourne une promesse
 		.then(data => {
 			console.log('Search successfully:', data);
-        	props.setPage(["search_page", data])
+        	history(`/search?query=${data}`);
             // réfléchir si ce n'est pas mieux de faire la recherche dans la search_page
 			// ajouter l'id peut-être pour rester connecter ou trouver une solution avec les cookies
 		  })
@@ -31,6 +32,7 @@ function BarreRecherche (props) {
 			newerrorMessages.push("Une erreur c'est produite lors de la recherche.");
 		  });
 };
+
 
 	return (
 	<form className="search-bar">

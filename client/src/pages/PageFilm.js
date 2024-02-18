@@ -6,15 +6,19 @@ import { useAuth } from "../AuthenticateContext.js";
 import ImageFilm from "../search/ImageFilm.js";
 import './PageFilm.css';
 import NoteStars from "../commentaire/NoteStars.js";
+import { useParams, useLocation } from "react-router-dom"; 
 
 function PageFilm(props) {
   const { user } = useAuth();
   const [comments, setComments] = useState([]);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [meanGrade, setMeanGrade]= useState(0); 
-
+  const { filmId } = useParams();
+  //const location = useLocation(); Utilisez useLocation pour accéder aux paramètres d'emplacement
+  //const filmData = location.state.filmData; // Accédez aux données du film à partir des paramètres d'emplacement
+  const filmData = props.dataFilm;
   const fetchComments = () => {
-    fetch(`http://localhost:5000/comments/comments?idFilm=${props.dataFilm.id}`, {
+    fetch(`http://localhost:5000/comments/comments?idFilm=${filmId}`, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -52,9 +56,9 @@ function PageFilm(props) {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        film_id: props.dataFilm.id,
-        title: props.dataFilm.title, // ou name selon votre structure de données
-        poster_path: props.dataFilm.poster_path,
+        film_id: filmId,
+        title: filmData.title, // ou name selon votre structure de données
+        poster_path: filmData.poster_path,
       }),
     })
     .then((response) => response.json())
@@ -69,7 +73,7 @@ function PageFilm(props) {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ film_id: props.dataFilm.id }),
+      body: JSON.stringify({ film_id: filmId}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -86,8 +90,8 @@ function PageFilm(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: props.dataFilm.id,
-        media_type: props.dataFilm.media_type,
+        id: filmId,
+        media_type: filmData.media_type,
       }),
     })
     .then((response) => response.json())
@@ -108,7 +112,7 @@ function PageFilm(props) {
 
   useEffect(() => {
     fetchComments();
-  }, [props.dataFilm, setComments, setIsInWatchlist]);
+  }, [filmData, setComments, setIsInWatchlist]);
 
   useEffect(()=>{
     updateGrade(); 
@@ -118,20 +122,20 @@ function PageFilm(props) {
   return (
     <div className="page-film-container">
       <header>
-        <NavigationBar setPage={props.setPage} />
+        <NavigationBar />
       </header>
       <main>
         <div className="film-details">
           <div className="film-poster">
-            <ImageFilm dataFilm={props.dataFilm} setPage={props.setPage} />
+            <ImageFilm dataFilm={filmData} />
           </div>
           <div className="film-info">
             <h1 className="titreMessage">
-              {props.dataFilm.title ? props.dataFilm.title : props.dataFilm.name}
+              {filmData.title ? filmData.title : filmData.name}
             </h1>
-            <p>Sortie le : {props.dataFilm.release_date}    <a className="bandeannonce" onClick={fetchMediaVideos}>Bande annonce</a></p>
+            <p>Sortie le : {filmData.release_date}    <a className="bandeannonce" onClick={fetchMediaVideos}>Bande annonce</a></p>
 
-            <p>{props.dataFilm.overview}</p>
+            <p>{filmData.overview}</p>
             <div className="mean-grade">
               <NoteStars noteUser={meanGrade} isClickable={false}/>
               <p>{meanGrade} / 5</p>
@@ -147,7 +151,7 @@ function PageFilm(props) {
         </div>
         <section>
           <div id="new_message">
-            <MessageForm username={user} idFilm={props.dataFilm} updateMessage={handleNewMessage}/>
+            <MessageForm username={user} idFilm={filmId} updateMessage={handleNewMessage}/>
           </div>
           <div>
             <h1 className="titreMessage">Commentaires</h1>

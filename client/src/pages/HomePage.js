@@ -3,51 +3,43 @@ import './HomePage.css';
 import NavigationBar from '../NavigationBar';
 import ImageFilm from '../search/ImageFilm';
 import ListEvenement from '../evenements/ListEvenement';
+import { Link, useNavigate } from 'react-router-dom';
 
-
-
-
-function HomePage(props) {
+function HomePage() {
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularTVShows, setPopularTVShows] = useState([]);
   const [currentSlideMovies, setCurrentSlideMovies] = useState(0);
   const [currentSlideTVShows, setCurrentSlideTVShows] = useState(0);
 
-  useEffect(()=>{
-    const fetchPopularData = () => {
-      // Fetch popular movies
-      fetch('http://localhost:5000/search/trending-movie', {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setPopularMovies(data || []);
-          console.log(popularMovies)
-        })
-        .catch((error) => console.log(error));
-    };
-    fetchPopularData();
-  }, [setPopularMovies]); 
   useEffect(() => {
-      // Fetch popular TV shows
-    const fetchPopularTVdata = () => {
-        fetch('http://localhost:5000/search/trending-tv', {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setPopularTVShows(data || []);
-        })
-        .catch((error) => console.log(error));
+    const fetchPopularData = async () => {
+      try {
+        const responseMovies = await fetch('http://localhost:5000/search/trending-movie', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const moviesData = await responseMovies.json();
+        setPopularMovies(moviesData || []);
+      } catch (error) {
+        console.error(error);
+      }
+
+      try {
+        const responseTVShows = await fetch('http://localhost:5000/search/trending-tv', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const tvShowsData = await responseTVShows.json();
+        setPopularTVShows(tvShowsData || []);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    fetchPopularTVdata(); 
-  }, [setPopularTVShows]);
+
+    fetchPopularData();
+  }, []);
 
   const nextSlideMovies = () => {
     setCurrentSlideMovies((prevSlide) => (prevSlide + 1) % Math.ceil(popularMovies.length / 7));
@@ -64,10 +56,11 @@ function HomePage(props) {
   const prevSlideTVShows = () => {
     setCurrentSlideTVShows((prevSlide) => (prevSlide - 1 + Math.ceil(popularTVShows.length / 7)) % Math.ceil(popularTVShows.length / 7));
   };
+
   return (
     <div>
       <header>
-        <NavigationBar setPage={props.setPage}/>
+        <NavigationBar />
       </header>
       <div className="HomePage">
         <div className="text-container">
@@ -85,7 +78,9 @@ function HomePage(props) {
                 <div className="carousel">
                   {popularMovies.slice(currentSlideMovies * 7, (currentSlideMovies + 1) * 7).map((movie) => (
                     <div key={movie.id} className="movie-poster">
-                      <ImageFilm dataFilm={movie} setPage={props.setPage}/>
+                      <Link to={`/film/${movie.id}`}>
+                        <ImageFilm dataFilm={movie} />
+                      </Link>
                     </div>
                   ))}
                 </div>
@@ -108,7 +103,9 @@ function HomePage(props) {
                 <div className="carousel">
                   {popularTVShows.slice(currentSlideTVShows * 7, (currentSlideTVShows + 1) * 7).map((tvShow) => (
                     <div key={tvShow.id} className="tv-show-poster">
-                      <ImageFilm dataFilm={tvShow} setPage={props.setPage}/>
+                      <Link to={`/tv-show/${tvShow.id}`}>
+                        <ImageFilm dataFilm={tvShow} />
+                      </Link>
                     </div>
                   ))}
                 </div>
@@ -120,11 +117,10 @@ function HomePage(props) {
           </div>
         </section>
         <h2>Évenements <img src="https://img.icons8.com/fluency/48/starred-ticket.png" alt="starred-ticket"/></h2>
-        <div><ListEvenement setPage={props.setPage}/></div>
+        <div><ListEvenement /></div>
       </div>
     </div>
   );
 }
-//<div><ListEvenement setPage={props.setPage}/></div>
 
 export default HomePage;

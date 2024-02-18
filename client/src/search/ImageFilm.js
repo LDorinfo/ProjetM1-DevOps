@@ -1,5 +1,6 @@
 
 function ImageFilm(props){
+    
     const handleClickImageFilm = (i) =>{
         console.log(i.id)
         props.setPage(["film_page", i])

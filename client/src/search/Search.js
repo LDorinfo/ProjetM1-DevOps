@@ -2,7 +2,7 @@
 import NavigationBar from "../NavigationBar";
 import ImageFilm from "./ImageFilm";
 import './Search.css'
-
+import { useParams } from "react-router-dom";
 
 function Search(props){
     //const [userId, setUserId] = useState(); 
@@ -26,6 +26,7 @@ function Search(props){
     
     }, []);
     */
+   
     
     return (
     <div>

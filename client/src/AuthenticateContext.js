@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
     fetchAuth();
   }, [setUser]);
-
+  console.log(user)
   return (
     <AuthContext.Provider value={ {user}}>
       {children}
