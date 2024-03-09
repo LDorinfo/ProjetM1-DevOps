@@ -10,8 +10,8 @@ import NoteStars from "../commentaire/NoteStars.js";
 function PageFilm(props) {
   const { user } = useAuth();
   const [comments, setComments] = useState([]);
-  const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [meanGrade, setMeanGrade]= useState(0); 
+  const [isInWatchlist, setIsInWatchlist] = useState(false); 
 
   const fetchComments = () => {
     fetch(`http://localhost:5000/comments/comments?idFilm=${props.dataFilm.id}`, {
@@ -55,10 +55,12 @@ function PageFilm(props) {
         film_id: props.dataFilm.id,
         title: props.dataFilm.title, // ou name selon votre structure de données
         poster_path: props.dataFilm.poster_path,
+        type : props.dataFilm.media_type
       }),
     })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data)
         setIsInWatchlist(!isInWatchlist);
     })
     .catch((error) => console.log(error));
@@ -69,7 +71,7 @@ function PageFilm(props) {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ film_id: props.dataFilm.id }),
+      body: JSON.stringify({ film_id: props.dataFilm.id, type : props.dataFilm.media_type }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -105,6 +107,22 @@ function PageFilm(props) {
     })
     .catch((error) => console.log(error));
   };     
+  const fetchIsInWatchlist =  () => {
+    fetch(`http://localhost:5000/watchlist/check-in-watchlist?film_id=${props.dataFilm.id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setIsInWatchlist(data.in_watchlist);
+    })
+    .catch((error) => console.log(error));
+  };     
+
+  useEffect(() => {
+    fetchIsInWatchlist();
+  }, [props.dataFilm]); // Effectue la vérification chaque fois que props.dataFilm change
 
   useEffect(() => {
     fetchComments();
@@ -126,10 +144,11 @@ function PageFilm(props) {
             <ImageFilm dataFilm={props.dataFilm} setPage={props.setPage} />
           </div>
           <div className="film-info">
-            <h1 className="titreMessage">
+            <h1 className="titreFilm">
               {props.dataFilm.title ? props.dataFilm.title : props.dataFilm.name}
             </h1>
-            <p>Sortie le : {props.dataFilm.release_date}    <a className="bandeannonce" onClick={fetchMediaVideos}>Bande annonce</a></p>
+            <p>Sortie le : {props.dataFilm.release_date}    
+            <a className="bandeannonce" onClick={fetchMediaVideos}>Bande annonce</a></p>
 
             <p>{props.dataFilm.overview}</p>
             <div className="mean-grade">

@@ -5,8 +5,8 @@ const Cinemamaps = () => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
-    // Fonction pour initialiser la carte
-    const initMap = () => {
+    // Define initMap in the global scope
+    window.initMap = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
           const userLocation = {
@@ -19,22 +19,22 @@ const Cinemamaps = () => {
             zoom: 15
           });
 
-          // Vous pouvez ajouter des marqueurs ou d'autres fonctionnalités ici
+          // You can add markers or other features here
           setMap(mapInstance);
         });
       } else {
-        // Gestion du cas où la géolocalisation n'est pas supportée ou autorisée.
-        console.error('La géolocalisation n\'est pas supportée ou autorisée.');
+        // Handle case where geolocation is not supported or allowed
+        console.error('Geolocation is not supported or allowed.');
       }
     };
 
-    // Charger l'API Google Maps
+    // Load Google Maps API asynchronously
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAQkQn5CZ3xbCiPq07KUBiOn0FOkW0DgsY&libraries=places&callback=initMap`;
     script.async = true;
     document.head.appendChild(script);
 
-    // Nettoyer le script lors du démontage du composant
+    // Clean up the script on component unmount
     return () => {
       document.head.removeChild(script);
     };
