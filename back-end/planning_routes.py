@@ -1,3 +1,5 @@
+import json
+from urllib.parse import urlparse, parse_qs
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -7,6 +9,19 @@ from googleapiclient.errors import HttpError
 from flask import Blueprint, request, jsonify, session
 from models import Planning, User, db
 from datetime import datetime
+from datetime import datetime
+
+def format_to_iso8601(date_string):
+    # Convertit la chaîne de date en objet datetime
+    date_object = datetime.strptime(date_string, '%Y, %m, %d, %H, %M')
+    # Formate la date en format ISO 8601
+    return date_object.isoformat()
+
+def format_to_rfc3339(date_string):
+    # Convertit la chaîne de date en objet datetime
+    date_object = datetime.fromisoformat(date_string)
+    # Format the date in RFC3339 format
+    return date_object.strftime('%Y-%m-%dT%H:%M:%S')
 
 planning_blueprint = Blueprint('planning', __name__)
 
@@ -19,7 +34,18 @@ def get_google_credentials(user_id):
   credentials= None
   if os.path.exists(user_credentials_file):
     credentials = Credentials.from_authorized_user_file(user_credentials_file, SCOPES)
-    return credentials
+    #on cherche l'id du calendrier 
+    calendar_service = get_calendar_service(credentials)
+    calendar_list = calendar_service.calendarList().list().execute()
+    calendars = calendar_list.get('items', [])
+    calendar_id = None
+    for calendar in calendars:
+      if calendar.get('summary') == 'Calendrier de Cineverse':
+        calendar_id = calendar['id']
+        break
+    print("Utilisateur déjà connecté")
+    print(calendar_id)
+    return credentials,calendar_id
   # Si les informations d'identification n'existent pas, demandez à l'utilisateur de s'authentifier
   redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
 
@@ -29,22 +55,61 @@ def get_google_credentials(user_id):
       credentials.refresh(Request())
     else:
       flow = InstalledAppFlow.from_client_secrets_file(
-           './client_secret_221784644667-0c19vaqligbnd7gc52efc8cdqa32gm1l.apps.googleusercontent.com.json',
+           './client_secret.json',
     SCOPES,
     redirect_uri=redirect_uri  
       )
-      credentials = flow.run_local_server(port=0)
+      credentials = flow.run_local_server(port=8000)
 
   # Sauvegardez les informations d'identification pour la prochaine exécution
   with open(user_credentials_file, 'w') as token:
     token.write(credentials.to_json())
-  return credentials
+# Vérifier si le calendrier de l'application existe déjà
+  user_credentials = get_google_credentials(user_id)
+  calendar_service = get_calendar_service(user_credentials)
+  calendar_list = calendar_service.calendarList().list().execute()
+  calendars = calendar_list.get('items', [])
+
+  application_calendar_exists = False
+  for calendar in calendars:
+    if calendar.get('summary') == 'Calendrier de Cineverse':
+      application_calendar_exists = True
+      calendar_id = calendar['id']
+      break
+        
+  # Si le calendrier n'existe pas, créez-le
+  if not application_calendar_exists:
+    application_calendar_data = {
+      'summary': 'Calendrier de Cineverse',
+      'description': 'Calendrier contenant les événements de planification pour l\'application Cineverse.'
+    }
+    service = build('calendar', 'v3', credentials=credentials)
+    calendar = service.calendars().insert(body=application_calendar_data).execute()
+    calendar_id = calendar['id']
+  print("Utilisateur déjà connecté")
+  print(calendar_id)
+  return credentials, calendar_id
 
 def get_calendar_service(credentials):
     """Obtenez le service de calendrier Google pour l'utilisateur."""
     service = build('calendar', 'v3', credentials=credentials)
     return service
+def create_google_calendar_event(credentials, event_data, calendar_id):
+    """
+    Crée un nouvel événement dans le calendrier Google de l'utilisateur.
 
+    Args:
+        credentials (google.oauth2.credentials.Credentials): Les informations d'identification de l'utilisateur pour accéder à l'API Google Calendar.
+        event_data (dict): Les données de l'événement à créer, comprenant les détails tels que le titre, la date de début et de fin.
+
+    Returns:
+        dict: Les détails de l'événement nouvellement créé, y compris son identifiant unique.
+    """
+    service = build('calendar', 'v3', credentials=credentials)
+
+    event = service.events().insert(calendarId=calendar_id, body=event_data).execute()
+
+    return event
 @planning_blueprint.route('/add', methods=['POST'])
 def add_eventPlanning():
     """
@@ -117,33 +182,50 @@ def add_eventPlanning():
     if user_id is None: 
         return jsonify({"error" : "User unauthenticate"}),403
     user = User.query.filter_by(id=user_id).first()
+    print(user)
     if user is None: 
         return jsonify({"error" : "User not found"}), 404
     #newprojet = Planning(title= title, end = end, start=start, user_id= user_id,film_id=idFilm)
     #db.session.add(newprojet)
     #db.session.commit()
+    print(idFilm)
+    print(start)
+    print(title)
+    print(user_id)
+    print(end)
 
-    user_credentials = get_google_credentials(user_id)
-    newprojet ={
-       'start': {
-            'dateTime': start,
-            'timeZone': 'UTC',
+    # Récupération des informations d'identification Google pour l'utilisateur
+    user_credentials, calendar_id = get_google_credentials(user_id)
+
+    # Conversion des dates au format ISO 8601
+    iso_start = format_to_iso8601(start)
+    iso_end = format_to_iso8601(end)
+
+    # Création des données de l'événement
+    event_data = {
+        'summary': title,
+        'description': f'Film ID: {idFilm}',
+        'start': {
+            'dateTime': iso_start,
+            'timeZone': 'Europe/Paris',
         },
         'end': {
-            'dateTime': end,
-            'timeZone': 'UTC',
+            'dateTime': iso_end,
+            'timeZone': 'Europe/Paris',
         },
-        'idFilm': idFilm,
-        'title': title
     }
-    event = get_calendar_service(user_credentials).events().insert(calendarId='primary', body=event).execute()
+
+    # Création de l'événement dans le calendrier Google
+    print("Calendar ID:", calendar_id) 
+    event = create_google_calendar_event(user_credentials, event_data, calendar_id)
     return jsonify({
-        "id": newprojet.id,
-        "start": newprojet.start,
-        "end": newprojet.end,
-        "title": newprojet.title,
-        "film_id": newprojet.film_id
-    })
+            "id": event['id'],
+            "start": event['start']['dateTime'],
+            "end": event['end']['dateTime'],
+            "title": event['summary'],
+            "film_id": idFilm
+    }), 200
+#séance, prix, note, moyenne. Où savoir voir le film, 
 @planning_blueprint.route('/get', methods=['GET'])
 def get_eventPlanning():
   """
@@ -192,12 +274,15 @@ def get_eventPlanning():
     return jsonify({"error" : "User unauthenticate"}),403
   
   # Obtenez les informations d'identification de l'utilisateur
-  user_credentials = get_google_credentials(user_id)
+  user_credentials, calendar_id = get_google_credentials(user_id)
+  if calendar_id is None:
+    print(calendar_id is None)
+    return jsonify({"error": "Calendar ID not found"}), 404
   # Obtenez le service du calendrier Google
   calendar_service = get_calendar_service(user_credentials)
 
   # Utilisez le service pour récupérer les événements du calendrier
-  events_result = calendar_service.events().list(calendarId='primary', timeMin=datetime.utcnow().isoformat() + 'Z', maxResults=10, singleEvents=True, orderBy='startTime').execute()
+  events_result = calendar_service.events().list(calendarId=calendar_id, timeMin=datetime.utcnow().isoformat() + 'Z', maxResults=10, singleEvents=True, orderBy='startTime').execute()
   events = events_result.get('items', [])
 
   if not events:
@@ -205,14 +290,85 @@ def get_eventPlanning():
 
   events_list = []
   for event in events:
-    start_time = event['start'].get('dateTime', event['start'].get('date'))
-    end_time = event['end'].get('dateTime', event['end'].get('date'))
+        start_time = event['start'].get('dateTime', event['start'].get('date'))
+        end_time = event['end'].get('dateTime', event['end'].get('date'))
 
-  events_list.append({
-    "id": event['id'],
-    "start": start_time,
-    "end": end_time,
-    "title": event['summary'],
-  })
+        # Conversion des dates au format ISO 8601
+        iso_start = format_to_rfc3339(start_time)
+        iso_end = format_to_rfc3339(end_time)
+
+        # Obtenez l'ID du film de la description de l'événement
+        film_id = None
+        description = event.get('description', '')
+        if description:
+            film_id_index = description.find('Film ID:')
+            if film_id_index != -1:
+                film_id = int(description[film_id_index + len('Film ID:'):].strip())
+        events_list.append({
+            "id": event['id'],
+            "film_id": film_id, 
+            "start": iso_start,
+            "end": iso_end,
+            "title": event['summary'],
+        })
 
   return jsonify({"status": "Found events", "events": events_list})
+
+@planning_blueprint.route('/delete', methods=['DELETE'])
+def delete_eventPlanning():
+    """
+    Supprime un événement de planification du calendrier de l'utilisateur.
+
+    ---
+    tags:
+      - Planning
+    parameters:
+      - in: body
+        name: Event ID
+        description: L'identifiant unique de l'événement à supprimer.
+        required: true
+        schema:
+          type: object
+          properties:
+            event_id:
+              type: string
+              description: L'identifiant unique de l'événement à supprimer.
+
+    responses:
+      200:
+        description: Événement de planification supprimé avec succès.
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Statut de la requête.
+            message:
+              type: string
+              description: Message indiquant que l'événement a été supprimé avec succès.
+      404:
+        description: L'événement à supprimer n'a pas été trouvé.
+    """
+    user_id = session.get("user_id")
+    if user_id is None:
+        return jsonify({"error": "User unauthenticated"}), 403
+
+    event_id = request.json.get('id_event')
+    if event_id is None:
+        return jsonify({"error": "Event ID is not present"}), 404
+
+    # Obtenez les informations d'identification de l'utilisateur
+    user_credentials, calendar_id = get_google_credentials(user_id)
+    if calendar_id is None:
+        return jsonify({"error": "Calendar ID not found"}), 404
+
+    # Supprimer l'événement du calendrier
+
+    service = build('calendar', 'v3', credentials=user_credentials)
+
+    # Supprimer l'événement
+    deleted_event = service.events().delete(calendarId=calendar_id, eventId=event_id).execute()
+    if deleted_event is None:
+      return jsonify({"error": "Failed to delete event"}), 500
+
+    return jsonify({"status": "Event deleted successfully", "message": "Event deleted successfully"}), 200

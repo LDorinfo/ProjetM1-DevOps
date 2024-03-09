@@ -50,14 +50,15 @@ def add_to_watchlist():
     film_id = data.get("film_id")
     title = data.get("title")  # Ajoutez cette ligne
     poster_path = data.get("poster_path")
+    type= data.get("type")
 
     # Vérifie si le film est déjà dans la Watchlist de l'utilisateur
-    existing_watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
+    existing_watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id, media_type=type).first()
     if existing_watchlist_item:
         return jsonify({"message": "Film already in Watchlist"})
 
     # Ajoutez le film à la Watchlist dans la base de données
-    watchlist_item = Watchlist(user_id=user_id, film_id=film_id, title=title, poster_path=poster_path)
+    watchlist_item = Watchlist(user_id=user_id, film_id=film_id, title=title, poster_path=poster_path, media_type= type)
     db.session.add(watchlist_item)
     db.session.commit()
 
@@ -97,9 +98,10 @@ def remove_from_watchlist():
         return jsonify({"error": "User not authenticated"}), 401
 
     film_id = request.json.get("film_id")
+    type = request.json.get("type")
 
     # Recherche et suppression de l'entrée correspondante dans la Watchlist
-    watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id).first()
+    watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id, media_type= type).first()
     if not watchlist_item:
         return jsonify({"error": "Film not found in Watchlist"})
 
@@ -151,6 +153,7 @@ def get_watchlist():
             "id": item.film_id,
             "title": item.title,
             "poster_path": item.poster_path,
+            "media_type": item.media_type
             # Ajoutez d'autres champs au besoin
         }) 
 
@@ -181,3 +184,43 @@ def get_watchlist():
         })
 
     return jsonify({"watchlist": watchlist_data})
+@watchlist_blueprint.route("/check-in-watchlist", methods=["GET"])
+def check_in_watchlist():
+    """
+    Vérifie si un film donné est dans la Watchlist de l'utilisateur.
+
+    ---
+    tags:
+      - Watchlist
+    parameters:
+      - in: query
+        name: film_id
+        description: ID du film à vérifier.
+        required: true
+        schema:
+          type: integer
+    responses:
+      200:
+        description: Indique si le film est dans la Watchlist ou non.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                in_watchlist:
+                  type: boolean
+                  description: Indique si le film est dans la Watchlist.
+      401:
+        description: Non autorisé, l'utilisateur n'est pas authentifié.
+    """
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    film_id = request.args.get("film_id")
+    type = request.args.get('type')
+    # Recherche si le film est dans la Watchlist de l'utilisateur
+    watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id, media_type=type).first()
+    in_watchlist = watchlist_item is not None
+
+    return jsonify({"in_watchlist": in_watchlist})

@@ -46,6 +46,7 @@ class Watchlist(db.Model):
     film_id = db.Column(db.String(32), nullable=False)
     title = db.Column(db.String(60))
     poster_path = db.Column(db.String(100))
+    media_type = db.Column(db.String(32))
     user = db.relationship('User', backref='watchlist_user' )
 
 class Evenement(db.Model):

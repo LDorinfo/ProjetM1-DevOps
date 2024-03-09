@@ -7,7 +7,7 @@ import fr from 'date-fns/locale/fr';
 import SelecteurDate from '../SelecteurDate'
 import SelecteurFilm from './SelecteurFilm';
 import { useState, useEffect } from 'react';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { format, parse, startOfWeek, getDay, parseISO} from 'date-fns';
 import NavigationBar from '../NavigationBar';
 import GetDetails from './GetDetails';
 
@@ -40,10 +40,13 @@ function Planning(props){
   const handleCloseDetails = () => {
     setSelectedEvent(null);
   };
-  function parseCustomDate(dateString) {
+  /*function parseCustomDate(dateString) {
     const [year, month, day, hours, minutes] = dateString.split(', ');
     // Attention : le mois dans JavaScript est 0-indexé, donc soustrayez 1
     return moment(year, month - 1, day, hours, minutes).toDate();
+  }*/
+  function parseCustomDate(dateString) {
+    return parseISO(dateString);
   }
 
   useEffect(() => {
@@ -56,7 +59,7 @@ function Planning(props){
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
-        const formattedEvents = data.planning.map((event) => ({
+        const formattedEvents = data.events.map((event) => ({
           id: event.id,
           start: parseCustomDate(event.start),
           end: parseCustomDate(event.end),

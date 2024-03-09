@@ -482,52 +482,75 @@ def get_movie_details():
     response = requests.get(url, params=params, headers=headers)
     if response.status_code == 200:
         movie_details = response.json()
-
-        return jsonify({"info": movie_details})
+        print(movie_details)
+        return jsonify({"info": movie_details, 
+          "media_type": "movie", 
+          "id": movie_id
+        })
     else:
         return jsonify({'error': 'Aucun résultat trouvé pour l\'ID du film.'}), 404
 
-@app.route('/planning/delete', methods=['DELETE'])
-def delete_event():
+@app.route('/tv/details', methods=['GET'])
+def get_tv_details():
     """
-    Supprime un événement du planning en fonction de son ID.
+    Récupère les détails d'un film en fonction de son ID en utilisant l'endpoint /find.
 
     ---
     tags:
-      - Planning
+      - Détails du film
     parameters:
-      - name: id_event
-        in: body
+      - name: movie_id
+        in: query
         type: integer
         required: true
-        description: ID de l'événement à supprimer.
+        description: ID du film.
     responses:
       200:
-        description: Événement supprimé avec succès.
+        description: Détails du film.
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: Titre du film.
+            release_date:
+              type: string
+              description: Date de sortie du film.
+            overview:
+              type: string
+              description: Résumé du film.
+            poster_path:
+              type: string
+              description: Chemin vers l'affiche du film.
       404:
-        description: Aucun événement trouvé avec l'ID spécifié.
+        description: Aucun résultat trouvé pour l'ID du film.
+      401:
+        description: Non autorisé, l'accès à la ressource est refusé.
     """
-    data = request.json
-    id_event = data.get('id_event')
+    #https://www.themoviedb.org/movie/787699-wonka?language=fr-FR
+    movie_id = request.args.get('query')
+    url = f'{BASE_URL}/tv/{movie_id}'
 
-    if id_event is None:
-        return jsonify({"error": "ID de l'événement manquant"}), 400
+    params = {'api_key': tmdb_api_key}
+    headers = {"accept": "application/json"}
 
-    event_to_delete = Planning.query.get(id_event)
-
-    if event_to_delete is None:
-        return jsonify({"error": "Aucun événement trouvé avec l'ID spécifié"}), 404
-
-    db.session.delete(event_to_delete)
-    db.session.commit()
-
-    return jsonify({"status": "Événement supprimé avec succès"})
-
-
+    response = requests.get(url, params=params, headers=headers)
+    if response.status_code == 200:
+        movie_details = response.json()
+        print(movie_details)
+        return jsonify({"info": movie_details, "media_type": "tv",
+          'id': movie_id, 
+          "overview": movie_details.get("overview"),
+          "release_date": movie_details.get("release_date"), 
+          "name": movie_details.get("name"),
+          "poster_path": movie_details.get("poster_path")
+          })
+    else:
+        return jsonify({'error': 'Aucun résultat trouvé pour l\'ID du film.'}), 404
 
 @app.route("/home")
 def home():
     return "Hello"
 
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run(debug=True, port=5000)

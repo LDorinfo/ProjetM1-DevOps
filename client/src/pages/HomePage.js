@@ -85,7 +85,7 @@ function HomePage(props) {
                 <div className="carousel">
                   {popularMovies.slice(currentSlideMovies * 7, (currentSlideMovies + 1) * 7).map((movie) => (
                     <div key={movie.id} className="movie-poster">
-                      <ImageFilm dataFilm={movie} setPage={props.setPage}/>
+                      <ImageFilm dataFilm={movie} setPage={props.setPage} />
                     </div>
                   ))}
                 </div>
