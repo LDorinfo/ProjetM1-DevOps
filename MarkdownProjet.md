@@ -216,6 +216,10 @@ L'utilisateur dispose d'un outil (calendrier) pour programmer le prochain film q
 ![Alt text](./images/wireframe_Planning1.png)
 ![Alt text](./images/wireframe_planning2.png)
 
+Livraison 6 : Version 1.2 
+**Map et plateform de visionnage des films**
+L'utilisateur peut rechercher les cinémas à proximité. Il peut également sur la page du film savoir où voir ce film ou cette série (sur quelle plateforme de streaming). 
+
 
 
 ## Arborescence du projet 

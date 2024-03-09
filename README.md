@@ -64,7 +64,7 @@ Pour désactiver l'environnement virtuel il faut :
 
 
 ## API Swagger 
-Nous avons une api swagger dans le back avec le framework flasgger. Pour la lancer il faut langer le back, le serveur : python3 app.py
+Nous avons une api swagger dans le back avec le framework flasgger. Pour la lancer il faut langer le back, le serveur : `python3 app.py`
 
 Ensuite il faut ouvrir la page http://localhost:5000/apidocs/ dans le navigateur web. 
 
@@ -75,3 +75,6 @@ Pour l'analyse de code nous utilisons codacy.
 
 ## Intégration continue 
 Nous utilisons Github action pour l'intégration continue. https://github.com/LDorinfo/ProjetM1-DevOps/actions 
+
+## Tests Front: Cypress
+Nous utilisons pour tester le front avec des tests unitaires et end to end cypress. Pour lancer cypress vous devez vous placer dans le front, avoir lancer le front et le back et lancer la commande `./node_modules/.bin/cypress open` dans le répertoire client. 
