@@ -483,9 +483,12 @@ def get_movie_details():
     if response.status_code == 200:
         movie_details = response.json()
         print(movie_details)
-        return jsonify({"info": movie_details, 
-          "media_type": "movie", 
-          "id": movie_id
+        return jsonify({"info": movie_details, "media_type": "tv",
+          'id': movie_id, 
+          "overview": movie_details.get("overview"),
+          "release_date": movie_details.get("release_date"), 
+          "name": movie_details.get("original_title"),
+          "poster_path": movie_details.get("poster_path")
         })
     else:
         return jsonify({'error': 'Aucun résultat trouvé pour l\'ID du film.'}), 404
@@ -542,7 +545,7 @@ def get_tv_details():
           'id': movie_id, 
           "overview": movie_details.get("overview"),
           "release_date": movie_details.get("release_date"), 
-          "name": movie_details.get("name"),
+          "name": movie_details.get("original_title"),
           "poster_path": movie_details.get("poster_path")
           })
     else:
