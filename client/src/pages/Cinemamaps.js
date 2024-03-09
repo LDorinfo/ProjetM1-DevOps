@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import NavigationBar from '../NavigationBar';
+import { propTypes } from 'react-bootstrap/esm/Image';
 
-const Cinemamaps = () => {
+function Cinemamaps(props) {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const Cinemamaps = () => {
 
   return (
     <div>
-      <NavigationBar />
+      <NavigationBar setPage={props.setPage}/>
       <div id="map" style={{ height: '400px' }}></div>
     </div>
   );
