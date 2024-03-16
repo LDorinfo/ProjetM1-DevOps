@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  ubuntu_front_react:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - mon-reseau
+
+  ubuntu_back_flask:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - mon-reseau
+
+networks:
+  mon-reseau:
+
+volumes:
+  db-data:

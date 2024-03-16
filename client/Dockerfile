@@ -1,0 +1,19 @@
+# Utilisez l'image officielle de Node.js en tant que base
+FROM node:14 as build
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /react_app_cineverse
+
+
+#copie des fichiers
+# Copiez les fichiers de dépendances package.json et yarn.lock dans le répertoire de travail
+COPY public/ /react_app_cineverse/public
+COPY src/ /react_app_cineverse/src
+COPY package.json /react_app_cineverse/
+RUN npm install
+
+# Exposez le port 3000 sur lequel l'application React s'exécutera
+EXPOSE 3000
+
+#Pour lancer l'application
+CMD ["npm", "start","--host=0.0.0.0"]
