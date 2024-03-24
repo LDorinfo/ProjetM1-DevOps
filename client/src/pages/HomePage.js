@@ -29,6 +29,22 @@ function HomePage(props) {
         })
         .catch((error) => console.log(error));
     };
+    const fetchStatisticNbUser = () => {
+      // Fetch popular movies
+      fetch('http://localhost:5000/statistic/nb/user', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setPopularMovies(data || []);
+          console.log(popularMovies)
+        })
+        .catch((error) => console.log(error));
+    };
+    
     fetchPopularData();
   }, [setPopularMovies]); 
   useEffect(() => {
