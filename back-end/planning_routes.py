@@ -29,7 +29,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 from google.auth.exceptions import RefreshError
 def get_google_credentials(user_id):
-  user_credentials_file = f'./user_credentials_{user_id}.json'
+  user_credentials_file = f'./usertoken/user_credentials_{user_id}.json'
   # Charger les informations d'identification depuis le fichier s'il existe
   credentials= None
   
@@ -45,14 +45,11 @@ def get_google_credentials(user_id):
       raise e
     print("Les infos d'identification existe et credentials fonctionne")
     if credentials is None or not credentials.valid:
-      if credentials and credentials.expired and credentials.refresh_token:
-        credentials.refresh(Request())
       redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
       flow = InstalledAppFlow.from_client_secrets_file(
         './client_secret.json',
       SCOPES,
       redirect_uri=redirect_uri,
-      access_type='offline'  # Request offline access to obtain refresh token  
       )
       credentials = flow.run_local_server(port=8000)
 
@@ -70,6 +67,14 @@ def get_google_credentials(user_id):
         break
     print("Utilisateur déjà connecté")
     print(calendar_id)
+    if calendar_id is None: 
+      application_calendar_data = {
+      'summary': 'Calendrier de Cineverse',
+      'description': 'Calendrier contenant les événements de planification pour l\'application Cineverse.'
+      }
+      service = build('calendar', 'v3', credentials=credentials)
+      calendar = service.calendars().insert(body=application_calendar_data).execute()
+      calendar_id = calendar['id']   
     return credentials,calendar_id
   print("pas d'info d'authentificationn")
   # Si les informations d'identification n'existent pas, demandez à l'utilisateur de s'authentifier
