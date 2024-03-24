@@ -21,3 +21,4 @@ echo "Installing backend dependencies..."
 pip install -r requirements.txt
 
 echo "Build complete!"
+docker rm

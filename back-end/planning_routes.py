@@ -27,13 +27,38 @@ planning_blueprint = Blueprint('planning', __name__)
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-
+from google.auth.exceptions import RefreshError
 def get_google_credentials(user_id):
   user_credentials_file = f'./user_credentials_{user_id}.json'
   # Charger les informations d'identification depuis le fichier s'il existe
   credentials= None
+  
   if os.path.exists(user_credentials_file):
-    credentials = Credentials.from_authorized_user_file(user_credentials_file, SCOPES)
+    print("Merde")
+    try :
+      credentials = Credentials.from_authorized_user_file(user_credentials_file, SCOPES)
+      if not credentials.valid:
+        if credentials.expired and credentials.refresh_token:
+          credentials.refresh(Request())
+    except RefreshError as e:
+      print("Erreur lors du rafraîchissement du jeton:", e)
+      raise e
+    print("Les infos d'identification existe et credentials fonctionne")
+    if credentials is None or not credentials.valid:
+      if credentials and credentials.expired and credentials.refresh_token:
+        credentials.refresh(Request())
+      redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
+      flow = InstalledAppFlow.from_client_secrets_file(
+        './client_secret.json',
+      SCOPES,
+      redirect_uri=redirect_uri,
+      access_type='offline'  # Request offline access to obtain refresh token  
+      )
+      credentials = flow.run_local_server(port=8000)
+
+      # Sauvegardez les informations d'identification pour la prochaine exécution
+      with open(user_credentials_file, 'w') as token:
+        token.write(credentials.to_json())
     #on cherche l'id du calendrier 
     calendar_service = get_calendar_service(credentials)
     calendar_list = calendar_service.calendarList().list().execute()
@@ -46,25 +71,29 @@ def get_google_credentials(user_id):
     print("Utilisateur déjà connecté")
     print(calendar_id)
     return credentials,calendar_id
+  print("pas d'info d'authentificationn")
   # Si les informations d'identification n'existent pas, demandez à l'utilisateur de s'authentifier
   redirect_uri = os.environ.get("OAUTH_REDIRECT_URI", "http://localhost:5000/callback")
 
   # If there are no (valid) credentials available, let the user log in.
-  if not credentials or not credentials.valid:
+  if credentials is None or not credentials.valid:
+    print("Je suis pas valide")
     if credentials and credentials.expired and credentials.refresh_token:
+      print("FUCK")
       credentials.refresh(Request())
-    else:
-      flow = InstalledAppFlow.from_client_secrets_file(
-           './client_secret.json',
+      print("je suis ici")
+    flow = InstalledAppFlow.from_client_secrets_file(
+      './client_secret.json',
     SCOPES,
-    redirect_uri=redirect_uri  
-      )
-      credentials = flow.run_local_server(port=8000)
+    redirect_uri=redirect_uri,
+    )
+    credentials = flow.run_local_server(port=8000)
 
-  # Sauvegardez les informations d'identification pour la prochaine exécution
-  with open(user_credentials_file, 'w') as token:
-    token.write(credentials.to_json())
-# Vérifier si le calendrier de l'application existe déjà
+    # Sauvegardez les informations d'identification pour la prochaine exécution
+    with open(user_credentials_file, 'w') as token:
+      token.write(credentials.to_json())
+    print("les informations ont été écrites")
+  # Vérifier si le calendrier de l'application existe déjà
   user_credentials = get_google_credentials(user_id)
   calendar_service = get_calendar_service(user_credentials)
   calendar_list = calendar_service.calendarList().list().execute()
