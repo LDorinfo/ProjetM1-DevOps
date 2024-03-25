@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, session
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_cors import CORS
-from models import Planning, db, User
+from models import db, User
 from flask_mail import Message, Mail
 from config import ApplicationConfig
 import requests  # Importez le module requests

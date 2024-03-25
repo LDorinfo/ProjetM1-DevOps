@@ -17,9 +17,9 @@ class User(db.Model):
     phone_number = db.Column(db.String(15))
     likes = db.relationship('Likes', backref='user_likes' )
     comments = db.relationship('Comments', backref='user_comments' )
-    planning = db.relationship('Planning', backref='planning_user' )
     watchlist = db.relationship('Watchlist', backref='user_watchlist' )
-    participations = db.Column(db.String(255))  # Stocke les IDs des événements séparés par des virgules
+    participation = db.relationship('Participant', backref='participation_user' )
+
 #    evenements = db.relationship('Evenement', backref='user_evenements')
 class Comments(db.Model): 
     __tablename__="comments"
@@ -57,13 +57,14 @@ class Evenement(db.Model):
     description = db.Column(db.String(64))
     prix = db.Column(db.Integer)
     image = db.Column(db.String(32))
+    startdate = db.Column(db.String(32))
+    enddate = db.Column(db.String(32))
+    nbparticipantmax =db.Column(db.Integer)
     user = db.relationship('User', backref='evenement_user' )
-class Planning(db.Model): 
-    __tablename__= "planning"
+class Participant(db.Model):
+    __tablename__= "participant"
     id= db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
-    title = db.Column(db.String(32))
-    end = db.Column(db.String(32))
-    start = db.Column(db.String(32))
-    film_id = db.Column(db.String(32), nullable=False)
-    user = db.relationship('User', backref='planning_user' )
+    event_id = db.Column(db.String(32), db.ForeignKey('evenement.id'), nullable=False)
+    user = db.relationship('User', backref='participation_user' ) 
+    google_id_event = db.Column(db.String(32))

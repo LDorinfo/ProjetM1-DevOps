@@ -1,33 +1,42 @@
-import json
-from urllib.parse import urlparse, parse_qs
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import os.path
 from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 from flask import Blueprint, request, jsonify, session
-from models import Planning, User, db
+from models import User
 from datetime import datetime
-from datetime import datetime
+from google.auth.exceptions import RefreshError
 
 def format_to_iso8601(date_string):
     # Convertit la chaîne de date en objet datetime
+    print(date_string)
     date_object = datetime.strptime(date_string, '%Y, %m, %d, %H, %M')
     # Formate la date en format ISO 8601
+    print(date_object)
     return date_object.isoformat()
 
 def format_to_rfc3339(date_string):
-    # Convertit la chaîne de date en objet datetime
+    """# Convertit la chaîne de date en objet datetime
+    print(date_string)
     date_object = datetime.fromisoformat(date_string)
     # Format the date in RFC3339 format
-    return date_object.strftime('%Y-%m-%dT%H:%M:%S')
+    print(date_object)
+    return date_object.strftime('%Y-%m-%dT%H:%M:%S')"""
+    try:
+        # Convertit la chaîne de date en objet datetime en utilisant strptime
+        date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+        # Formatte la date en format RFC3339
+        return date_object.strftime('%Y-%m-%dT%H:%M:%S')
+    except ValueError as e:
+        # Gérer l'erreur si la chaîne de date n'est pas au format attendu
+        print("Erreur de format de date:", e)
+        return None
 
 planning_blueprint = Blueprint('planning', __name__)
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-from google.auth.exceptions import RefreshError
 def get_google_credentials(user_id):
   user_credentials_file = f'./usertoken/user_credentials_{user_id}.json'
   # Charger les informations d'identification depuis le fichier s'il existe
@@ -140,9 +149,8 @@ def create_google_calendar_event(credentials, event_data, calendar_id):
         dict: Les détails de l'événement nouvellement créé, y compris son identifiant unique.
     """
     service = build('calendar', 'v3', credentials=credentials)
-
     event = service.events().insert(calendarId=calendar_id, body=event_data).execute()
-
+    print("ca va")
     return event
 @planning_blueprint.route('/add', methods=['POST'])
 def add_eventPlanning():
@@ -317,6 +325,7 @@ def get_eventPlanning():
 
   # Utilisez le service pour récupérer les événements du calendrier
   events_result = calendar_service.events().list(calendarId=calendar_id, timeMin=datetime.utcnow().isoformat() + 'Z', maxResults=10, singleEvents=True, orderBy='startTime').execute()
+  print(events_result)
   events = events_result.get('items', [])
 
   if not events:
@@ -325,11 +334,15 @@ def get_eventPlanning():
   events_list = []
   for event in events:
         start_time = event['start'].get('dateTime', event['start'].get('date'))
+        print(start_time)
         end_time = event['end'].get('dateTime', event['end'].get('date'))
 
         # Conversion des dates au format ISO 8601
         iso_start = format_to_rfc3339(start_time)
         iso_end = format_to_rfc3339(end_time)
+        if iso_start is None : 
+           iso_start = start_time
+           iso_end =end_time
 
         # Obtenez l'ID du film de la description de l'événement
         film_id = None
