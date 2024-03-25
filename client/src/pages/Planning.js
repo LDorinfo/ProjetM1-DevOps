@@ -2,7 +2,6 @@ import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Planning.css';
 import 'moment-timezone';
-import moment from "moment";  
 import fr from 'date-fns/locale/fr';
 import SelecteurDate from '../SelecteurDate'
 import SelecteurFilm from './SelecteurFilm';
