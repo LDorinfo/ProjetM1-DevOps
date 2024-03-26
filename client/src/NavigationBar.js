@@ -10,7 +10,6 @@ import './NavigationBar.css';
 function NavigationBar(props) {
   const [filmsDropdownOpen, setFilmsDropdownOpen] = useState(false);
   const [serieDropdownOpen, setSerieDropdownOpen] = useState(false);
-  const [page, setPage] = useState(["maps_page", undefined]);
 
 
   const handleClickMovies = (indice) => {

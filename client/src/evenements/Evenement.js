@@ -10,7 +10,6 @@ function Evenement(props){
       <img className="imageEvenement" src={props.dataevenement.image} alt={props.dataevenement.title} />
       <div>
         <h4 className="titleEvent">{props.dataevenement.title}</h4>
-        <p className="description">{props.dataevenement.description}</p>
         {props.dataevenement.prix === 0 ? (
           <p className="prix">Gratuit</p>
         ) : (
