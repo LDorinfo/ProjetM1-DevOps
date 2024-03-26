@@ -162,6 +162,9 @@ function PageFilm(props) {
                 ))}
               </div>
             )}
+            <div className="tmdb-grade">
+            <p>Notes TMDB : {Math.round(props.dataFilm.vote_average * 10)}%</p>
+            </div>
             <div className="mean-grade">
               <NoteStars noteUser={meanGrade} isClickable={false}/>
               <p>{meanGrade} / 5</p>
