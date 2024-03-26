@@ -67,11 +67,22 @@ const handleClickTV = (indice) => {
             >
               {/* Add film categories as NavDropdown items */}
               <NavDropdown.Item href='#' onClick={()=>handleClickMovies(28)}>Action</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(12)}>Aventure</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(16)}>Animation</NavDropdown.Item>
               <NavDropdown.Item href='#' onClick={()=>handleClickMovies(35)}>Comédie</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(10402)}>Comédies musicales</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(80)}>Criminels</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(99)}>Documentaires</NavDropdown.Item>
               <NavDropdown.Item href='#' onClick={()=>handleClickMovies(18)}>Drame</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(10751)}>Famille</NavDropdown.Item>
               <NavDropdown.Item href='#'onClick={()=>handleClickMovies(14)}>Fantastique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(36)}>Historique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(27)}>Horreur</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(9648)}>Mystérieux</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(10749)}>Romantique</NavDropdown.Item>
               <NavDropdown.Item href='#' onClick={()=>handleClickMovies(878)}>Science-Fiction</NavDropdown.Item>
-              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(27)}>Horror</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(53)}>Suspens</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickMovies(10752)}>Guerre</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown 
               title="Série Tv" 
@@ -81,9 +92,23 @@ const handleClickTV = (indice) => {
               onMouseLeave={() => setSerieDropdownOpen(false)}
             >
               {/* Add TV series categories as NavDropdown items */}
-              <NavDropdown.Item href='#'onClick={()=>handleClickTV(14)}>Fantastique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(28)}>Action</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(12)}>Aventure</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(16)}>Animation</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(35)}>Comédie</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(10402)}>Comédies musicales</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(80)}>Criminels</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(99)}>Documentaires</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(18)}>Drame</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(10751)}>Famille</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(14)}>Fantastique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(36)}>Historique</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(27)}>Horreur</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(9648)}>Mystérieux</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(10749)}>Romantique</NavDropdown.Item>
               <NavDropdown.Item href='#' onClick={()=>handleClickTV(878)}>Science-Fiction</NavDropdown.Item>
-              <NavDropdown.Item href='#' onClick={()=>handleClickTV(27)}>Horror</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(53)}>Suspens</NavDropdown.Item>
+              <NavDropdown.Item href='#' onClick={()=>handleClickTV(10752)}>Guerre</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href='./Cinemamaps.js' onClick={handleClickMaps}>Cinéma</Nav.Link>
           </Nav>
