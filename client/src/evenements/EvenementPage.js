@@ -4,7 +4,6 @@ import NavigationBar from "../NavigationBar";
 import Evenement from "./Evenement";
 import EvenementForm from "./EvenementForm";
 import './Evenement.css'; 
-import './Evenement.css'; 
 
 function EvenementPage(props){
   const {user}= useAuth();

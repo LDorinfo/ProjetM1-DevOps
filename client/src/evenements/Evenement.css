@@ -28,8 +28,8 @@
   
   .imageEvenement {
     width: auto;
-    height: 150px; /* Set a fixed height for the images */
-    max-width: 100%; /* Ensure the images do not exceed the container width */
+    height: auto; /* Set a fixed height for the images */
+    width: aut; /* Ensure the images do not exceed the container width */
     object-fit: cover;
     cursor: pointer;
 }
