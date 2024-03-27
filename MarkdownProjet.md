@@ -210,17 +210,24 @@ Dans cette livraison nous avons aussi mis en place l'API Swagger, une route pour
 
 ![image](https://github.com/LDorinfo/ProjetM1-DevOps/assets/119746225/da90e0b4-c26e-4c97-a83c-33efd0ffa0f3)
 
-Livraison 5 : Version 1.1
+## Livraison 5 : Version 1.1
 **Outil de planification**
 L'utilisateur dispose d'un outil (calendrier) pour programmer le prochain film qu'il souhaite pouvoir voir. 
-
+![Alt text](./images/planning1_wireframe.png)
+![Alt text](./images/planning_wireframe.png)
 ![Alt text](./images/wireframe_Planning1.png)
 ![Alt text](./images/wireframe_planning2.png)
 
-Livraison 6 : Version 1.2 
+## Livraison 6 : Version 1.2 
 **Map et plateform de visionnage des films**
 L'utilisateur peut rechercher les cinémas à proximité. Il peut également sur la page du film savoir où voir ce film ou cette série (sur quelle plateforme de streaming). 
 
+![Alt text](./images/carte_wireframe.png)
+**Création de statistique, ajout des évenements de la pageHome dans le calendrier, modification de la Page de profil et ajout de l'API Google**
+![Alt text](./images/ApiGoogleCalendar_wireframe.png)
+![Alt text](./images/statistique1_wireframe.png)
+![Alt text](./images/statistique2_wireframe.png)
+![Alt text](./images/statistique_user_wireframe.png)
 
 
 ## Arborescence du projet 
