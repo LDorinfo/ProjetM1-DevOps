@@ -1,15 +1,18 @@
- .posterwatchlist {
-    margin: 10px;
-    text-align: center;
-  }
-  
-  .img {
-    width: 200px; /* Ajustez la largeur des affiches en fonction de vos besoins */
-    cursor: pointer;
-    margin-left: 20px;
-  }
-  
-  h2 {
-    justify-content: center;
-    color: white;
-  }  
+.posterwatchlist {
+  margin: 10px;
+  text-align: center;
+  display: flex; /* Utilisation de Flexbox */
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+  justify-content: space-around; /* Pour espacer les éléments sur la ligne */
+}
+
+.img {
+  width: 200px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+h2 {
+  justify-content: center;
+  color: white;
+}

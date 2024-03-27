@@ -44,9 +44,15 @@ function PageFilm(props) {
     setComments((prevComments) => prevComments.filter((msg) => msg.id !== deletedMessageId));
     updateGrade(); 
   };
-
+  const getGenreString = () => {
+    if (props.dataFilm.info.genres) {
+      return props.dataFilm.info.genres.map(genre => genre.name).join(", ");
+    }
+    return "";
+  };
 
   const addToWatchlist = () => {
+    
     fetch('http://localhost:5000/watchlist/add', {
       method: 'POST',
       credentials: 'include',
@@ -55,7 +61,8 @@ function PageFilm(props) {
         film_id: props.dataFilm.id,
         title: props.dataFilm.title, // ou name selon votre structure de données
         poster_path: props.dataFilm.poster_path,
-        type : props.dataFilm.media_type
+        type : props.dataFilm.media_type,
+        genres : getGenreString()
       }),
     })
     .then((response) => response.json())
@@ -75,6 +82,7 @@ function PageFilm(props) {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data)
         setIsInWatchlist(!isInWatchlist);
       })
       .catch((error) => console.log(error));

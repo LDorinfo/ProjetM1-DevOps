@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { format, parse, startOfWeek, getDay, parseISO} from 'date-fns';
 import NavigationBar from '../NavigationBar';
 import GetDetails from './GetDetails';
+import Evenement from '../evenements/Evenement';
 
 
 //<ImageFilm datafilm ={datafilm}></ImageFilm>
@@ -18,6 +19,7 @@ function Planning(props){
   const [events, setEvent]= useState([]); 
   const [startdate, setDateStart]= useState(''); 
   const [datafilm, setData]= useState();
+  const [dataevent, setDataEvent]= useState();
   const [enddate, setDateEnd]= useState(''); 
   const [title, setTitle]= useState(""); 
   const [ischange, setIschange]= useState(true); 
@@ -64,6 +66,7 @@ function Planning(props){
           end: parseCustomDate(event.end),
           title: event.title,
           id_film: event.film_id,
+          evenement : event.evenement
         }));
         setEvent(formattedEvents);
         console.log(events);
@@ -76,7 +79,7 @@ function Planning(props){
   
   const fetchGetDetails= (event) => {
       console.log(event)
-      if(event){
+      if(event && event.evenement==false){
     fetch(`http://localhost:5000/movie/details?query=${event.id_film}`, {
       method: 'GET',
       credentials: 'include',
@@ -89,6 +92,21 @@ function Planning(props){
       console.log(datafilm);
     })
     .catch((error) => console.log(error));
+  }
+  if(event && event.evenement==true){
+    console.log(event)
+    fetch(`http://localhost:5000/event/event_info?google_id_event=${event.id}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setDataEvent(data.event);
+        console.log(dataevent)
+      })
+      .catch((error) => console.log(error));
   }
 }
   const handleSelectEvent = (event) => {
@@ -140,7 +158,7 @@ function Planning(props){
       method: 'DELETE',
       headers: {"Content-Type": "application/json"}, 
       credentials: 'include', 
-      body : JSON.stringify({id_event : selectedEvent.id})
+      body : JSON.stringify({id_event : selectedEvent.id , isevent : selectedEvent.evenement})
     })
     .then((response)=> response.json())
     .then((data)=>{
@@ -150,6 +168,7 @@ function Planning(props){
     })
     .catch((error)=> console.log(error))
   }
+
   return(
     <div>
         <NavigationBar setPage={props.setPage}/>
@@ -164,11 +183,12 @@ function Planning(props){
       />
     </div>
     <div>
-        {selectedEvent && (
-          <div>
-            <GetDetails event={selectedEvent} handleDelete={handleDelete} onClose={handleCloseDetails} datafilm={datafilm} setPage={props.setPage}/>
-          </div>
+        {selectedEvent && selectedEvent.evenement && dataevent &&(
+          <Evenement dataevenement={dataevent} setPage={props.setPage}/> 
         )}
+        {selectedEvent && dataevent && (<div>
+            <GetDetails event={selectedEvent} handleDelete={handleDelete} onClose={handleCloseDetails} datafilm={datafilm} setPage={props.setPage}/>
+          </div>)}
         <label htmlFor="title-calendar">Title</label>
         <input id="title-calendar" placeholder="Title" value={title} onChange={getTitle} className="title_calendar_input" />
         <p> Start: </p>

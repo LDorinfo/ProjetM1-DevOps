@@ -47,6 +47,7 @@ class Watchlist(db.Model):
     title = db.Column(db.String(60))
     poster_path = db.Column(db.String(100))
     media_type = db.Column(db.String(32))
+    genres = db.Column(db.String(255))  # Liste de genres séparés par des virgules
     user = db.relationship('User', backref='watchlist_user' )
 
 class Evenement(db.Model):

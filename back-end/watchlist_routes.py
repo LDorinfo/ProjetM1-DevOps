@@ -51,6 +51,7 @@ def add_to_watchlist():
     title = data.get("title")  # Ajoutez cette ligne
     poster_path = data.get("poster_path")
     type= data.get("type")
+    genres = data.get("genres")  # Liste des genres du film
 
     # Vérifie si le film est déjà dans la Watchlist de l'utilisateur
     existing_watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id, media_type=type).first()
@@ -58,7 +59,7 @@ def add_to_watchlist():
         return jsonify({"message": "Film already in Watchlist"})
 
     # Ajoutez le film à la Watchlist dans la base de données
-    watchlist_item = Watchlist(user_id=user_id, film_id=film_id, title=title, poster_path=poster_path, media_type= type)
+    watchlist_item = Watchlist(user_id=user_id, film_id=film_id, genres= genres, title=title, poster_path=poster_path, media_type= type)
     db.session.add(watchlist_item)
     db.session.commit()
 
@@ -66,7 +67,7 @@ def add_to_watchlist():
 
 from models import Watchlist
 
-@watchlist_blueprint.route("/remove", methods=["POST"])
+@watchlist_blueprint.route("/remove", methods=["DELETE"])
 def remove_from_watchlist():
     """
     Supprime un film de la Watchlist de l'utilisateur.
@@ -94,21 +95,23 @@ def remove_from_watchlist():
         description: Le film n'a pas été trouvé dans la Watchlist.
     """
     user_id = session.get("user_id")
+    print('ICI ICI ICI')
     if not user_id:
         return jsonify({"error": "User not authenticated"}), 401
 
     film_id = request.json.get("film_id")
     type = request.json.get("type")
-
+    print(type)
+    print(film_id)
     # Recherche et suppression de l'entrée correspondante dans la Watchlist
     watchlist_item = Watchlist.query.filter_by(user_id=user_id, film_id=film_id, media_type= type).first()
     if not watchlist_item:
-        return jsonify({"error": "Film not found in Watchlist"})
+        return jsonify({"error": "Film not found in Watchlist"}),404
 
     db.session.delete(watchlist_item)
     db.session.commit()
 
-    return jsonify({"message": "Film removed from Watchlist"})
+    return jsonify({"message": "Film removed from Watchlist"}),200
 
 @watchlist_blueprint.route("/get-watchlist", methods=["GET"])
 def get_watchlist():
