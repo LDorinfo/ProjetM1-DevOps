@@ -129,10 +129,11 @@ Le backend est implémenté en langage Python avec l’utilisation du framework 
 - Tests de Base de Données : Des tests spécifiques seront mis en place pour évaluer la robustesse de la base de données, couvrant la gestion des erreurs, les transactions, et la cohérence des données.  
 
 
-![Alt text](./images/DiagrammeComposan_versionV03.png)
+![Alt text](./Diagrammes/DiagrammeComposan_versionV03.png)
 
-![Alt text](./images/DiagrammeComposant_versionAlpha.png)
+![Alt text](./Diagrammes/DiagrammeComposant_versionAlpha.png)
 
+![Alt text](./Diagrammes/DiagrammeComposant_versionV1.2.png.png)
 #Livraison 1 : Version 0.2 
 ##WireFrames
 **page d'acceuil**
@@ -245,3 +246,36 @@ C:.
     │       ├───pages
     │       └───search
     └───images
+
+## Règles pour bien coder 
+Nous utilisons une API REST ainsi les requêtes doivent respecter la structure suivante: 
+ - utilisation de la méthode fetch dans le front pour l'envoie des requêtes
+ - définition de la méthode utilisée dans le back et dans le front :  
+    - GET lorsque l'on veut obtenir la liste des entités 
+    - POST lorsque l'on veut créer une entité
+    - GET avec des attributs dans l'URL pour avoir les informations relatives à une entité
+    - PUT pour mettre à jour les données 
+    - DELETE pour supprimer une entité. 
+ - à chaque requête dans le front on inclu les cookies pour retenir les données de la session en cours. credentials: 'include',
+ - On reçoit les réponses en JSON et on envoi les informations au serveur en JSON. headers: { 'Content-Type': 'application/json' },
+ - Dans le back les routes commencent par un /. On suit la politique CORS. 
+ - Utilisation de majuscule à chaque composant. Les noms doivent être clairs. On commente le code lorsque c'est nécessaire. 
+ - Mise en place de diffèrent répertoire pour faciliter la comprehension du code.
+ - Il y a des avertissement ESLint avec React.  
+
+ - utilisation des procedure CRUD et RPC pour l'API REST
+## Choix de conception pour le planning 
+ Choix de conception pour un planning de films
+react-scheduler : Il utilise mui/emotion/ date-fns. Ce sont des bibliothèques que l'on utilise pas. 
+	-> mui propose une suite complète d'outils d'interface utilisateur gratuits. Ce sont des composants prêts à l'emploi. Je pense pas en avoir besoin car on a déjà nos propre composant. 
+	-> emotion est une bibliothèque pour écrire des styles CSS avec JavaScript. 
+	-> date-fns permet de manipuler des dates JavaScript dans un navigateur. Il est immuable et pur (renvoie toujours une nouvelle instance de date au lieu de modifier celle transmise) et permet d'éviter de surcharger notre projet. Il est cohérent car il renvoie toujours la date dans le même fuseau horaire peu importe ce qui est transmis. Rapide car petit. API simple.
+
+react-big-calendar : utilise également-fns et à son propre style. 
+fullCalendar : permet d'avoir le bon fuseau horaire seul problème est qu'il est moins précis que react-big-calendar. 
+
+Je vais donc partir sur react-big-calendar. 
+Utilisation de fetch car on n'a pas besoin d'installer un outil en plus : npm axio. 
+
+## Tests Front: Cypress
+Nous utilisons pour tester le front avec des tests unitaires et end to end cypress. Pour lancer cypress vous devez vous placer dans le front, avoir lancer le front et le back et lancer la commande `./node_modules/.bin/cypress open` dans le répertoire client. 
