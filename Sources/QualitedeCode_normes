@@ -14,3 +14,4 @@ Nous utilisons une API REST ainsi les requêtes doivent respecter la structure s
  - Il y a des avertissement ESLint avec React.  
 
  - utilisation des procedure CRUD et RPC pour l'API REST
+##Choix de conception pour le planning 
