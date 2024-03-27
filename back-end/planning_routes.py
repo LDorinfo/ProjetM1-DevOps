@@ -4,7 +4,7 @@ from google.auth.transport.requests import Request
 import os.path
 from googleapiclient.discovery import build
 from flask import Blueprint, request, jsonify, session
-from models import User
+from models import Participant, User, db
 from datetime import datetime
 from google.auth.exceptions import RefreshError
 
@@ -343,7 +343,6 @@ def get_eventPlanning():
         if iso_start is None : 
            iso_start = start_time
            iso_end =end_time
-
         # Obtenez l'ID du film de la description de l'événement
         film_id = None
         description = event.get('description', '')
@@ -351,12 +350,22 @@ def get_eventPlanning():
             film_id_index = description.find('Film ID:')
             if film_id_index != -1:
                 film_id = int(description[film_id_index + len('Film ID:'):].strip())
-        events_list.append({
+        if(film_id is None):
+           events_list.append({
             "id": event['id'],
             "film_id": film_id, 
             "start": iso_start,
             "end": iso_end,
             "title": event['summary'],
+            "evenement": True
+        })
+        events_list.append({
+            "id": event['id'],
+            "film_id": film_id, 
+            "start": iso_start,
+            "end": iso_end,
+            "title": event['summary'], 
+            "evenement": False
         })
 
   return jsonify({"status": "Found events", "events": events_list})
@@ -403,7 +412,9 @@ def delete_eventPlanning():
     event_id = request.json.get('id_event')
     if event_id is None:
         return jsonify({"error": "Event ID is not present"}), 404
-
+    isevent = request.json.get('isevent')
+    if isevent is None: 
+       return jsonify({"error": "IsEvent is not present"}), 404
     # Obtenez les informations d'identification de l'utilisateur
     user_credentials, calendar_id = get_google_credentials(user_id)
     if calendar_id is None:
@@ -417,5 +428,10 @@ def delete_eventPlanning():
     deleted_event = service.events().delete(calendarId=calendar_id, eventId=event_id).execute()
     if deleted_event is None:
       return jsonify({"error": "Failed to delete event"}), 500
-
+    if isevent : 
+      participant = Participant.query.filter_by(user_id=user_id, google_id_event= event_id).first()
+      if not participant:
+        return jsonify({"message": "User is not a participant"}), 200
+      db.session.delete(participant)
+      db.session.commit()
     return jsonify({"status": "Event deleted successfully", "message": "Event deleted successfully"}), 200

@@ -89,6 +89,17 @@ function EvenementForm(props){
                 setTitle(""); 
                 setPrix(0); 
                 setTextEvent("");  
+                fetch(`http://localhost:5000/event/adduser`,{
+                  method: 'PUT',
+                  credentials: 'include',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ user : user , evenement_id: data.id})
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log(data);
+                })
+                .catch((error) => console.log(error));
             })
             .catch((error) => console.log(error));
         }

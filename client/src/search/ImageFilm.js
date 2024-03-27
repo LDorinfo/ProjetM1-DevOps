@@ -4,7 +4,7 @@ function ImageFilm(props){
         if(i.media_type!="tv"){
             fetch(`http://localhost:5000/movie/details?query=${i.id}`, {
                 method: 'GET',
-                credentials: 'include',
+                credentials: 'include', 
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => response.json())

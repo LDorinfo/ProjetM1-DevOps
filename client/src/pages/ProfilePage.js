@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar.js";
 import EvenementForm from "../evenements/EvenementForm.js";
 import { useAuth } from "../AuthenticateContext.js";
+import Evenement from "../evenements/Evenement.js";
+import Statistiques from "./Statistiques.js";
 
 function ProfilePage(props){
     const {user}= useAuth();
     const [userData, setUserData]= useState(""); 
+    const [userEvents, setUserEvents] = useState([]);
+
+    
     useEffect(()=>{
         const fetchUserData = () => {
             // Fetch popular movies
@@ -21,7 +26,21 @@ function ProfilePage(props){
         })
         .catch((error) => console.log(error));
         }
+        const fetchUserEvents= () => {
+            fetch("http://localhost:5000/event/user_events", {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+            setUserEvents(data.events);
+        })
+        .catch((error) => console.log(error));
+    }
         fetchUserData(); 
+        fetchUserEvents();
     }, [setUserData]); 
 
     // Des amis, une image de profil, les informations du profil
@@ -96,7 +115,17 @@ function ProfilePage(props){
 				</form>
                 </div>
             ) }
+        </div >
+        <h2 >Événements auxquels vous participez :</h2>
+        <div style={{ whiteSpace: 'nowrap' }}>
+            {userEvents.map((event) => (
+                <div key={event.id} style={{ display: 'inline-block', marginRight: '10px' }}>
+                    <Evenement dataevenement={event} setPage={props.setPage}/>
+                    {/* Display other event details as needed */}
+                </div>
+            ))}
         </div>
+        <Statistiques></Statistiques>
         </section>
         </main>
         </div>

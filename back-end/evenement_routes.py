@@ -314,12 +314,10 @@ def is_participant():
     evenement_id = request.args.get('evenement_id')
 
     if user_id is None or evenement_id is None:
-        return jsonify({"error": "User ID or Event ID not provided"}), 400
+        return jsonify({"MESSAGE": "User ID or Event ID not provided"}), 200
 
     user = User.query.get(user_id)
     evenement = Evenement.query.get(evenement_id)
-    print(user)
-    print(evenement)
     if not user or not evenement:
         return jsonify({"error": "User or Event not found"}), 404
 
@@ -380,18 +378,155 @@ def delete_participant():
         credentials, calendar_id = get_google_credentials(user_id)
         if credentials is None or calendar_id is None:
             return jsonify({"error": "Failed to retrieve Google credentials or calendar ID"}), 500
-        print("c'est bon")
-        print(credentials)
-        print(calendar_id)
         # Delete event from Google Calendar
         service = build('calendar', 'v3', credentials=credentials)
         
         # Supprimer l'événement
         deleted_event = service.events().delete(calendarId=calendar_id, eventId=participant.google_id_event).execute()
-        print("c'est pas bon")
         # Remove the user as a participant from the event
         db.session.delete(participant)
         db.session.commit()
         return jsonify({"message": "Participant removed successfully and event deleted from user's calendar"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+@event_blueprint.route("/user_events", methods=["GET"])
+def user_events_get():
+    """
+    Récupère la liste de tous les événements auxquels l'utilisateur participe.
+
+    ---
+    tags:
+      - Événements
+    responses:
+      200:
+        description: Liste de tous les événements auxquels l'utilisateur participe.
+      404:
+        description: Aucun événement trouvé.
+    """
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    # Récupérer les événements auxquels l'utilisateur participe
+    participant_events = Participant.query.filter_by(user_id=user_id).all()
+    # Créer une liste pour stocker les données des événements
+    events_data = []
+    if participant_events:
+      # Boucler à travers les événements et les ajouter à la liste
+      for participant_event in participant_events:
+          event = Evenement.query.get(participant_event.event_id)
+          event_data = {
+              'id': event.id,
+              'user_id': event.user_id,
+              'title': event.title,
+              'description': event.description,
+              'prix': event.prix,
+              'image': event.image,
+              'startdate': event.startdate,
+              'enddate': event.enddate,
+              'nbmax': event.nbparticipantmax,
+              # Inclure d'autres attributs si nécessaire
+          }
+          events_data.append(event_data)
+    auteur_events = Evenement.query.filter_by(user_id=user_id).all()
+    if auteur_events :
+      for auteur_event in auteur_events:
+          event = Evenement.query.get(auteur_event.id)
+          event_data = {
+              'id': event.id,
+              'user_id': event.user_id,
+              'title': event.title,
+              'description': event.description,
+              'prix': event.prix,
+              'image': event.image,
+              'startdate': event.startdate,
+              'enddate': event.enddate,
+              'nbmax': event.nbparticipantmax,
+              # Inclure d'autres attributs si nécessaire
+          }
+          events_data.append(event_data)
+    return jsonify({"events": events_data}), 200
+@event_blueprint.route("/event_info", methods=["GET"])
+def event_info_get():
+    """
+    Récupère les informations d'un événement à partir de son google_id_event.
+
+    ---
+    tags:
+      - Événements
+    parameters:
+      - name: google_id_event
+        in: query
+        type: string
+        required: true
+        description: ID de l'événement dans Google Calendar
+
+    responses:
+      200:
+        description: Informations de l'événement récupérées avec succès
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID de l'événement dans la base de données
+                user_id:
+                  type: integer
+                  description: ID de l'utilisateur organisant l'événement
+                title:
+                  type: string
+                  description: Titre de l'événement
+                description:
+                  type: string
+                  description: Description de l'événement
+                prix:
+                  type: float
+                  description: Prix de l'événement
+                image:
+                  type: string
+                  description: Chemin vers l'image de l'événement
+                startdate:
+                  type: string
+                  description: Date de début de l'événement (format ISO 8601)
+                enddate:
+                  type: string
+                  description: Date de fin de l'événement (format ISO 8601)
+                nbmax:
+                  type: integer
+                  description: Nombre maximum de participants à l'événement
+      404:
+        description: Événement non trouvé
+    """
+    google_id_event = request.args.get('google_id_event')
+
+    if google_id_event is None:
+        return jsonify({"error": "Google ID Event not provided"}), 400
+    user_id = session.get("user_id")
+    if(user_id is None): 
+        return jsonify({"error": "User not provided"}), 400
+    # Rechercher l'événement dans la base de données
+    participant = Participant.query.filter_by(google_id_event=google_id_event, user_id = user_id).first()
+    if not participant:
+        return jsonify({"error": "Participant not found"}), 404
+    event = Evenement.query.filter_by(id = participant.event_id).first()
+
+    if not event:
+        return jsonify({"error": "Event not found"}), 404
+
+    # Préparer les données de l'événement à retourner
+    event_data = {
+        'id': event.id,
+        'user_id': event.user_id,
+        'title': event.title,
+        'description': event.description,
+        'prix': event.prix,
+        'image': event.image,
+        'startdate': event.startdate,
+        'enddate': event.enddate,
+        'nbmax': event.nbparticipantmax
+        # Inclure d'autres attributs si nécessaire
+    }
+
+    return jsonify({"event": event_data}), 200

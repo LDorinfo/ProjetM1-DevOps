@@ -13,6 +13,7 @@ from comments_routes import comments_blueprint
 from evenement_routes import event_blueprint
 from watchlist_routes import watchlist_blueprint
 from planning_routes import planning_blueprint
+from statistique import statistic_blueprint
 from flasgger import Swagger
 
 
@@ -37,6 +38,7 @@ app.register_blueprint(comments_blueprint, url_prefix='/comments')
 app.register_blueprint(event_blueprint, url_prefix='/event')
 app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
 app.register_blueprint(planning_blueprint, url_prefix='/planning')
+app.register_blueprint(statistic_blueprint, url_prefix='/statistic')
 #app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
 #pas possible car ces routes on besoin de tmdb_api_key
 
@@ -483,7 +485,7 @@ def get_movie_details():
     if response.status_code == 200:
         movie_details = response.json()
         print(movie_details)
-        return jsonify({"info": movie_details, "media_type": "tv",
+        return jsonify({"info": movie_details, "media_type": "movie",
           'id': movie_id, 
           "overview": movie_details.get("overview"),
           "release_date": movie_details.get("release_date"), 
