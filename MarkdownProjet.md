@@ -133,7 +133,7 @@ Le backend est implémenté en langage Python avec l’utilisation du framework 
 
 ![Alt text](./Diagrammes/DiagrammeComposant_versionAlpha.png)
 
-![Alt text](./Diagrammes/DiagrammeComposant_versionV1.2.png.png)
+![Alt text](./Diagrammes/DiagrammeComposant_versionV1.2.png)
 #Livraison 1 : Version 0.2 
 ##WireFrames
 **page d'acceuil**
