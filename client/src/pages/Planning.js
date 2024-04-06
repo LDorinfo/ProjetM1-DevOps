@@ -168,7 +168,7 @@ function Planning(props){
     })
     .catch((error)=> console.log(error))
   }
-
+  console.log(selectedEvent && selectedEvent.evenement==false )
   return(
     <div>
         <NavigationBar setPage={props.setPage}/>
@@ -183,7 +183,7 @@ function Planning(props){
       />
     </div>
     <div>
-        {selectedEvent && selectedEvent.evenement && dataevent &&(
+        {selectedEvent && selectedEvent.evenement==true && dataevent &&(
           <Evenement dataevenement={dataevent} setPage={props.setPage}/> 
         )}
         {selectedEvent && selectedEvent.evenement==false && (<div>

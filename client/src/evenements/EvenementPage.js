@@ -54,6 +54,7 @@ function EvenementPage(props){
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        setParticipant(true)
       })
       .catch((error) => console.log(error));
       
@@ -70,6 +71,7 @@ function EvenementPage(props){
     .then((response) => response.json())
     .then((data) => {
       toast(data.message);
+      setParticipant(false)
     })
     .catch((error) => console.log(error));
     
