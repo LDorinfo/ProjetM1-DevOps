@@ -324,7 +324,7 @@ def get_eventPlanning():
   calendar_service = get_calendar_service(user_credentials)
 
   # Utilisez le service pour récupérer les événements du calendrier
-  events_result = calendar_service.events().list(calendarId=calendar_id, timeMin=datetime.utcnow().isoformat() + 'Z', maxResults=10, singleEvents=True, orderBy='startTime').execute()
+  events_result = calendar_service.events().list(calendarId=calendar_id, singleEvents=True, orderBy='startTime').execute()  
   print(events_result)
   events = events_result.get('items', [])
 
@@ -358,7 +358,7 @@ def get_eventPlanning():
             "end": iso_end,
             "title": event['summary'],
             "evenement": True
-        })
+          })
         events_list.append({
             "id": event['id'],
             "film_id": film_id, 
