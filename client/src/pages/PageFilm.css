@@ -56,6 +56,20 @@
     cursor: pointer;
   }
 
+  .provider-logos {
+    display: flex;
+    gap: 8px; /* Espacement entre les logos */
+  }
+  
+  .provider-logos img {
+    width: 33px; /* Taille des logos */
+    height: 34px;
+    border-radius: 50%; /* Pour les rendre ronds */
+  }
 
+  .notestmdb{
+    margin-top: 15px;
+  }
+  
 
   

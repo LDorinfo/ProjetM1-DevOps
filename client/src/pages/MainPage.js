@@ -9,7 +9,7 @@ import Planning from './Planning.js';
 //Celenium, cypress.io pour les tests d'intégration. 
 //Test d'intégration avec les composants, test de la communication avec la Bdd. test de la communication avec le front. 
 // Test fonctionnel : ensemble de méthodes. 
-import Watchlist from './Watchlist.js';
+import Watchlist from './watchlist.js';
 import EvenementPage from '../evenements/EvenementPage.js';
 import Cinemamaps from './Cinemamaps.js';
 

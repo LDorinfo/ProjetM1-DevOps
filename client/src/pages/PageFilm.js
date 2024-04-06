@@ -12,6 +12,7 @@ function PageFilm(props) {
   const [comments, setComments] = useState([]);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
   const [meanGrade, setMeanGrade]= useState(0); 
+  const [providers, setProviders] = useState(null); // State pour stocker les fournisseurs
 
   const fetchComments = () => {
     fetch(`http://localhost:5000/comments/comments?idFilm=${props.dataFilm.id}`, {
@@ -106,8 +107,28 @@ function PageFilm(props) {
     .catch((error) => console.log(error));
   };     
 
+  const fetchMediaProviders = () => {
+    fetch('http://localhost:5000/get-providers', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: props.dataFilm.id,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      const providersData = data.providers;
+      setProviders(providersData); // Mettre à jour le state avec les données des fournisseurs
+    })
+    .catch((error) => console.log(error));
+  };  
+
   useEffect(() => {
     fetchComments();
+    fetchMediaProviders(); // Appel à la fonction pour récupérer les fournisseurs lors du chargement du composant
   }, [props.dataFilm, setComments, setIsInWatchlist]);
 
   useEffect(()=>{
@@ -130,9 +151,19 @@ function PageFilm(props) {
               {props.dataFilm.title ? props.dataFilm.title : props.dataFilm.name}
             </h1>
             <p>Sortie le : {props.dataFilm.release_date}    <a className="bandeannonce" onClick={fetchMediaVideos}>Bande annonce</a></p>
-
             <p>{props.dataFilm.overview}</p>
+            {providers && (
+              <div className="provider-logos">
+                {providers.flatrate && providers.flatrate.map(provider => (
+                  <img key={provider.provider_id} src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} alt={provider.provider_name} />
+                ))}
+                {providers.buy && providers.buy.map(provider => (
+                  <img key={provider.provider_id} src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} alt={provider.provider_name} />
+                ))}
+              </div>
+            )}
             <div className="mean-grade">
+              <p className="notestmdb">Notes TMDB : {Math.round(props.dataFilm.vote_average * 10)}%</p>
               <NoteStars noteUser={meanGrade} isClickable={false}/>
               <p>{meanGrade} / 5</p>
             </div>
@@ -156,6 +187,7 @@ function PageFilm(props) {
             ))}
           </div>
         </section>
+        {/* Affichage des logos des fournisseurs */}
       </main>
     </div>
   );
