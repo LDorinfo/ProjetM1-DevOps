@@ -408,6 +408,35 @@ def get_trailer():
 
     return jsonify({"videos": videos})
 
+@app.route("/get-providers", methods=["POST"])
+def get_providers():
+    data = request.json
+
+    movie_id = data.get("id")
+
+    if not movie_id:
+        return jsonify({"error": "Paramètres manquants"}), 400
+
+    # Construisez l'URL de l'API TMDb en fonction du type de média
+    tmdb_url = f"https://api.themoviedb.org/3/movie/{movie_id}/watch/providers"
+
+    # Ajoutez la clé API à la requête
+    params = {"api_key": tmdb_api_key, 'language': 'fr-FR'}
+
+    # Effectuez la requête vers l'API TMDb
+    response = requests.get(tmdb_url, params=params)
+
+    data = response.json()
+
+    # Récupérez uniquement les données pour la France (FR)
+    france_providers = data.get("results", {}).get("FR", None)
+
+    # Si les données pour la France sont disponibles, renvoyez-les, sinon renvoyez un objet JSON vide
+    if france_providers:
+        return jsonify({"providers": france_providers})
+    else:
+        return jsonify({"error": "Aucune donnée disponible pour la France"}), 404
+
 @app.route('/forgot-password', methods=['POST'])
 def forgot_password():
     """

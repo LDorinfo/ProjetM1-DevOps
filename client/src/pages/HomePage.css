@@ -69,6 +69,7 @@ h2 {
 
 img {
     width: 25px;
+    border-radius: 5px; 
 }
 
 .carousel-container {

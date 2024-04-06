@@ -5,11 +5,15 @@ import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
 import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
+<<<<<<< HEAD
 import Planning from './Planning.js';
 //Celenium, cypress.io pour les tests d'intégration. 
 //Test d'intégration avec les composants, test de la communication avec la Bdd. test de la communication avec le front. 
 // Test fonctionnel : ensemble de méthodes. 
 import Watchlist from './Watchlist.js';
+=======
+import Watchlist from './watchlist.js';
+>>>>>>> origin/googlemaps
 import EvenementPage from '../evenements/EvenementPage.js';
 import Cinemamaps from './Cinemamaps.js';
 
