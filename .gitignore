@@ -1,6 +1,8 @@
 # .gitignore
 
 back-end/mon_env/
-
+docker-compose.yml
+back-end/Dockerfile
+client/Dockerfile
 back-end/flask_session/
 back-end/usertoken
