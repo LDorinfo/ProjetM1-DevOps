@@ -5,13 +5,12 @@ import HomePage from './HomePage.js';
 import ProfilePage from './ProfilePage.js';
 import Search from '../search/Search.js';
 import PageFilm from './PageFilm.js';
-import Planning from './Planning.js';
 //Celenium, cypress.io pour les tests d'intégration. 
 //Test d'intégration avec les composants, test de la communication avec la Bdd. test de la communication avec le front. 
 // Test fonctionnel : ensemble de méthodes. 
-import Watchlist from './Watchlist.js';
-import EvenementPage from '../evenements/EvenementPage.js';
+import Watchlist from './watchlist.js';
 import Cinemamaps from './Cinemamaps.js';
+import Analytics from './Analytics.js';
 
 function MainPage(props){
     const [page, setPage]= useState(["home_page", undefined]); 
@@ -32,12 +31,10 @@ function MainPage(props){
           return <PageFilm setPage={setPage} dataFilm={page[1]} />; 
         }else if(page[0]=== "page_watchlist") {
           return <Watchlist setPage={setPage} data={page[1]} />; 
-        }else if(page[0]=== "event_page") {
-          return <EvenementPage setPage={setPage} data={page[1]} />; 
-        }else if(page[0]==="page_planning"){
-          return <Planning setPage={setPage} data={page[1]}/>;
         }else if(page[0]=== "maps_page") {
           return <Cinemamaps setPage={setPage} />; 
+        }else if(page[0]=== "analytics") {
+          return <Analytics setPage={setPage} />
         }
       })();
 }    

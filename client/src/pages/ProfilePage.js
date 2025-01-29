@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import NavigationBar from "../NavigationBar.js";
-import EvenementForm from "../evenements/EvenementForm.js";
 import { useAuth } from "../AuthenticateContext.js";
-import Evenement from "../evenements/Evenement.js";
-import Statistiques from "./Statistiques.js";
 
 function ProfilePage(props){
     const {user}= useAuth();
@@ -97,10 +94,7 @@ function ProfilePage(props){
                     <p>Nom: {userData.last_name}</p>
                     <p>Prénom: {userData.first_name}</p>
                     <p>Numéro de téléphone: {userData.phone_number}</p>
-                    <button className="edit-button" onClick={() => setIsEditing(true)}>Modifier</button>
-                    <h2 className="centered-text">Ajouter un événement</h2>
-                    <EvenementForm ></EvenementForm>
-                </div>
+                    <button className="edit-button" onClick={() => setIsEditing(true)}>Modifier</button>                </div>
             ):(
                 <div>
                 <h2>Modifier ses informations</h2>
@@ -116,16 +110,13 @@ function ProfilePage(props){
                 </div>
             ) }
         </div >
-        <h2 >Événements auxquels vous participez :</h2>
         <div style={{ whiteSpace: 'nowrap' }}>
             {userEvents.map((event) => (
                 <div key={event.id} style={{ display: 'inline-block', marginRight: '10px' }}>
-                    <Evenement dataevenement={event} setPage={props.setPage}/>
                     {/* Display other event details as needed */}
                 </div>
             ))}
         </div>
-        <Statistiques></Statistiques>
         </section>
         </main>
         </div>

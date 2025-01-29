@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './HomePage.css';
 import NavigationBar from '../NavigationBar';
 import ImageFilm from '../search/ImageFilm';
-import ListEvenement from '../evenements/ListEvenement';
+
 
 
 
@@ -135,12 +135,9 @@ function HomePage(props) {
             )}
           </div>
         </section>
-        <h2>Évenements <img src="https://img.icons8.com/fluency/48/starred-ticket.png" alt="starred-ticket"/></h2>
-        <div><ListEvenement setPage={props.setPage}/></div>
       </div>
     </div>
   );
 }
-//<div><ListEvenement setPage={props.setPage}/></div>
 
 export default HomePage;

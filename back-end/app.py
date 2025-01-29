@@ -10,17 +10,19 @@ from flask_migrate import Migrate
 from users_routes import users_blueprint
 from comments_routes import comments_blueprint
 #from search_routes import search_blueprint
-from evenement_routes import event_blueprint
 from watchlist_routes import watchlist_blueprint
-from planning_routes import planning_blueprint
 from statistique import statistic_blueprint
+from analytics_routes import analytics_blueprint
 from flasgger import Swagger
+
 
 
 
 app = Flask(__name__)
 app.config.from_object(ApplicationConfig)
 migrate= Migrate(app,db,render_as_batch=True)
+
+app.register_blueprint(analytics_blueprint)
 
 # Accédez à la clé d'API TMDb depuis la configuration
 tmdb_api_key = app.config["TMDB_API_KEY"]
@@ -35,9 +37,7 @@ server_session = Session(app)
 db.init_app(app)
 app.register_blueprint(users_blueprint, url_prefix='/users')
 app.register_blueprint(comments_blueprint, url_prefix='/comments')
-app.register_blueprint(event_blueprint, url_prefix='/event')
 app.register_blueprint(watchlist_blueprint, url_prefix='/watchlist')
-app.register_blueprint(planning_blueprint, url_prefix='/planning')
 app.register_blueprint(statistic_blueprint, url_prefix='/statistic')
 #app.register_blueprint(search_blueprint, url_prefix='/search', tmdb_api_key=tmdb_api_key)
 #pas possible car ces routes on besoin de tmdb_api_key

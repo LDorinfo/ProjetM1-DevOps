@@ -30,7 +30,7 @@ function Cinemamaps(props) {
             radius: 5000, // Rayon de recherche en mètres (ajustez selon vos besoins)
             types: ['movie_theater'] // Type de lieu pour les cinémas
           };
-
+       
           const service = new window.google.maps.places.PlacesService(mapInstance);
           service.nearbySearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {

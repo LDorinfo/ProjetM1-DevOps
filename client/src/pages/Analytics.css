@@ -1,0 +1,131 @@
+.analytics-dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+    gap: 20px; /* Espacement entre les cartes */
+    padding: 20px;
+  }
+  
+  .analytics-card {
+    background-color: #1b263b; /* Fond sombre */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 20px; /* Marges internes */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dashboard-title {
+    margin-left: 25px;
+    color: #ffffff; /* Texte blanc */
+  }
+  
+  .analytics-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #ffffff; /* Texte blanc */
+  }
+  
+  .analytics-card canvas {
+    max-width: 100%;
+    max-height: 300px; /* Hauteur standard */
+  }
+  
+  .wide-card {
+    grid-column: span 2; /* Occupe 2 colonnes */
+    grid-row: span 1;
+  }
+  
+  .tall-card {
+    grid-row: span 2; /* Occupe 2 lignes */
+    max-height: 600px; /* Hauteur supplémentaire */
+  }
+  
+  .loading-text {
+    color: #ffffff;
+    font-size: 1rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .analytics-dashboard {
+      grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+    }
+  
+    .analytics-card canvas {
+      max-height: 250px; /* Réduire la taille des graphiques sur mobile */
+    }
+  }
+  
+  .analytics-description {
+    background-color: #1b263b; /* Fond sombre */
+    color: #ffffff; /* Texte blanc */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 20px; /* Marges internes */
+    margin-bottom: 20px; /* Espacement avec le tableau de bord */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre */
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .analytics-description h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-left: 0px;
+  }
+  
+  .analytics-description p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .chart-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  /* Style pour le conteneur du tooltip */
+  .custom-tooltip {
+    position: relative;
+    display: flex; /* Pour aligner horizontalement l'icône et le texte */
+    align-items: center; /* Pour aligner verticalement l'icône et le texte */
+    cursor: pointer;
+    left: -300px; /* Ajuste la position horizontale */
+  }
+
+  .tooltip-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #293a58; /* Bleu clair */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px; /* Espace entre le point et le texte */
+  }
+  
+  .question-icon {
+    color: #ffffff;
+    font-size: 18px;
+  }
+  
+  .custom-tooltip-text {
+    visibility: hidden;
+    background-color: rgba(41, 58, 88, 0.8);
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    position: absolute;
+    left: 50px; /* Positionne le texte à droite de l'icône */
+    top: 50%; /* Aligne verticalement avec l'icône */
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+  }
+  
+  .custom-tooltip:hover .custom-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  

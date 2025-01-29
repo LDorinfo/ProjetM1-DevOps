@@ -27,7 +27,7 @@ Pour le côté client :
 1- Installer les dépendances du client avec la commande `npm install` depuis le dossier client
 
 2- (Si besoin installer react-icon/fa : 
-`npm react-icon/fa`
+`npm install react-icons`
 Pour l'api Swagger installer : `npm install swagger-ui-react` 
 Pour big calendar : `npm install react-big-calendar`
 facultatif car les dépendances s'intallent toutes dès qu'on lance npm install)

@@ -73,7 +73,6 @@ function ConnectionPanel(props) {
           <NavDropdown title="Profil" id="collasible-nav-dropdown">
             <NavDropdown.Item onClick={handleClickProfil}>Profil</NavDropdown.Item>
             <NavDropdown.Item onClick={handleClickWatchlist}>Ma liste</NavDropdown.Item>
-            <NavDropdown.Item onClick={handleClickPlanning}>Mon planning</NavDropdown.Item>
             <NavDropdown.Item onClick={handleClickLogout}>Se déconnecter</NavDropdown.Item>
           </NavDropdown>
         ) : (
