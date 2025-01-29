@@ -7,3 +7,4 @@ client/Dockerfile
 back-end/flask_session/
 back-end/usertoken
 __pycache__/
+back-end/movies.csv
