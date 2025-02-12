@@ -53,6 +53,11 @@ const handleClickTV = (indice) => {
     props.setPage(["analytics", undefined]);
   };
 
+  const handleClickPrediction = (evt) => {
+    evt.preventDefault();
+    props.setPage(["prediction", undefined]);
+  };
+
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark">
       <Container>
@@ -117,6 +122,7 @@ const handleClickTV = (indice) => {
             </NavDropdown>
             <Nav.Link href='./Cinemamaps.js' onClick={handleClickMaps}>Cinéma</Nav.Link>
             <Nav.Link href='./Analytics.js' onClick={handleClickAnalytics}>Analytique</Nav.Link>
+            <Nav.Link href='./PredictionForm.js' onClick={handleClickPrediction}>Prediction</Nav.Link>
           </Nav>
           <Nav>
             <BarreRecherche setPage={props.setPage} />

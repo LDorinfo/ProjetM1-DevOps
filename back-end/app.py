@@ -14,6 +14,10 @@ from watchlist_routes import watchlist_blueprint
 from statistique import statistic_blueprint
 from analytics_routes import analytics_blueprint
 from flasgger import Swagger
+import pickle
+import numpy as np
+
+
 
 
 
@@ -581,6 +585,61 @@ def get_tv_details():
           })
     else:
         return jsonify({'error': 'Aucun résultat trouvé pour l\'ID du film.'}), 404
+    
+    # Charger le modèle et les encodeurs
+model = pickle.load(open("models/ml_model.pkl", "rb"))
+mlb = pickle.load(open("models/mlb_genres.pkl", "rb"))
+label_encoder_lang = pickle.load(open("models/label_encoder_lang.pkl", "rb"))
+
+# Charger les modèles entraînés
+success_model = pickle.load(open("models/success_model.pkl", "rb"))
+revenue_model = pickle.load(open("models/revenue_model.pkl", "rb"))
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    
+    # Ignorer le titre
+    title = data.get("title", "Film inconnu")
+
+    # Vérifier si tous les autres champs sont fournis
+    required_fields = ["budget", "genres", "original_language", "production_companies", "release_date", "runtime"]
+    if not all(field in data for field in required_fields):
+        return jsonify({"error": "Données incomplètes"}), 400
+
+    # Vérifier que les genres existent
+    user_genres = data["genres"].split("-")
+    user_genres_encoded = mlb.transform([user_genres])[0]
+
+    # Vérifier la langue
+    if data["original_language"] not in label_encoder_lang.classes_:
+        return jsonify({"error": "Langue inconnue"}), 400
+
+    lang_encoded = label_encoder_lang.transform([data["original_language"]])[0]
+
+    # Transformer la société de production
+    production_encoded = hash(data["production_companies"]) % 1000
+
+    # Transformer la date en année
+    release_year = int(data["release_date"].split("-")[0])
+
+    # Construire la liste complète des features
+    features = [data["budget"], lang_encoded, production_encoded, release_year, data["runtime"]] + list(user_genres_encoded)
+    features = np.array([features])
+
+    # Obtenir la probabilité de succès
+    success_probability = success_model.predict_proba(features)[0][1]
+
+    # Prédire le revenu estimé
+    estimated_revenue = revenue_model.predict(features)[0]
+
+    return jsonify({
+        "title": title,
+        "success_probability": round(success_probability * 100, 2),
+        "estimated_revenue": round(estimated_revenue, 2)  # Revenus estimés
+    })
+
+
 
 @app.route("/home")
 def home():

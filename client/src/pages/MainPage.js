@@ -11,6 +11,7 @@ import PageFilm from './PageFilm.js';
 import Watchlist from './watchlist.js';
 import Cinemamaps from './Cinemamaps.js';
 import Analytics from './Analytics.js';
+import PredictionForm from './PredictionForm.js';
 
 function MainPage(props){
     const [page, setPage]= useState(["home_page", undefined]); 
@@ -34,7 +35,10 @@ function MainPage(props){
         }else if(page[0]=== "maps_page") {
           return <Cinemamaps setPage={setPage} />; 
         }else if(page[0]=== "analytics") {
-          return <Analytics setPage={setPage} />
+          return <Analytics setPage={setPage} />;
+        }
+        else if(page[0]=== "prediction") {
+          return <PredictionForm setPage={setPage} />;
         }
       })();
 }    

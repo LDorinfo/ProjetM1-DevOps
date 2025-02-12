@@ -1,60 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Paytone+One&family=Poppins:ital,wght@0,500;1,800&family=Righteous&display=swap');
-
+/* 🌟 CONTENEUR PRINCIPAL */
 .navbar-container {
-    display: flex;
-    align-items: center;
-  }
-  
-.navbar-brand {
-    margin-left: 0px; 
-    color: white;
-    font-size: 25px;
-    font-weight: 500;
-    text-decoration: none;
-    font-family: 'Lilita One', sans-serif;
-  }
-  
-.nav-link,
-  .navbar-nav .nav-item.dropdown:hover .nav-link {
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: none;
-    margin-left: 40px; 
-    font-family: 'Poppins', sans-serif;
-  }
-.nav-link:hover,
-.navbar-nav .nav-item.dropdown:hover .nav-link {
-    color: #b2b2b2; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Équilibre les éléments */
+  padding: 10px 20px;
+  background-color: #1b263b; /* Fond plus harmonieux */
 }
-  
-.dropdown-item {
-    color: black;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-.custom-dropdown .dropdown-menu {
-    background-color: white;
-  }
-  
-img.popcorn-icon {
-    width: 35px;
-    height: 35px;
-  }
 
+/* 🌟 MARQUE (LOGO) */
+.navbar-brand {
+  color: white;
+  font-size: 25px;
+  font-weight: 500;
+  text-decoration: none;
+  font-family: 'Lilita One', sans-serif;
+}
+
+/* 🌟 LIENS PRINCIPAUX */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Ajoute un espace entre les éléments */
+}
+
+/* 🌟 LIENS INDIVIDUELS */
+.nav-link {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #b2b2b2;
+}
+
+/* 🌟 RECHERCHE */
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #293a58;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.search-container input {
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+  width: 150px;
+  outline: none;
+}
+
+.search-container i {
+  color: white;
+  margin-left: 5px;
+}
+
+/* 🌟 CONNEXION & INSCRIPTION */
 .connection-links {
-    display: flex;
-    align-items: center;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .connection-link {
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-    text-decoration: none;
-    margin-left: -5px; 
-    font-family: 'Poppins', sans-serif;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.connection-link:hover {
+  color: #b2b2b2;
+}
+
+/* 🌟 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .navbar-container {
+      flex-direction: column;
+      align-items: center;
   }
 
-  
-  
+  .navbar-nav {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+  }
+
+  .search-container {
+      margin-top: 10px;
+  }
+
+  .connection-links {
+      flex-direction: column;
+      text-align: center;
+  }
+}

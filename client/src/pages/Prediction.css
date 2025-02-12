@@ -1,0 +1,145 @@
+/* 🌟 CONTENEUR PRINCIPAL */
+.prediction-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #1b263b; /* Même couleur que l'analytics */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  /* 🌟 TITRE PRINCIPAL */
+  h2 {
+    color: #ffffff;
+    font-size: 24px;
+  }
+  
+  /* 🌟 FORMULAIRE */
+  .prediction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* 🌟 FIELDS */
+  fieldset {
+    border: 1px solid #3c4a60;
+    border-radius: 8px;
+    padding: 15px;
+    background: #1e2a40;
+  }
+  
+  /* 🌟 LEGEND */
+  legend {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 1.2rem;
+  }
+  
+  /* 🌟 INPUTS & SELECT */
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: none;
+    background: #2c3e58;
+    color: #ffffff;
+  }
+  
+  input::placeholder {
+    color: #aab2c5;
+  }
+  
+  /* 🌟 GENRES */
+  .genres-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .genre-label {
+    background: #2c3e58;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .genre-label input {
+    margin-right: 5px;
+  }
+  
+  /* 🌟 BOUTON */
+  button {
+    background: #293a58;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background: #3c4a60;
+  }
+  
+  /* 🌟 RESULTATS */
+  .result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #24344d;
+  }
+  
+  /* 🌟 CODE COULEURS POUR SUCCESS PROBABILITY */
+  .probability {
+    font-size: 20px;
+  }
+  
+  .high {
+    color: green;
+  }
+  
+  .medium {
+    color: orange;
+  }
+  
+  .low {
+    color: red;
+  }
+  
+  /* 🌟 RESPONSIVE DESIGN */
+  @media (max-width: 768px) {
+    .genres-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .probability {
+    font-size: 1.5em;
+    margin-top: 10px;
+  }
+  
+  .probability.high {
+    color: green;
+  }
+  
+  .probability.medium {
+    color: rgb(255, 255, 255);
+  }
+  
+  .probability.low {
+    color: red;
+  }
+  
+  .revenue {
+    font-size: 1.5em;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  
