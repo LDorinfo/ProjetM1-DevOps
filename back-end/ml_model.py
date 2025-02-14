@@ -1,22 +1,23 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+import numpy as np
+import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MultiLabelBinarizer
-import pickle
-import numpy as np
+from xgboost import XGBClassifier, XGBRegressor
+from sklearn.metrics import classification_report, mean_absolute_error
 
-# Charger les données TMDb
+# Charger les données
 df = pd.read_csv("movies.csv")
 
-# Remplacer les valeurs manquantes
+# Remplacement des valeurs manquantes
 df.fillna(0, inplace=True)
 
-# 🔹 Transformer les genres en liste
+# Transformation des genres en listes
 df["genres"] = df["genres"].apply(lambda x: x.split("-") if isinstance(x, str) else [])
 
-print("🔹 Prétraitement des données...")
+print("Prétraitement des données...")
 
-# 🔹 Utiliser MultiLabelBinarizer pour encoder plusieurs genres
+# Encodage des genres avec MultiLabelBinarizer
 mlb = MultiLabelBinarizer()
 genre_encoded = mlb.fit_transform(df["genres"])
 genre_columns = [f"genre_{g}" for g in mlb.classes_]
@@ -24,25 +25,39 @@ df_genres = pd.DataFrame(genre_encoded, columns=genre_columns)
 df = pd.concat([df, df_genres], axis=1)
 df.drop(columns=["genres"], inplace=True)
 
-print("🔹 Encodage des genres terminé.")
+# Ajouter une colonne "nombre de genres"
+df["num_genres"] = df_genres.sum(axis=1)
 
-# 🔹 Transformer la langue en valeurs numériques
-label_encoder_lang = LabelEncoder()
-df["original_language"] = label_encoder_lang.fit_transform(df["original_language"].astype(str))
+print("Encodage des genres terminé.")
 
-# 🔹 Transformer la société de production en valeur numérique
-df["production_companies"] = df["production_companies"].apply(lambda x: hash(x) % 1000 if isinstance(x, str) else 0)
+# Encodage des langues avec One-Hot Encoding
+df_lang = pd.get_dummies(df["original_language"], prefix="lang")
+df = pd.concat([df, df_lang], axis=1)
+df.drop(columns=["original_language"], inplace=True)
 
-# 🔹 Transformer la date de sortie en "année de sortie"
+# Encodage des sociétés de production en nombre de films produits
+company_counts = df["production_companies"].value_counts().to_dict()
+df["production_company_count"] = df["production_companies"].map(company_counts).fillna(1)
+df.drop(columns=["production_companies"], inplace=True)
+
+# Transformer la date en "année de sortie"
 df["release_year"] = pd.to_datetime(df["release_date"], errors='coerce').dt.year.fillna(0).astype(int)
+df.drop(columns=["release_date"], inplace=True)
 
-# 🔹 Définition de la variable cible "succès"
-df["success"] = df.apply(lambda row: 1 if row["revenue"] > row["budget"] * 2 else 0, axis=1)
+# Détection des suites (franchises)
+df["is_sequel"] = df["title"].str.contains(r'\b(II|III|IV|V|VI|VII|VIII|IX|X|2|3|4|5|6|7|8|9)\b', regex=True).astype(int)
 
-print("🔹 Création de la variable cible 'succès' terminée.")
+# Appliquer une transformation logarithmique sur le budget
+df["log_budget"] = np.log1p(df["budget"])
+df.drop(columns=["budget"], inplace=True)
 
-# Sélection des variables d'entrée
-features = ["budget", "original_language", "production_companies", "release_year", "runtime"] + genre_columns
+# Définition de la variable cible "succès" (mieux calibrée)
+df["success"] = df.apply(lambda row: 1 if row["revenue"] > row["log_budget"] * 2.5 else 0, axis=1)
+
+print("Création de la variable cible 'succès' terminée.")
+
+#  Sélection des variables d'entrée
+features = ["log_budget", "production_company_count", "release_year", "runtime", "num_genres", "is_sequel"] + genre_columns + list(df_lang.columns)
 X = df[features]
 y_success = df["success"]
 y_revenue = df["revenue"]
@@ -51,20 +66,33 @@ y_revenue = df["revenue"]
 X_train, X_test, y_success_train, y_success_test = train_test_split(X, y_success, test_size=0.2, random_state=42)
 X_train_rev, X_test_rev, y_revenue_train, y_revenue_test = train_test_split(X, y_revenue, test_size=0.2, random_state=42)
 
-# 🎯 Modèle de classification pour prédire le succès
-success_model = RandomForestClassifier(n_estimators=100, random_state=42)
+# Modèle de classification pour prédire le succès
+success_model = XGBClassifier(n_estimators=100, learning_rate=0.1, max_depth=5, random_state=42)
 success_model.fit(X_train, y_success_train)
 
-# 💰 Modèle de régression pour prédire les revenus
-revenue_model = RandomForestRegressor(n_estimators=100, random_state=42)
+# Modèle de régression pour prédire les revenus
+revenue_model = XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=5, random_state=42)
 revenue_model.fit(X_train_rev, y_revenue_train)
 
-print("🎯 Modèles entraînés avec succès.")
+print(" Modèles entraînés avec succès.")
+
+# Évaluation des modèles
+y_pred_success = success_model.predict(X_test)
+print("Rapport de classification (succès) :")
+print(classification_report(y_success_test, y_pred_success))
+
+y_pred_revenue = revenue_model.predict(X_test_rev)
+print("💰 Erreur moyenne absolue sur le revenu : ", mean_absolute_error(y_revenue_test, y_pred_revenue))
 
 # Sauvegarde des modèles et encodeurs
 pickle.dump(success_model, open("models/success_model.pkl", "wb"))
 pickle.dump(revenue_model, open("models/revenue_model.pkl", "wb"))
-pickle.dump(label_encoder_lang, open("models/label_encoder_lang.pkl", "wb"))
 pickle.dump(mlb, open("models/mlb_genres.pkl", "wb"))
 
-print("✅ Modèles entraînés et sauvegardés avec succès.")
+# Évaluation du modèle
+from sklearn.metrics import accuracy_score
+y_pred_success = stacking_model.predict(X_test)
+success_accuracy = accuracy_score(y_success_test, y_pred_success)
+
+print(f"✅ Modèle entraîné avec une précision de {success_accuracy * 100:.2f}%")
+
